@@ -4,25 +4,25 @@
     {
       "name": "vite:vue",
       "result": "\n// @import './assets/css/main.scss';\n",
-      "start": 1703087315844,
-      "end": 1703087315844
+      "start": 1703087724263,
+      "end": 1703087724263
     },
     {
       "name": "nuxt:layer-aliasing",
-      "start": 1703087315844,
-      "end": 1703087315844,
+      "start": 1703087724263,
+      "end": 1703087724263,
       "order": "pre"
     },
     {
       "name": "nuxt:server-devonly:transform",
-      "start": 1703087315844,
-      "end": 1703087315844,
+      "start": 1703087724264,
+      "end": 1703087724264,
       "order": "pre"
     },
     {
       "name": "nuxt:client-fallback-auto-id",
-      "start": 1703087315845,
-      "end": 1703087315845,
+      "start": 1703087724264,
+      "end": 1703087724264,
       "order": "pre"
     }
   ]
