@@ -1,0 +1,1 @@
+import{_ as e}from"./nuxt-layout.c1f1cc58.js";import{_ as o,n,w as _,o as a,d as c}from"./entry.d69747f3.js";const r={};function s(d,f){const t=e;return a(),n(t,{name:"default"},{default:_(()=>[c(" diy總表 ")]),_:1})}const x=o(r,[["render",s]]);export{x as default};
