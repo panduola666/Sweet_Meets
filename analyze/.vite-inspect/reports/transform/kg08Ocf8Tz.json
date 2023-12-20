@@ -1,0 +1,222 @@
+{
+  "resolvedId": "C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/layouts/default.vue?vue&type=script&setup=true&lang.ts",
+  "transforms": [
+    {
+      "name": "vite:vue",
+      "result": "import { defineComponent as _defineComponent } from 'vue'\nimport { createElementVNode as _createElementVNode, renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, unref as _unref, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, normalizeClass as _normalizeClass, withCtx as _withCtx, createVNode as _createVNode, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, pushScopeId as _pushScopeId, popScopeId as _popScopeId } from \"vue\"\nimport _imports_0 from '../assets/img/Logo.png'\n\n\nconst _withScopeId = n => (_pushScopeId(\"data-v-b49ec51d\"),n=n(),_popScopeId(),n)\nconst _hoisted_1 = { class: \"frontLayout\" }\nconst _hoisted_2 = { class: \"bg-white bg-opacity-50 sticky-top\" }\nconst _hoisted_3 = /*#__PURE__*/ _withScopeId(() => /*#__PURE__*/_createElementVNode(\"img\", {\n  src: _imports_0,\n  alt: \"相遇甜點\",\n  height: \"64\",\n  class: \"py-2\"\n}, null, -1))\nconst _hoisted_4 = { class: \"nav h4 gap-6 d-none d-lg-flex\" }\nconst _hoisted_5 = {\n  key: 0,\n  class: \"nav flex-column d-lg-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur\",\n  style: {\"box-shadow\":\"rgba(0, 0, 0, 0.25) 0px 5px 6px\"}\n}\nconst _hoisted_6 = /*#__PURE__*/ _withScopeId(() => /*#__PURE__*/_createElementVNode(\"footer\", null, \"委\", -1))\n\nimport type { headerLink } from '../interface/header';\nimport {ref} from 'vue';\nimport {useRoute} from 'vue-router'\n\nexport default /*#__PURE__*/_defineComponent({\n  __name: 'default',\n  setup(__props) {\n\nconst route = useRoute();\n\nconst headerList = ref<headerLink[]>([\n  {\n    route: '/',\n    name: '首頁',\n  },\n  {\n    route: '/diy',\n    name: 'DIY 課程',\n  },\n  {\n    route: '/activity',\n    name: '活動預約',\n  },\n  {\n    route: '/place',\n    name: '場地租借',\n  },\n]);\n\nconst menuOpen = ref<boolean>(false)\n\nreturn (_ctx: any,_cache: any) => {\n  const _component_NuxtLink = _resolveComponent(\"NuxtLink\")!\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    _createElementVNode(\"header\", _hoisted_2, [\n      _createElementVNode(\"nav\", {\n        class: _normalizeClass([\"d-flex align-items-center justify-content-between px-lg-9 px-3 blur\", {'boxShadow': !menuOpen.value}])\n      }, [\n        _hoisted_3,\n        _createElementVNode(\"ul\", _hoisted_4, [\n          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n            return (_openBlock(), _createElementBlock(\"li\", {\n              class: \"nav-item\",\n              key: item.route\n            }, [\n              _createVNode(_component_NuxtLink, {\n                class: _normalizeClass([\"pcNav nav-link fw-bold py-6 px-2 position-relative\", { 'active': item.route === _unref(route).path }]),\n                to: item.route\n              }, {\n                default: _withCtx(() => [\n                  _createTextVNode(_toDisplayString(item.name), 1)\n                ]),\n                _: 2\n              }, 1032, [\"class\", \"to\"])\n            ]))\n          }), 128))\n        ]),\n        _createElementVNode(\"span\", {\n          class: _normalizeClass([\"material-symbols-outlined fs-1 d-lg-none\", {'bg-primary rounded-circle': false}]),\n          onClick: _cache[0] || (_cache[0] = ($event: any) => (menuOpen.value = !menuOpen.value))\n        }, \" menu \")\n      ], 2),\n      (menuOpen.value)\n        ? (_openBlock(), _createElementBlock(\"ul\", _hoisted_5, [\n            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n              return (_openBlock(), _createElementBlock(\"li\", {\n                class: \"nav-item\",\n                key: item.route\n              }, [\n                _createVNode(_component_NuxtLink, {\n                  class: _normalizeClass([\"nav-link fw-bold mx-3\", {'bg-primary': item.route === _unref(route).path }]),\n                  to: item.route\n                }, {\n                  default: _withCtx(() => [\n                    _createTextVNode(_toDisplayString(item.name), 1)\n                  ]),\n                  _: 2\n                }, 1032, [\"class\", \"to\"])\n              ]))\n            }), 128))\n          ]))\n        : _createCommentVNode(\"\", true)\n    ]),\n    _renderSlot(_ctx.$slots, \"default\", {}, undefined, true),\n    _hoisted_6\n  ]))\n}\n}\n\n})",
+      "start": 1703087316759,
+      "end": 1703087316759
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1703087316759,
+      "end": 1703087316759,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1703087316759,
+      "end": 1703087316759,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1703087316759,
+      "end": 1703087316759,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1703087316759,
+      "end": 1703087316759,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "result": "import { defineComponent as _defineComponent } from \"vue\";\nimport { createElementVNode as _createElementVNode, renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, unref as _unref, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, normalizeClass as _normalizeClass, withCtx as _withCtx, createVNode as _createVNode, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, pushScopeId as _pushScopeId, popScopeId as _popScopeId } from \"vue\";\nimport _imports_0 from \"../assets/img/Logo.png\";\nconst _withScopeId = (n) => (_pushScopeId(\"data-v-b49ec51d\"), n = n(), _popScopeId(), n);\nconst _hoisted_1 = { class: \"frontLayout\" };\nconst _hoisted_2 = { class: \"bg-white bg-opacity-50 sticky-top\" };\nconst _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ _createElementVNode(\"img\", {\n  src: _imports_0,\n  alt: \"相遇甜點\",\n  height: \"64\",\n  class: \"py-2\"\n}, null, -1));\nconst _hoisted_4 = { class: \"nav h4 gap-6 d-none d-lg-flex\" };\nconst _hoisted_5 = {\n  key: 0,\n  class: \"nav flex-column d-lg-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur\",\n  style: { \"box-shadow\": \"rgba(0, 0, 0, 0.25) 0px 5px 6px\" }\n};\nconst _hoisted_6 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ _createElementVNode(\"footer\", null, \"委\", -1));\nimport { ref } from \"vue\";\nimport { useRoute } from \"vue-router\";\nexport default /* @__PURE__ */ _defineComponent({\n  __name: \"default\",\n  setup(__props) {\n    const route = useRoute();\n    const headerList = ref([\n      {\n        route: \"/\",\n        name: \"首頁\"\n      },\n      {\n        route: \"/diy\",\n        name: \"DIY 課程\"\n      },\n      {\n        route: \"/activity\",\n        name: \"活動預約\"\n      },\n      {\n        route: \"/place\",\n        name: \"場地租借\"\n      }\n    ]);\n    const menuOpen = ref(false);\n    return (_ctx, _cache) => {\n      const _component_NuxtLink = _resolveComponent(\"NuxtLink\");\n      return _openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n        _createElementVNode(\"header\", _hoisted_2, [\n          _createElementVNode(\"nav\", {\n            class: _normalizeClass([\"d-flex align-items-center justify-content-between px-lg-9 px-3 blur\", { \"boxShadow\": !menuOpen.value }])\n          }, [\n            _hoisted_3,\n            _createElementVNode(\"ul\", _hoisted_4, [\n              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n                return _openBlock(), _createElementBlock(\"li\", {\n                  class: \"nav-item\",\n                  key: item.route\n                }, [\n                  _createVNode(_component_NuxtLink, {\n                    class: _normalizeClass([\"pcNav nav-link fw-bold py-6 px-2 position-relative\", { \"active\": item.route === _unref(route).path }]),\n                    to: item.route\n                  }, {\n                    default: _withCtx(() => [\n                      _createTextVNode(_toDisplayString(item.name), 1)\n                    ]),\n                    _: 2\n                  }, 1032, [\"class\", \"to\"])\n                ]);\n              }), 128))\n            ]),\n            _createElementVNode(\"span\", {\n              class: _normalizeClass([\"material-symbols-outlined fs-1 d-lg-none\", { \"bg-primary rounded-circle\": false }]),\n              onClick: _cache[0] || (_cache[0] = ($event) => menuOpen.value = !menuOpen.value)\n            }, \" menu \")\n          ], 2),\n          menuOpen.value ? (_openBlock(), _createElementBlock(\"ul\", _hoisted_5, [\n            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n              return _openBlock(), _createElementBlock(\"li\", {\n                class: \"nav-item\",\n                key: item.route\n              }, [\n                _createVNode(_component_NuxtLink, {\n                  class: _normalizeClass([\"nav-link fw-bold mx-3\", { \"bg-primary\": item.route === _unref(route).path }]),\n                  to: item.route\n                }, {\n                  default: _withCtx(() => [\n                    _createTextVNode(_toDisplayString(item.name), 1)\n                  ]),\n                  _: 2\n                }, 1032, [\"class\", \"to\"])\n              ]);\n            }), 128))\n          ])) : _createCommentVNode(\"\", true)\n        ]),\n        _renderSlot(_ctx.$slots, \"default\", {}, void 0, true),\n        _hoisted_6\n      ]);\n    };\n  }\n});\n",
+      "start": 1703087316759,
+      "end": 1703087316770,
+      "order": "normal",
+      "sourcemaps": {
+        "version": 3,
+        "sources": [
+          "C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/layouts/default.vue?vue&type=script&setup=true&lang.ts"
+        ],
+        "sourcesContent": [
+          "import { defineComponent as _defineComponent } from 'vue'\nimport { createElementVNode as _createElementVNode, renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, unref as _unref, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, normalizeClass as _normalizeClass, withCtx as _withCtx, createVNode as _createVNode, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, pushScopeId as _pushScopeId, popScopeId as _popScopeId } from \"vue\"\nimport _imports_0 from '../assets/img/Logo.png'\n\n\nconst _withScopeId = n => (_pushScopeId(\"data-v-b49ec51d\"),n=n(),_popScopeId(),n)\nconst _hoisted_1 = { class: \"frontLayout\" }\nconst _hoisted_2 = { class: \"bg-white bg-opacity-50 sticky-top\" }\nconst _hoisted_3 = /*#__PURE__*/ _withScopeId(() => /*#__PURE__*/_createElementVNode(\"img\", {\n  src: _imports_0,\n  alt: \"相遇甜點\",\n  height: \"64\",\n  class: \"py-2\"\n}, null, -1))\nconst _hoisted_4 = { class: \"nav h4 gap-6 d-none d-lg-flex\" }\nconst _hoisted_5 = {\n  key: 0,\n  class: \"nav flex-column d-lg-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur\",\n  style: {\"box-shadow\":\"rgba(0, 0, 0, 0.25) 0px 5px 6px\"}\n}\nconst _hoisted_6 = /*#__PURE__*/ _withScopeId(() => /*#__PURE__*/_createElementVNode(\"footer\", null, \"委\", -1))\n\nimport type { headerLink } from '../interface/header';\nimport {ref} from 'vue';\nimport {useRoute} from 'vue-router'\n\nexport default /*#__PURE__*/_defineComponent({\n  __name: 'default',\n  setup(__props) {\n\nconst route = useRoute();\n\nconst headerList = ref<headerLink[]>([\n  {\n    route: '/',\n    name: '首頁',\n  },\n  {\n    route: '/diy',\n    name: 'DIY 課程',\n  },\n  {\n    route: '/activity',\n    name: '活動預約',\n  },\n  {\n    route: '/place',\n    name: '場地租借',\n  },\n]);\n\nconst menuOpen = ref<boolean>(false)\n\nreturn (_ctx: any,_cache: any) => {\n  const _component_NuxtLink = _resolveComponent(\"NuxtLink\")!\n\n  return (_openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n    _createElementVNode(\"header\", _hoisted_2, [\n      _createElementVNode(\"nav\", {\n        class: _normalizeClass([\"d-flex align-items-center justify-content-between px-lg-9 px-3 blur\", {'boxShadow': !menuOpen.value}])\n      }, [\n        _hoisted_3,\n        _createElementVNode(\"ul\", _hoisted_4, [\n          (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n            return (_openBlock(), _createElementBlock(\"li\", {\n              class: \"nav-item\",\n              key: item.route\n            }, [\n              _createVNode(_component_NuxtLink, {\n                class: _normalizeClass([\"pcNav nav-link fw-bold py-6 px-2 position-relative\", { 'active': item.route === _unref(route).path }]),\n                to: item.route\n              }, {\n                default: _withCtx(() => [\n                  _createTextVNode(_toDisplayString(item.name), 1)\n                ]),\n                _: 2\n              }, 1032, [\"class\", \"to\"])\n            ]))\n          }), 128))\n        ]),\n        _createElementVNode(\"span\", {\n          class: _normalizeClass([\"material-symbols-outlined fs-1 d-lg-none\", {'bg-primary rounded-circle': false}]),\n          onClick: _cache[0] || (_cache[0] = ($event: any) => (menuOpen.value = !menuOpen.value))\n        }, \" menu \")\n      ], 2),\n      (menuOpen.value)\n        ? (_openBlock(), _createElementBlock(\"ul\", _hoisted_5, [\n            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n              return (_openBlock(), _createElementBlock(\"li\", {\n                class: \"nav-item\",\n                key: item.route\n              }, [\n                _createVNode(_component_NuxtLink, {\n                  class: _normalizeClass([\"nav-link fw-bold mx-3\", {'bg-primary': item.route === _unref(route).path }]),\n                  to: item.route\n                }, {\n                  default: _withCtx(() => [\n                    _createTextVNode(_toDisplayString(item.name), 1)\n                  ]),\n                  _: 2\n                }, 1032, [\"class\", \"to\"])\n              ]))\n            }), 128))\n          ]))\n        : _createCommentVNode(\"\", true)\n    ]),\n    _renderSlot(_ctx.$slots, \"default\", {}, undefined, true),\n    _hoisted_6\n  ]))\n}\n}\n\n})"
+        ],
+        "mappings": "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",
+        "names": []
+      }
+    },
+    {
+      "name": "vite:json",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1703087316770,
+      "end": 1703087316770,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1703087316770,
+      "end": 1703087316771,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1703087316771,
+      "end": 1703087316779,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1703087316779,
+      "end": 1703087316779,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1703087316780,
+      "end": 1703087316780,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1703087316781,
+      "end": 1703087316782,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1703087316782,
+      "end": 1703087316782,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "result": "import { default as __nuxt_component_0 } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/node_modules/nuxt/dist/app/components/nuxt-link\";\nimport { defineComponent as _defineComponent } from \"vue\";\nimport { createElementVNode as _createElementVNode, renderList as _renderList, Fragment as _Fragment, openBlock as _openBlock, createElementBlock as _createElementBlock, unref as _unref, toDisplayString as _toDisplayString, createTextVNode as _createTextVNode, resolveComponent as _resolveComponent, normalizeClass as _normalizeClass, withCtx as _withCtx, createVNode as _createVNode, createCommentVNode as _createCommentVNode, renderSlot as _renderSlot, pushScopeId as _pushScopeId, popScopeId as _popScopeId } from \"vue\";\nimport _imports_0 from \"../assets/img/Logo.png\";\nconst _withScopeId = (n) => (_pushScopeId(\"data-v-b49ec51d\"), n = n(), _popScopeId(), n);\nconst _hoisted_1 = { class: \"frontLayout\" };\nconst _hoisted_2 = { class: \"bg-white bg-opacity-50 sticky-top\" };\nconst _hoisted_3 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ _createElementVNode(\"img\", {\n  src: _imports_0,\n  alt: \"相遇甜點\",\n  height: \"64\",\n  class: \"py-2\"\n}, null, -1));\nconst _hoisted_4 = { class: \"nav h4 gap-6 d-none d-lg-flex\" };\nconst _hoisted_5 = {\n  key: 0,\n  class: \"nav flex-column d-lg-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur\",\n  style: { \"box-shadow\": \"rgba(0, 0, 0, 0.25) 0px 5px 6px\" }\n};\nconst _hoisted_6 = /* @__PURE__ */ _withScopeId(() => /* @__PURE__ */ _createElementVNode(\"footer\", null, \"委\", -1));\nimport { ref } from \"vue\";\nimport { useRoute } from \"vue-router\";\nexport default /* @__PURE__ */ _defineComponent({\n  __name: \"default\",\n  setup(__props) {\n    const route = useRoute();\n    const headerList = ref([\n      {\n        route: \"/\",\n        name: \"首頁\"\n      },\n      {\n        route: \"/diy\",\n        name: \"DIY 課程\"\n      },\n      {\n        route: \"/activity\",\n        name: \"活動預約\"\n      },\n      {\n        route: \"/place\",\n        name: \"場地租借\"\n      }\n    ]);\n    const menuOpen = ref(false);\n    return (_ctx, _cache) => {\n      const _component_NuxtLink = __nuxt_component_0;\n      return _openBlock(), _createElementBlock(\"div\", _hoisted_1, [\n        _createElementVNode(\"header\", _hoisted_2, [\n          _createElementVNode(\"nav\", {\n            class: _normalizeClass([\"d-flex align-items-center justify-content-between px-lg-9 px-3 blur\", { \"boxShadow\": !menuOpen.value }])\n          }, [\n            _hoisted_3,\n            _createElementVNode(\"ul\", _hoisted_4, [\n              (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n                return _openBlock(), _createElementBlock(\"li\", {\n                  class: \"nav-item\",\n                  key: item.route\n                }, [\n                  _createVNode(_component_NuxtLink, {\n                    class: _normalizeClass([\"pcNav nav-link fw-bold py-6 px-2 position-relative\", { \"active\": item.route === _unref(route).path }]),\n                    to: item.route\n                  }, {\n                    default: _withCtx(() => [\n                      _createTextVNode(_toDisplayString(item.name), 1)\n                    ]),\n                    _: 2\n                  }, 1032, [\"class\", \"to\"])\n                ]);\n              }), 128))\n            ]),\n            _createElementVNode(\"span\", {\n              class: _normalizeClass([\"material-symbols-outlined fs-1 d-lg-none\", { \"bg-primary rounded-circle\": false }]),\n              onClick: _cache[0] || (_cache[0] = ($event) => menuOpen.value = !menuOpen.value)\n            }, \" menu \")\n          ], 2),\n          menuOpen.value ? (_openBlock(), _createElementBlock(\"ul\", _hoisted_5, [\n            (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(headerList.value, (item) => {\n              return _openBlock(), _createElementBlock(\"li\", {\n                class: \"nav-item\",\n                key: item.route\n              }, [\n                _createVNode(_component_NuxtLink, {\n                  class: _normalizeClass([\"nav-link fw-bold mx-3\", { \"bg-primary\": item.route === _unref(route).path }]),\n                  to: item.route\n                }, {\n                  default: _withCtx(() => [\n                    _createTextVNode(_toDisplayString(item.name), 1)\n                  ]),\n                  _: 2\n                }, 1032, [\"class\", \"to\"])\n              ]);\n            }), 128))\n          ])) : _createCommentVNode(\"\", true)\n        ]),\n        _renderSlot(_ctx.$slots, \"default\", {}, void 0, true),\n        _hoisted_6\n      ]);\n    };\n  }\n});\n",
+      "start": 1703087316782,
+      "end": 1703087316784,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1703087316785,
+      "end": 1703087316785,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "start": 1703087316785,
+      "end": 1703087316786,
+      "order": "normal"
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1703087316786,
+      "end": 1703087316786,
+      "order": "normal"
+    }
+  ]
+}

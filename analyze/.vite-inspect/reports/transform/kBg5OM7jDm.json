@@ -1,0 +1,212 @@
+{
+  "resolvedId": "virtual:nuxt:C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/.nuxt/routes.mjs",
+  "transforms": [
+    {
+      "name": "virtual",
+      "result": "import { default as indexPhOXoZXqGrMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/activity/index.vue?macro=true\";\nimport { default as indexPHRwEaLDo2Meta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/admin/index.vue?macro=true\";\nimport { default as _91id_93W2fQ1K2b3VMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/[id].vue?macro=true\";\nimport { default as indexC8FBTmMONIMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/index.vue?macro=true\";\nimport { default as indexIeZ83lmskuMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/index/index.vue?macro=true\";\nimport { default as index6eBOpX8Z4eMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/place/index.vue?macro=true\";\nexport default [\n  {\n    name: indexPhOXoZXqGrMeta?.name ?? \"activity\",\n    path: indexPhOXoZXqGrMeta?.path ?? \"/activity\",\n    meta: indexPhOXoZXqGrMeta || {},\n    alias: indexPhOXoZXqGrMeta?.alias || [],\n    redirect: indexPhOXoZXqGrMeta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/activity/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: indexPHRwEaLDo2Meta?.name ?? \"admin\",\n    path: indexPHRwEaLDo2Meta?.path ?? \"/admin\",\n    meta: indexPHRwEaLDo2Meta || {},\n    alias: indexPHRwEaLDo2Meta?.alias || [],\n    redirect: indexPHRwEaLDo2Meta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/admin/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: _91id_93W2fQ1K2b3VMeta?.name ?? \"diy-id\",\n    path: _91id_93W2fQ1K2b3VMeta?.path ?? \"/diy/:id()\",\n    meta: _91id_93W2fQ1K2b3VMeta || {},\n    alias: _91id_93W2fQ1K2b3VMeta?.alias || [],\n    redirect: _91id_93W2fQ1K2b3VMeta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/[id].vue\").then(m => m.default || m)\n  },\n  {\n    name: indexC8FBTmMONIMeta?.name ?? \"diy\",\n    path: indexC8FBTmMONIMeta?.path ?? \"/diy\",\n    meta: indexC8FBTmMONIMeta || {},\n    alias: indexC8FBTmMONIMeta?.alias || [],\n    redirect: indexC8FBTmMONIMeta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: indexIeZ83lmskuMeta?.name ?? \"index\",\n    path: indexIeZ83lmskuMeta?.path ?? \"/\",\n    meta: indexIeZ83lmskuMeta || {},\n    alias: indexIeZ83lmskuMeta?.alias || [],\n    redirect: indexIeZ83lmskuMeta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/index/index.vue\").then(m => m.default || m)\n  },\n  {\n    name: index6eBOpX8Z4eMeta?.name ?? \"place\",\n    path: index6eBOpX8Z4eMeta?.path ?? \"/place\",\n    meta: index6eBOpX8Z4eMeta || {},\n    alias: index6eBOpX8Z4eMeta?.alias || [],\n    redirect: index6eBOpX8Z4eMeta?.redirect || undefined,\n    component: () => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/place/index.vue\").then(m => m.default || m)\n  }\n]",
+      "start": 1703087314973,
+      "end": 1703087314973,
+      "sourcemaps": null
+    },
+    {
+      "name": "nuxt:layer-aliasing",
+      "start": 1703087314973,
+      "end": 1703087314973,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:server-devonly:transform",
+      "start": 1703087314973,
+      "end": 1703087314973,
+      "order": "pre"
+    },
+    {
+      "name": "nuxt:client-fallback-auto-id",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "pre"
+    },
+    {
+      "name": "vite:css",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:esbuild",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:json",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:vue-jsx",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:remove-plugin-metadata",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:chunk-error",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:components:imports",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "replace",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "ssr-styles",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:define",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:css-post",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:build-html",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:worker-import-meta-url",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "vite:asset-import-meta-url",
+      "start": 1703087314974,
+      "end": 1703087314974,
+      "order": "normal"
+    },
+    {
+      "name": "commonjs",
+      "start": 1703087314975,
+      "end": 1703087314975,
+      "order": "normal"
+    },
+    {
+      "name": "vite:dynamic-import-vars",
+      "start": 1703087314975,
+      "end": 1703087314975,
+      "order": "normal"
+    },
+    {
+      "name": "vite:import-glob",
+      "start": 1703087314976,
+      "end": 1703087314976,
+      "order": "normal"
+    },
+    {
+      "name": "nuxt:composable-keys",
+      "start": 1703087314976,
+      "end": 1703087314976,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:imports-transform",
+      "start": 1703087314976,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "unctx:transform",
+      "start": 1703087314978,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:pages-macros-transform",
+      "start": 1703087314978,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:runtime-paths-dep",
+      "start": 1703087314978,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:route-injection-plugin",
+      "start": 1703087314978,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:components-loader",
+      "start": 1703087314978,
+      "end": 1703087314978,
+      "order": "post"
+    },
+    {
+      "name": "nuxt:tree-shake-composables:transform",
+      "start": 1703087314979,
+      "end": 1703087314979,
+      "order": "post"
+    },
+    {
+      "name": "vite:build-import-analysis",
+      "result": "import { __vitePreload } from \"\u0000vite/preload-helper\";import { default as indexPhOXoZXqGrMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/activity/index.vue?macro=true\";\nimport { default as indexPHRwEaLDo2Meta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/admin/index.vue?macro=true\";\nimport { default as _91id_93W2fQ1K2b3VMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/[id].vue?macro=true\";\nimport { default as indexC8FBTmMONIMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/index.vue?macro=true\";\nimport { default as indexIeZ83lmskuMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/index/index.vue?macro=true\";\nimport { default as index6eBOpX8Z4eMeta } from \"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/place/index.vue?macro=true\";\nexport default [\n  {\n    name: indexPhOXoZXqGrMeta?.name ?? \"activity\",\n    path: indexPhOXoZXqGrMeta?.path ?? \"/activity\",\n    meta: indexPhOXoZXqGrMeta || {},\n    alias: indexPhOXoZXqGrMeta?.alias || [],\n    redirect: indexPhOXoZXqGrMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/activity/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: indexPHRwEaLDo2Meta?.name ?? \"admin\",\n    path: indexPHRwEaLDo2Meta?.path ?? \"/admin\",\n    meta: indexPHRwEaLDo2Meta || {},\n    alias: indexPHRwEaLDo2Meta?.alias || [],\n    redirect: indexPHRwEaLDo2Meta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/admin/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: _91id_93W2fQ1K2b3VMeta?.name ?? \"diy-id\",\n    path: _91id_93W2fQ1K2b3VMeta?.path ?? \"/diy/:id()\",\n    meta: _91id_93W2fQ1K2b3VMeta || {},\n    alias: _91id_93W2fQ1K2b3VMeta?.alias || [],\n    redirect: _91id_93W2fQ1K2b3VMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/[id].vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: indexC8FBTmMONIMeta?.name ?? \"diy\",\n    path: indexC8FBTmMONIMeta?.path ?? \"/diy\",\n    meta: indexC8FBTmMONIMeta || {},\n    alias: indexC8FBTmMONIMeta?.alias || [],\n    redirect: indexC8FBTmMONIMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/diy/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: indexIeZ83lmskuMeta?.name ?? \"index\",\n    path: indexIeZ83lmskuMeta?.path ?? \"/\",\n    meta: indexIeZ83lmskuMeta || {},\n    alias: indexIeZ83lmskuMeta?.alias || [],\n    redirect: indexIeZ83lmskuMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/index/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  },\n  {\n    name: index6eBOpX8Z4eMeta?.name ?? \"place\",\n    path: index6eBOpX8Z4eMeta?.path ?? \"/place\",\n    meta: index6eBOpX8Z4eMeta || {},\n    alias: index6eBOpX8Z4eMeta?.alias || [],\n    redirect: index6eBOpX8Z4eMeta?.redirect || undefined,\n    component: () => __vitePreload(() => import(\"C:/Users/pandu/OneDrive/桌面/相遇甜點/sweetMeets/pages/place/index.vue\"),__VITE_IS_MODERN__?\"__VITE_PRELOAD__\":void 0,import.meta.url).then(m => m.default || m)\n  }\n]",
+      "start": 1703087314979,
+      "end": 1703087314980,
+      "order": "normal",
+      "sourcemaps": null
+    },
+    {
+      "name": "vite:reporter",
+      "start": 1703087314980,
+      "end": 1703087314980,
+      "order": "normal"
+    }
+  ]
+}
