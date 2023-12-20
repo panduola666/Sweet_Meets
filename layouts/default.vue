@@ -34,6 +34,8 @@
 </template>
 <script setup lang="ts">
 import type { headerLink } from '../interface/header';
+import {ref} from 'vue';
+import {useRoute} from 'vue-router'
 const route = useRoute();
 
 const headerList = ref<headerLink[]>([
