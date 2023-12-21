@@ -1,1 +1,0 @@
-import{_ as e}from"./nuxt-layout.1e0a85d8.js";import{_ as o,n,w as _,o as a,d as c}from"./entry.a7c785cc.js";const r={};function s(f,d){const t=e;return a(),n(t,{name:"default"},{default:_(()=>[c(" 活動預約 ")]),_:1})}const x=o(r,[["render",s]]);export{x as default};

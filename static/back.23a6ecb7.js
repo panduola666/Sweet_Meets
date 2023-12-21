@@ -1,0 +1,1 @@
+import{_ as t,c as o,d as a,H as c,o as r}from"./entry.20b173f7.js";const s={};function n(e,l){return r(),o("div",null,[a(" 後台 layout "),c(e.$slots,"default")])}const _=t(s,[["render",n]]);export{_ as default};
