@@ -5,12 +5,15 @@
         class="d-flex align-items-center justify-content-between px-lg-9 px-3 blur"
         :class="{ boxShadow: !menuOpen }"
       >
+      <NuxtLink to="/">
         <img
           src="../assets/img/Logo.png"
           alt="相遇甜點"
           height="64"
           class="py-2"
         />
+      </NuxtLink>
+      
         <ul class="nav h4 gap-6 d-none d-lg-flex">
           <li class="nav-item" v-for="item in headerList" :key="item.route">
             <NuxtLink

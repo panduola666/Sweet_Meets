@@ -1,8 +1,9 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  // router: {
-  //   base: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/'
-  // },
+  modules: ['nuxt-swiper'],
+  swiper: {
+    // modules: ['navigation', 'pagination', 'effect-creative' ]
+  },
   app:{
     baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
     buildAssetsDir: "/static/",
