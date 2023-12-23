@@ -1,0 +1,1 @@
+import{_ as e}from"./entry.b6dc87ca.js";import{k as o,o as c}from"./swiper-vue.42e7ca68.js";const t={},r={class:""};function s(n,_){return c(),o("div",r," 後台 ")}const i=e(t,[["render",s]]);export{i as default};
