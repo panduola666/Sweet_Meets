@@ -53,44 +53,31 @@
     </nav>
 
     <div class="order bg-primary py-6 py-lg-7">
-      <h2 class="h1 fw-bold text-center">快速預約</h2>
-      <div @mouseover="pauseSlider"
-        @mouseleave="resumeSlider">
+      <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
+      <div class="products" @mouseover="pauseSlider" @mouseleave="resumeSlider">
         <Swiper
           ref="swiper"
-          :modules="[SwiperAutoplay]"
-          :space-between="16"
-          :autoplay="{
-            delay: 500,
-            disableOnInteraction: false,
-          }"
-          :speed="2000"
-          :loop="true"
-          :breakpoints="{
-            '992': {
-              slidesPerView: 4,
-              spaceBetween: 64,
-            },
-          }"
+          v-bind="swiperConfig"
         >
-          <SwiperSlide class="bg-white">Slide 1</SwiperSlide>
-          <SwiperSlide class="bg-white">Slide 2</SwiperSlide>
-          <SwiperSlide class="bg-white">Slide 3</SwiperSlide>
-          <SwiperSlide class="bg-white">Slide 4</SwiperSlide>
-          <SwiperSlide class="bg-secondary">Slide 5</SwiperSlide>
-          <SwiperSlide class="bg-secondary">Slide 6</SwiperSlide>
-          <SwiperSlide class="bg-secondary">Slide 7</SwiperSlide>
-          <SwiperSlide class="bg-secondary">Slide 8</SwiperSlide>
-          <SwiperSlide class="bg-secondary">Slide 9</SwiperSlide>
+          <SwiperSlide v-for="i in 10" @click="product = {id: i}">
+              <div class="text-center pointer">
+                <img
+                  src="https://images.unsplash.com/photo-1596529267076-07866e3655cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDh8fGNha2V8ZW58MHwxfDB8fHww"
+                  height="375"
+                  alt=""
+                  class="w-100 object-fit-cover mb-6"
+                />
+                <p class="fs-3 m-0">甜點名稱</p>
+              </div>
+          </SwiperSlide>
         </Swiper>
       </div>
     </div>
+    <product-modal :product="product"/>
   </NuxtLayout>
 </template>
 <script setup lang="ts">
 import type { homeNav } from '@/interface/home';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
 import diyImg from '@/assets/img/diy.png';
 import activityImg from '@/assets/img/activity.png';
 import placeImg from '@/assets/img/place.png';
@@ -114,16 +101,31 @@ const homeNav = ref<homeNav[]>([
   },
 ]);
 
-const swiper = ref<{[key: string]: any}|null>(null);
+const product = ref({})
+const swiper = ref<{ [key: string]: any } | null>(null);
+const swiperConfig = ref({
+  modules: [SwiperAutoplay],
+  speed: 2000,
+  loop: true,
+  autoplay: {
+    delay: 0,  
+    disableOnInteraction: true,
+  },
+  spaceBetween: 16,
+  breakpoints: {
+    '992': {
+      slidesPerView: 4,
+      spaceBetween: 32,
+    },
+  },
+});
 function pauseSlider() {
   // 暫停輪播
-  swiper.value!.$el.swiper.autoplay.stop()
-  
+  swiper.value!.$el.swiper.autoplay.stop();
 }
 function resumeSlider() {
   // 開始輪播
   swiper.value!.$el.swiper.autoplay.start();
-  
 }
 </script>
 <style lang="scss" scoped>
@@ -152,7 +154,7 @@ function resumeSlider() {
   }
   @include lg {
     width: 33%;
-    clip-path: polygon(10% 0, 100% 0%, 90% 100%, 0% 100%);
+    clip-path: var(--clip-path-diamond);
   }
 }
 .nav-link {
@@ -173,5 +175,11 @@ function resumeSlider() {
   left: 0;
   right: 0;
   transition: top 0.5s;
+}
+.products {
+  --swiper-wrapper-transition-timing-function: linear;
+  .swiper-slide:hover{
+    transform: translateY(-5px);
+  }
 }
 </style>

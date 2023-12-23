@@ -53,7 +53,9 @@
     </main>
     
     <footer class="position-relative">
-      <div class="footer"></div>
+      <div class="footer">
+        <img src="../assets/img/cake.png" alt="cake" class="cake d-none d-lg-block">
+      </div>
       <div class="footer-nav">
         <div class="py-8 bg-white bg-opacity-50 blur boxShadow fw-bold">
           <ul
@@ -128,7 +130,7 @@ const menuOpen = ref<boolean>(false);
   }
 }
 .footer {
-  // display: block;
+  position: relative;
   background: no-repeat top;
   background-size: cover;
   background-image: url('../assets/svg/footer-sm.svg');
@@ -150,5 +152,12 @@ const menuOpen = ref<boolean>(false);
     width: 50%;
     max-width: 650px;
   }
+}
+.cake{
+  position: absolute;
+  width: 15vw;
+  right: 5vw;
+  top: 3%;
+  transform: rotate(10deg);
 }
 </style>
