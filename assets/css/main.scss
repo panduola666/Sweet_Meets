@@ -34,6 +34,9 @@ img{
 .pointer{
   cursor: pointer;
 }
+.default{
+  cursor: default;
+}
 @mixin md { // 響應式斷點
   @media (min-width: 768px) {
     @content; // 表示導入後所撰寫的內容位置

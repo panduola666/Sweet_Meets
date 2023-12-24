@@ -1,6 +1,6 @@
 <template>
 <div class="modal fade" id="productModal" ref="productModal" tabindex="-1" aria-labelledby="productName" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
+  <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="btn-close" aria-label="Close" @click="closeModal"></button>
@@ -8,11 +8,11 @@
       <div class="modal-body">
         <div class="container-fluid">
           <div class="row">
-            <div class="col-6">
+            <div class="col-12 col-lg-6 mb-4 mb-lg-0">
               <div class="productImg" :style="{backgroundImage: `url(${'https://images.unsplash.com/photo-1596529267076-07866e3655cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDh8fGNha2V8ZW58MHwxfDB8fHww'})`}">
               </div>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-lg-6">
               <article>
                 <p class="d-flex justify-content-between align-items-end h3 fw-bold">
                   酸甜檸檬塔
@@ -66,6 +66,7 @@ function closeModal() {
   height: 100%;
   background: no-repeat center;
   background-size: cover;
+  min-height: 200px;
   @include lg {
     clip-path: var(--clip-path-diamond);
   }

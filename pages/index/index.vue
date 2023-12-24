@@ -52,6 +52,7 @@
       </div>
     </nav>
 
+    <!-- 快速預約 -->
     <div class="order bg-primary py-6 py-lg-7">
       <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
       <div class="products" @mouseover="pauseSlider" @mouseleave="resumeSlider">
@@ -67,20 +68,59 @@
                   alt=""
                   class="w-100 object-fit-cover mb-6"
                 />
-                <p class="fs-3 m-0">甜點名稱</p>
+                <h3 class="fs-3 m-0">甜點名稱</h3>
               </div>
           </SwiperSlide>
         </Swiper>
       </div>
     </div>
     <product-modal :product="product"/>
+
+    <!-- 近期活動 -->
+      <div class="d-flex bg-secondary">
+        <div class="w-50 d-none d-lg-block">
+          <img src="../../assets/img/home/activiryBanner.png" alt="" class="w-100 h-100 object-fit-cover opacity-75">
+        </div>
+        <div class="flex-grow-1">
+          <article class="border border-2 text-white px-2 px-lg-4 pt-4 pb-9 mx-3 mx-lg-8 my-8">
+            <h2 class="fs-1 fw-bold  text-center mb-6 mb-lg-7">近期活動</h2>
+            <ul class="d-flex flex-column gap-6 gap-lg-7">
+              <li class="text-white pb-6 border-bottom border-2 default" v-for="i in 3" :key="i">
+                <h4 class="h2">12月甜點聯誼會</h4>
+                <p class="text-white fs-4 m-0 d-flex justify-content-between align-items-end">
+                  活動時間: 2023/12/23 (六) 20:00
+                  <NuxtLink to="" class="text-white fs-6 activity-link">詳情 >></NuxtLink>
+                </p>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- 操作步驟 -->
+      <div class="container py-8 py-lg-9">
+      <h2 class="h1 fw-bold text-center mb-6">操作步驟</h2>
+        <div class="row justify-content-center gap-6 gap-lg-0">
+          <div class="col-12 col-lg-4 d-flex flex-column align-items-center default" v-for="step in steps" :key="step.name">
+            <img :src="step.imgUrl" :alt="step.name" class="img-fluid">
+            <p class="fs-2 fw-bold m-0">{{ step.name }}</p>
+          </div>
+        </div>
+      </div>
+
+
   </NuxtLayout>
 </template>
 <script setup lang="ts">
-import type { homeNav } from '@/interface/home';
-import diyImg from '@/assets/img/diy.png';
-import activityImg from '@/assets/img/activity.png';
-import placeImg from '@/assets/img/place.png';
+import type { homeNav, stepsType } from '@/interface/home';
+import diyImg from '@/assets/img/home/diy.png';
+import activityImg from '@/assets/img/home/activity.png';
+import placeImg from '@/assets/img/home/place.png';
+import step1Img from '@/assets/img/home/step1.png';
+import step2Img from '@/assets/img/home/step2.png';
+import step3Img from '@/assets/img/home/step3.png';
+import step4Img from '@/assets/img/home/step4.png';
+import step5Img from '@/assets/img/home/step5.png';
 
 const route = useRoute();
 const homeNav = ref<homeNav[]>([
@@ -105,7 +145,7 @@ const product = ref({})
 const swiper = ref<{ [key: string]: any } | null>(null);
 const swiperConfig = ref({
   modules: [SwiperAutoplay],
-  speed: 2000,
+  speed: 3000,
   loop: true,
   autoplay: {
     delay: 0,  
@@ -127,6 +167,29 @@ function resumeSlider() {
   // 開始輪播
   swiper.value!.$el.swiper.autoplay.start();
 }
+
+const steps = ref<stepsType[]>([
+  {
+    name: '1. 選擇甜點',
+    imgUrl: step1Img,
+  },
+  {
+    name: '2. 觀看製作流程',
+    imgUrl: step2Img,
+  },
+  {
+    name: '3. 選取用品',
+    imgUrl: step3Img,
+  },
+  {
+    name: '4. 進行製作',
+    imgUrl: step4Img,
+  },
+  {
+    name: '5. 清洗用具並歸還',
+    imgUrl: step5Img,
+  }
+])
 </script>
 <style lang="scss" scoped>
 @import 'swiper/css';
@@ -181,5 +244,9 @@ function resumeSlider() {
   .swiper-slide:hover{
     transform: translateY(-5px);
   }
+}
+.activity-link:hover{
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 </style>
