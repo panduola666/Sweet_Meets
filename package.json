@@ -16,7 +16,8 @@
     "nuxt": "^3.8.2",
     "sass": "^1.69.5",
     "vue": "^3.3.8",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "vue-scrollto": "^2.20.0"
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
