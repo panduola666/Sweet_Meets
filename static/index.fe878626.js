@@ -1,0 +1,1 @@
+import{_ as e}from"./entry.aed1c6f0.js";import{k as o,o as r}from"./swiper-vue.a4cc4a51.js";const c={};function n(t,s){return r(),o("div",null," diy 首頁 ")}const f=e(c,[["render",n]]);export{f as default};

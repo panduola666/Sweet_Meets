@@ -1,1 +1,0 @@
-import{_ as e}from"./nuxt-layout.0e73b18c.js";import{_ as o}from"./entry.acac4075.js";import{m as n,A as _,o as a,G as c}from"./swiper-vue.42e7ca68.js";const r={};function s(m,f){const t=e;return a(),n(t,{name:"default"},{default:_(()=>[c(" diy總表 ")]),_:1})}const u=o(r,[["render",s]]);export{u as default};
