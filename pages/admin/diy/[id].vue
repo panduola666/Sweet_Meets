@@ -1,5 +1,5 @@
 <template>
   <div>
-    後台首頁
+    diy Id
   </div>
 </template>

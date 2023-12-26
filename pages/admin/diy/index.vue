@@ -1,5 +1,5 @@
 <template>
   <div>
-    後台首頁
+    diy 首頁
   </div>
 </template>

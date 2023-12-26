@@ -39,8 +39,8 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" @click="closeModal">關閉</button>
-        <NuxtLink to="" class="btn btn-primary">立即預約</NuxtLink>
+        <button type="button" class="btn btn-primary" @click="closeModal">關閉</button>
+        <NuxtLink to="" class="btn btn-secondary">立即預約</NuxtLink>
       </div>
     </div>
   </div>
@@ -53,6 +53,8 @@ const { $bootstrap } = useNuxtApp()
 const productModal = ref(null)
 let modal:any;
 watch(() => props.product, () => {
+  console.log(props.product);
+  
   modal = $bootstrap.modal(productModal.value)
   modal.show()
 })
