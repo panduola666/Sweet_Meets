@@ -1,0 +1,1 @@
+import{_ as e}from"./entry.af8ac842.js";import{z as r,y as c}from"./swiper-vue.e9d458fc.js";const o={};function t(n,_){return c(),r("div",null," diy Id ")}const d=e(o,[["render",t]]);export{d as default};
