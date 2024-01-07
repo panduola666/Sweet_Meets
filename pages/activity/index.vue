@@ -20,7 +20,7 @@
           /> -->
         </div>
         <div class="col-12 col-lg-6 d-flex flex-column justify-content-between gap-5 gap-lg-8 placeholder-glow">
-          <article class="fs-5">
+          <article class="fs-5 default">
             <h1 class="h2 fw-bold title" :class="{placeholder: isLoading}">11月甜點聯誼會</h1>
             <h2 class="fs-5 fs-lg-4 fw-bold pb-3 mb-3 border-bottom border-secondary" :class="{placeholder: isLoading}">活動時間: 2023/11/11 (六) 20:00</h2>
             <div :class="{placeholder: isLoading}">
@@ -42,7 +42,7 @@
               </p>
             </div>
           </article>
-          <NuxtLink to="" class="btn btn-secondary fs-4">立即報名</NuxtLink>
+          <NuxtLink to="/order" class="btn btn-secondary fs-4">立即報名</NuxtLink>
         </div>
       </div>
       <div class="d-flex justify-content-between justify-content-lg-end fs-5 gap-7">

@@ -40,7 +40,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" @click="closeModal">關閉</button>
-        <NuxtLink to="" class="btn btn-secondary">立即預約</NuxtLink>
+        <button class="btn btn-secondary" @click="orderProduct">立即預約</button>
       </div>
     </div>
   </div>
@@ -54,12 +54,17 @@ const productModal = ref(null)
 let modal:any;
 watch(() => props.product, () => {
   console.log(props.product);
-  
   modal = $bootstrap.modal(productModal.value)
   modal.show()
 })
 function closeModal() {
   modal.hide()
+}
+
+const router = useRouter()
+function orderProduct() {
+  closeModal()
+  router.push('/order')
 }
 </script>
 <style lang="scss" scoped>
