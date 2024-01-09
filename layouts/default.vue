@@ -108,9 +108,11 @@ const menuOpen = ref<boolean>(false);
 <style scoped lang="scss">
 .frontLayout {
   background-color: rgb(247, 214, 224, 0.3);
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 .pcNav {
+  border-bottom: 4px solid transparent;
+
   &.active {
     border-bottom: 4px solid $secondary;
   }

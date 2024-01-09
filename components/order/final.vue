@@ -10,9 +10,20 @@
         <p class="mb-8 fw-bold">預約日期: <span class="ms-3">2016/05/15 20:00</span></p>
         <p class="fw-bold">姓名: <span class="ms-3">張三</span></p>
         <p class="fw-bold">聯繫方式: <span class="ms-3">09*****546</span></p>
-        <p class="fw-bold">甜點品項: <span class="ms-3">到店選擇</span></p>
-        <p class="mb-5 fw-bold">生日: <span class="ms-3">1986/01/01</span></p>
-        <p class="text-end fw-bold fs-4">依品項價格</p>
+        <template v-if="singleOrder">
+          <p class="fw-bold">甜點品項: <span class="ms-3">到店選擇</span></p>
+          <p class="mb-5 fw-bold">生日: <span class="ms-3">1986/01/01</span></p>
+        </template>
+        <template v-else>
+          <p class="fw-bold">人數: <span class="ms-3">6 人</span></p>
+          <p class="mb-5 fw-bold">預約時數: <span class="ms-3">2 小時</span></p>
+
+        </template>
+        <p class="text-end fw-bold fs-4 text-danger">依品項價格</p>
+        <div v-if="!singleOrder" class="remark p-3 fs-5 fw-bold border-top border-2 border-secondary">
+          <p class="mb-1">備註</p>
+          <p class="mb-0">我們會自己另外帶一些包裝材料, 後續會清理乾淨</p>
+        </div>
       </div>
     </div>
     <div class="d-flex justify-content-between gap-3">
@@ -26,6 +37,7 @@
 import html2Canvas from 'html2canvas';
 import jspdf from 'jspdf';
 
+const singleOrder: boolean = ['order'].includes(useRoute().name as string)
 const download = ref<HTMLElement | null>(null);
 
 function pdfDownload(dom: HTMLElement | null) {
@@ -69,3 +81,6 @@ async function copyText(text:string) {
   
 }
 </script>
+<style lang="scss" scoped>
+
+</style>

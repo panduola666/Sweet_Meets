@@ -3,7 +3,7 @@
     <VeeForm @submit="schemaSubmit" :validation-schema="schema">
       <div class="row mb-3">
         <div class="col-12 col-lg">
-          <ProductCard class="mb-3 d-lg-none" />
+          <ProductCard v-if="singleOrder" class="mb-3 d-lg-none" />
           <!-- 姓名 -->
           <div class="mb-3">
             <label for="name" class="form-label fw-bold">姓名</label>
@@ -34,7 +34,7 @@
           </div>
 
           <!-- 甜點品項 -->
-          <div class="mb-3">
+          <div class="mb-3" v-if="singleOrder">
             <label for="product" class="form-label fw-bold">甜點品項</label>
             <VeeField
               class="form-select"
@@ -45,6 +45,36 @@
               v-model="form.product"
             >
               <option value="">到店選擇</option>
+            </VeeField>
+          </div>
+
+          <!-- 人數 -->
+          <div class="mb-3" v-if="!singleOrder">
+            <label for="totalPerson" class="form-label fw-bold">人數</label>
+            <VeeField
+              class="form-select"
+              id="totalPerson"
+              name="人數"
+              as="select"
+              placeholder="請選擇人數"
+              v-model="form.totalPerson"
+            >
+              <option v-for="num in [5, 6, 7, 8, 9, 10]" :key="num" :value="num">{{num}} 人</option>
+            </VeeField>
+          </div>
+
+          <!-- 預約時數 -->
+          <div class="mb-3" v-if="!singleOrder">
+            <label for="totalTime" class="form-label fw-bold">預約時數</label>
+            <VeeField
+              class="form-select"
+              id="totalTime"
+              name="預約時數"
+              as="select"
+              placeholder="請選擇預約時數"
+              v-model="form.totalTime"
+            >
+              <option v-for="(hour, index) in [1, 1.5, 2, 2.5, 3]" :key="hour" :value="hour" >{{ hour }} 小時</option>
             </VeeField>
           </div>
 
@@ -85,7 +115,7 @@
           </div>
 
           <!-- 生日 -->
-          <div class="mb-3">
+          <div class="mb-3" v-if="singleOrder">
             <VDatePicker trim-weeks v-model="date.birthDate" :input-debounce="500">
               <template #default="{ togglePopover }">
                 <label for="birth" class="form-label fw-bold">生日</label>
@@ -105,8 +135,22 @@
             <VeeErrorMessage name="生日" class="text-danger" />
           </div>
         </div>
+
         <div class="col-12 col-lg">
-          <ProductCard class="mb-3 d-none d-lg-block" />
+          <ProductCard v-if="singleOrder" class="mb-3 d-none d-lg-block" />
+          <div v-else class="mb-3">
+            <label for="remark" class="form-label fw-bold">備註</label>
+            <VeeField
+                class="form-control"
+                id="remark"
+                name="備註"
+                as="textarea"
+                placeholder="請輸入備註"
+                v-model="form.remark"
+                style="resize: none;height: 140px;"
+              />
+          </div>
+
           <VDatePicker
             expanded
             trim-weeks
@@ -135,12 +179,17 @@
 </template>
 <script setup lang="ts">
 const props = defineProps(['currStep']);
+const singleOrder: boolean = ['order'].includes(useRoute().name as string)
+
 const form = reactive({
   name: '',
   phone: '',
   product: '',
   birth: '',
-  order: ''
+  order: '',
+  remark: '',
+  totalPerson: 5,
+  totalTime: 1
 })
 
 
@@ -154,8 +203,8 @@ const date = reactive({
 const disabledDates = ref([{ start: null, end: new Date() }]);
 watch(() => date.birthDate, (value) => form.birth = timeFormat(value))
 watch(() => date.orderDate, () => form.order = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
-watch(() => date.orderHour, () => form.order = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
-watch(() => date.orderMin, () => form.order = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
+watch(() => date.orderHour, () => form.order = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
+watch(() => date.orderMin, () => form.order = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
 
 function timeFormat(date: string):string {
   return new Date(new Date(date).valueOf()).toLocaleDateString()
@@ -166,9 +215,11 @@ const schema = {
   姓名: 'required',
   聯繫方式: 'required',
   預約日期: 'required',
-  生日: 'required',
+  生日: singleOrder ? 'required' : '',
 };
 const schemaSubmit = (value: any, { resetForm }: any) => {
+  console.log(value);
+  
   changeStep(1);
   resetForm();
 };
