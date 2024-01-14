@@ -1,0 +1,1 @@
+import{_ as o}from"./nuxt-layout.d47751f6.js";import{_ as e}from"./entry.6cf64ed0.js";import{E as n,K as _,y as c,N as a}from"./swiper-vue.047cdbf7.js";const r={},s=a("div",null," 預約 ",-1);function m(f,i){const t=o;return c(),n(t,{name:"back"},{default:_(()=>[s]),_:1})}const x=e(r,[["render",m]]);export{x as default};

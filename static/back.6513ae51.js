@@ -1,1 +1,0 @@
-import{_ as t}from"./entry.af8ac842.js";import{z as o,R as r,A as a,y as c}from"./swiper-vue.e9d458fc.js";const s={};function n(e,l){return c(),o("div",null,[r(" 後台 layout "),a(e.$slots,"default")])}const d=t(s,[["render",n]]);export{d as default};

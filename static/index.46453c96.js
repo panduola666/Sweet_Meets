@@ -1,1 +1,0 @@
-import{_ as e}from"./nuxt-layout.052ec5dd.js";import{_ as o}from"./entry.af8ac842.js";import{E as n,K as _,y as a,R as c}from"./swiper-vue.e9d458fc.js";const r={};function s(f,m){const t=e;return a(),n(t,{name:"default"},{default:_(()=>[c(" 場地租借 ")]),_:1})}const d=o(r,[["render",s]]);export{d as default};
