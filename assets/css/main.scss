@@ -11,6 +11,10 @@
 .btn-secondary{
   --bs-btn-hover-bg: #825353;
 }
+.form-check-input:checked{
+  background-color: var(--bs-secondary);
+  border-color: var(--bs-secondary);
+}
 
 
 .vc-light{
