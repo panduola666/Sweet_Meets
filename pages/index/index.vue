@@ -39,7 +39,7 @@
             <NuxtLink
               :to="link.route"
               class="nav-link"
-              :style="`background-image: url(${link.imgUrl});`"
+              :style="{backgroundImage: `url(${link.imgUrl})`}"
             >
               <div
                 class="nav-name bg-black bg-opacity-50 text-white fs-3 d-flex justify-content-around align-items-center"

@@ -1,6 +1,6 @@
 <template>
   <div class="p-7">
-    <VeeForm @submit="schemaSubmit" :validation-schema="schema">
+    <VeeForm @submit="submit" :validation-schema="schema">
       <div class="row mb-3">
         <div class="col-12 col-lg">
           <ProductCard v-if="singleOrder" class="mb-3 d-lg-none" />
@@ -217,7 +217,7 @@ const schema = {
   預約日期: 'required',
   生日: singleOrder ? 'required' : '',
 };
-const schemaSubmit = (value: any, { resetForm }: any) => {
+const submit = (value: any, { resetForm }: any) => {
   console.log(value);
   
   changeStep(1);

@@ -75,6 +75,7 @@
         </div>
       </div>
       <div class="bg-footer"></div>
+      <AdminLogin />
     </footer>
   </div>
 </template>
