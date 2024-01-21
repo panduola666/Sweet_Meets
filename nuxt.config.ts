@@ -2,10 +2,11 @@
 export default defineNuxtConfig({
   runtimeConfig: { // 環境變數
     public: {
-      baseUrl: process.env.NUXT_BASE_API
+      baseUrl: process.env.NUXT_BASE_API,
+      apiPath: process.env.NUXT_API_PATH
     }
   },
-  modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons'],
+  modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons', '@pinia/nuxt'],
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },

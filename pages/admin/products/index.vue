@@ -13,40 +13,80 @@
               v-for="item in aside"
               :key="item"
               :class="{active: currType === item}"
-              @click="currType = item"
+              @click="changeType(item)"
             >
               {{ item }}
             </li>
           </ul>
         </aside>
         <div class="col">
-          <div class="row g-4">
-            <div class="col-md-4 col-lg-3" v-for="i in 6">
-              <nuxt-link to="/admin/products/3" class="card product-card">
-                <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Y29va2llfGVufDB8fDB8fHww" class="card-img-top pointer object-fit-cover" alt="" height="150" />
+          <div class="row g-4" v-if="productStore.products.length">
+            <div class="col-md-4 col-lg-3" v-for="item in productStore.products" @click="editProduct(item)">
+              <div class="card product-card">
+                <img :src="item.imageUrl" class="card-img-top pointer object-fit-cover" alt="" height="150" />
                 <div class="card-body p-2 p-lg-3">
-                  <p class="card-title h5 fw-bold">巧克力豆餅乾</p>
+                  <p class="card-title h5 fw-bold">{{ item.title }}</p>
                   <p class="card-text fs-5 d-flex align-items-center justify-content-between">
-                   <span>$150</span>
-                   <nuxt-icon name="delete" class="pointer"/>
+                   <span>${{ item.price }}</span>
+                   <nuxt-icon name="delete" class="pointer" @click.stop="delProduct(item)"/>
                   </p>
-                  <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
                 </div>
-              </nuxt-link>
+              </div>
             </div>
           </div>
+          <p v-else class=" text-center fs-3">暫無資料</p>
         </div>
       </div>
       <div class="row justify-content-end mt-3 mb-6">
         <div class="col-lg-10">
-          <Pagination/>
+          <Pagination :pagination="productStore.pagination" @click="getDate"/>
         </div>
       </div>
   </NuxtLayout>
 </template>
 <script setup lang="ts">
+import Products from '@/store/products'
+import type { adminGet } from '@/interface/product'
+
+ 
+const productStore = Products()
 const aside = ref<string[]>(['壽星優惠', '蛋糕', '餅乾', '塔派']);
 const currType = ref<string>(aside.value[0])
+
+onMounted(() => {
+  nextTick(async() => {
+    await getDate(1)
+  })
+})
+function changeType(item:string) {
+  currType.value = item
+  console.log(productStore.products);
+  
+  getDate(1)
+}
+function getDate (page: string|number) {
+  productStore.adminGet({
+    category: currType.value,
+    page: page.toString()
+  })
+}
+
+function editProduct(item: any) {
+  productStore.product = item
+  
+  useRouter().push(`/admin/products/${item.id}`)
+}
+async function delProduct(item: any) {
+  const swal = await useSwal({
+    title: `確定刪除<span class="text-danger mx-3">${item.title}</span>嗎?`,
+    showCancelButton: true,
+    allowOutsideClick: false
+  })
+  if(swal.isConfirmed) {
+    await productStore.adminDel(item.id)
+    getDate(productStore.pagination.current_page || '1')
+  }
+}
 </script>
 <style lang="scss" scoped>
 .product-nav{

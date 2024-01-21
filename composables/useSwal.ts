@@ -11,6 +11,7 @@ export default function useSwal(option:object){
     showConfirmButton: true,
     showDenyButton: false, // 拒絕按鈕
     showCancelButton: false, // 取消按鈕
+    allowOutsideClick: true, // 允許外部點擊關閉
     ...option,
   });
   return swal;

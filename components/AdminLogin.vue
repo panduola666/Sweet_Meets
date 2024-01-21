@@ -47,6 +47,9 @@
 </div>
 </template>
 <script setup lang="ts">
+import User from '@/store/user'
+import type { loginType } from '@/interface/user' 
+
 const { $bootstrap } = useNuxtApp()
 const adminModal = ref(null)
 let modal:any;
@@ -56,32 +59,21 @@ const schema = {
   密碼: 'required',
 }
 
-const form = ref({
+const form = ref<loginType>({
   username: '',
   password: ''
 })
 
 async function submit(value: any, { resetForm }: any) {
-  try {
-    const res: any = await getFetchData({
-    url: '/admin/signin',
-    method: 'POST',
-    params: form.value
-  })
+  const userStore = User()
+  await userStore.login(form.value)
   
-  const cookie = useCookie('token', {
-    expires: new Date(res.expired)
-  })
-  cookie.value = res.token
-  console.log(res);
+  if(userStore.isLogin) {
+    resetForm();
+    await closeModal()
   
-  resetForm();
-  await closeModal()
-
-  useRouter().push('/admin/products')
-  } catch (error) {
+    useRouter().push('/admin/products')
   }
-  
 }
 
 function openModal () {

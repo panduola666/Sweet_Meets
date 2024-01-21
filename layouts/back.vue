@@ -29,10 +29,10 @@
         </span>
 
         <div class="py-3">
-          <span class="fw-bold me-4 d-none d-md-inline-block"
+          <!-- <span class="fw-bold me-4 d-none d-md-inline-block"
             >你好, admin001</span
-          >
-          <button type="button" class="btn btn-outline-secondary px-5" @click="logout">
+          > -->
+          <button type="button" class="btn btn-outline-secondary px-5" @click="userStore.logout">
             登出
           </button>
         </div>
@@ -73,6 +73,9 @@
 </template>
 <script setup lang="ts">
 import type { headerLink } from '../interface/header';
+import User from '@/store/user'
+
+const userStore = User()
 const route = useRoute();
 const menuOpen = ref<boolean>(false);
 const pageName = ref<string>('');
@@ -80,17 +83,14 @@ const props = withDefaults(defineProps<{ breadPath?: string[] }>(), {
   breadPath: () => [],
 });
 
-onMounted(async () => {
-  await getFetchData({
-    url: '/api/user/check',
-    method: 'POST'
+onMounted(() => {
+  nextTick(() => {
+    userStore.checkLogin()
+    const currRoute = headerList.value.find(
+      (list) => list.route === route.path
+    ) as headerLink;
+    pageName.value = currRoute ? currRoute.name : '';
   })
-  
-  
-  const currRoute = headerList.value.find(
-    (list) => list.route === route.path
-  ) as headerLink;
-  pageName.value = currRoute ? currRoute.name : '';
 });
 
 const headerList = ref<headerLink[]>([
@@ -108,19 +108,6 @@ const headerList = ref<headerLink[]>([
   },
 ]);
 
-// 登出
-async function logout() {
-  const token = useCookie('token')
-  token.value = null
-  const swal = await useSwal({
-    title: '已登出',
-    showConfirmButton: false,
-    timer: 3000
-  })
-  if(swal.isDismissed as boolean) {
-    useRouter().push('/')
-  }
-}
 </script>
 <style lang="scss" scoped>
 .backLayout {
