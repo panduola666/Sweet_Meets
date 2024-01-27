@@ -20,7 +20,7 @@ export default function getFetchData ({url, method = 'GET', params}: Params) {
               authorization: useCookie('token').value || ''
             }
             if(method !== 'GET') {
-              options.body = {...params}
+              options.body = params
             }
             
         },

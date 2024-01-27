@@ -10,7 +10,7 @@
           <ul class="bg-white mx-auto fs-lg-4 fw-bold text-center border border-secondary shadow-sm d-flex d-lg-block overflow-auto">
             <li
               class="p-3 border-bottom border-end flex-shrink-0 flex-grow-1 border-secondary pointer product-nav"
-              v-for="item in aside"
+              v-for="(item) in categoryList"
               :key="item"
               :class="{active: currType === item}"
               @click="changeType(item)"
@@ -46,12 +46,11 @@
 </template>
 <script setup lang="ts">
 import Products from '@/store/products'
-import type { adminGet } from '@/interface/product'
 
  
 const productStore = Products()
-const aside = ref<string[]>(['壽星優惠', '蛋糕', '餅乾', '塔派']);
-const currType = ref<string>(aside.value[0])
+const categoryList = ['全部', ...productStore.categoryList]
+const currType = ref<string>(categoryList[0])
 
 onMounted(() => {
   nextTick(async() => {
@@ -60,13 +59,12 @@ onMounted(() => {
 })
 function changeType(item:string) {
   currType.value = item
-  console.log(productStore.products);
   
   getDate(1)
 }
 function getDate (page: string|number) {
   productStore.adminGet({
-    category: currType.value,
+    category: productStore.categoryList.includes(currType.value) ? currType.value : '',
     page: page.toString()
   })
 }
