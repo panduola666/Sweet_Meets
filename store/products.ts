@@ -50,6 +50,19 @@ const productStore = defineStore('productStore', () => {
         showConfirmButton: false,
         timer: 3000,
       })
+    },
+    // 後台編輯產品
+    async adminPUT(id: string, data: adminPost) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/product/${id}`,
+        method: 'PUT',
+        params: { data }
+      });
+      useSwal({
+        title: res.message,
+        showConfirmButton: false,
+        timer: 3000,
+      })
     }
   }
 
