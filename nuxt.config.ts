@@ -25,7 +25,8 @@ export default defineNuxtConfig({
     }
   },
   app:{ // 部屬配置
-    baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
+    // baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
+    baseURL: '/',
     buildAssetsDir: "/static/",
   },
   experimental: {
