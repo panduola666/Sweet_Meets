@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    with: 
+    env: 
       NUXT_BASE_API: ${{ secrets.NUXT_BASE_API }}
       NUXT_API_PATH: ${{ secrets.NUXT_API_PATH }}
     steps:
