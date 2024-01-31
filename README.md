@@ -25,7 +25,7 @@ npm run build
 Locally preview production build:
 ```bash
 # npm
-npm run preview
+npm run preview 
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
