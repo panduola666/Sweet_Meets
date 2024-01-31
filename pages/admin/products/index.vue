@@ -20,7 +20,7 @@
           </ul>
         </aside>
         <div class="col">
-          <div class="row g-4" v-if="productStore.products.length">
+          <div class="row g-4">
             <div class="col-md-4 col-lg-3" v-for="item in productStore.products" @click="editProduct(item)">
               <div class="card product-card">
                 <img :src="item.imageUrl" class="card-img-top pointer object-fit-cover" :alt="item.title" height="150" />
@@ -33,8 +33,8 @@
                 </div>
               </div>
             </div>
+            <p v-show="!productStore.products.length" class="col-12 text-center fs-3">暫無資料</p>
           </div>
-          <p v-else class="col-12 text-center fs-3">暫無資料</p>
         </div>
       </div>
       <div class="row justify-content-end mt-3 mb-6">
