@@ -1,0 +1,1 @@
+import{_ as o}from"./nuxt-layout.9e45bdd0.js";import{_ as e}from"./entry.45617d07.js";import{J as c,O as _,C as a,R as n}from"./swiper-vue.41a83f98.js";const s={},r=n("div",{class:""}," 後台首頁 ",-1);function m(f,i){const t=o;return a(),c(t,{name:"back"},{default:_(()=>[r]),_:1})}const x=e(s,[["render",m]]);export{x as default};
