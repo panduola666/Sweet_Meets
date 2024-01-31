@@ -2,8 +2,8 @@
 export default defineNuxtConfig({
   runtimeConfig: { // 環境變數
     public: {
-      baseUrl: process.env.NUXT_BASE_API,
-      apiPath: process.env.NUXT_API_PATH
+      baseUrl: '',
+      apiPath: ''
     }
   },
   modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons', '@pinia/nuxt'],
@@ -25,8 +25,8 @@ export default defineNuxtConfig({
     }
   },
   app:{ // 部屬配置
-    // baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
-    baseURL: '/',
+    baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
+    // baseURL: '/',
     buildAssetsDir: "/static/",
   },
   experimental: {

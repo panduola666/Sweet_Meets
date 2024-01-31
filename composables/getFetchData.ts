@@ -8,6 +8,8 @@ interface Params{
 
 export default function getFetchData ({url, method = 'GET', params}: Params) {
   const { baseUrl } = useRuntimeConfig().public
+  console.log(baseUrl, process.env);
+  
   return new Promise<void>(async (resolve, reject) => {
     try {
       const { data } = await useFetch(url,
