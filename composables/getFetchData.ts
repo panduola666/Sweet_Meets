@@ -5,10 +5,10 @@ interface Params{
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
   params?: any
 }
-
+import process from "process";
 export default function getFetchData ({url, method = 'GET', params}: Params) {
   const { baseUrl } = useRuntimeConfig().public
-  console.log(baseUrl);
+  console.log(baseUrl, process, import.meta.env);
   
   return new Promise<void>(async (resolve, reject) => {
     try {
