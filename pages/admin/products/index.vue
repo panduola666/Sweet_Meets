@@ -23,7 +23,7 @@
           <div class="row g-4" v-if="productStore.products.length">
             <div class="col-md-4 col-lg-3" v-for="item in productStore.products" @click="editProduct(item)">
               <div class="card product-card">
-                <img :src="item.imageUrl" class="card-img-top pointer object-fit-cover" alt="" height="150" />
+                <img :src="item.imageUrl" class="card-img-top pointer object-fit-cover" :alt="item.title" height="150" />
                 <div class="card-body p-2 p-lg-3">
                   <p class="card-title h5 fw-bold">{{ item.title }}</p>
                   <p class="card-text fs-5 d-flex align-items-center justify-content-between">
@@ -34,7 +34,7 @@
               </div>
             </div>
           </div>
-          <p v-else class=" text-center fs-3">暫無資料</p>
+          <p v-else class="col-12 text-center fs-3">暫無資料</p>
         </div>
       </div>
       <div class="row justify-content-end mt-3 mb-6">
