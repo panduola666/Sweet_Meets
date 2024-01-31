@@ -2,8 +2,8 @@
 export default defineNuxtConfig({
   runtimeConfig: { // 環境變數
     public: {
-      baseUrl: '',
-      apiPath: ''
+      baseUrl: import.meta.env.VITE_BASE_URL,
+      apiPath: import.meta.env.VITE_API_PATH
     }
   },
   modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons', '@pinia/nuxt'],

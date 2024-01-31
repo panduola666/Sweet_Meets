@@ -3,8 +3,8 @@ import type { adminGet, paginationType, adminPost } from '../interface/product';
 
 const productStore = defineStore('productStore', () => {
   const { apiPath } = useRuntimeConfig().public;
-  const products = ref([]);
-  const product = ref({})
+  const products = ref<any[]>([]);
+  const product = ref<object>({})
   const pagination = ref<paginationType>({
     current_page: 0,
     has_next: false,
