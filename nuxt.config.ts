@@ -24,11 +24,11 @@ export default defineNuxtConfig({
       ErrorMessage: 'VeeErrorMessage',
     }
   },
-  app:{ // 部屬配置
-    // baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
-    baseURL: '/',
-    buildAssetsDir: "/static/",
-  },
+  // app:{ // 部屬配置
+  //   // baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
+  //   baseURL: '/',
+  //   buildAssetsDir: "/static/",
+  // },
   experimental: {
     payloadExtraction: false
   },
@@ -54,5 +54,5 @@ export default defineNuxtConfig({
         autoprefixer: true
     }
   },
-  devtools: { enabled: true },
+  // devtools: { enabled: true },
 })
