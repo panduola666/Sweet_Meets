@@ -15,7 +15,8 @@ export interface adminPost {
   saveMethods: string[],
   imageUrl: string,
   imagesUrl: string[],
-  is_enabled: number
+  is_enabled: number,
+  id?: string
 }
 
 export interface paginationType {

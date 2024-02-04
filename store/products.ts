@@ -51,6 +51,14 @@ const productStore = defineStore('productStore', () => {
         timer: 3000,
       })
     },
+    // 後台取得單一產品資訊
+    async adminProductGet(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/products/all`,
+        method: 'GET',
+      });
+      product.value = res.products.id
+    },
     // 後台編輯產品
     async adminPUT(id: string, data: adminPost) {
       const res: any = await getFetchData({

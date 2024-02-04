@@ -1,6 +1,6 @@
 <template>
   <NuxtLayout name="back">
-    <h1 class="h4 fw-bold mb-5">{{ Number(route.params) ? '修改品項' : '新增品項' }}</h1>
+    <h1 class="h4 fw-bold mb-5">{{ route.params.id === '0' ? '新增品項' : '修改品項' }}</h1>
     <VeeForm @submit="submit" :validation-schema="schema">
       <div class="row mb-3">
         <div class="col-lg-4">
@@ -240,7 +240,6 @@ import Products from '@/store/products'
 import type { adminPost } from '@/interface/product'
 
 const route = useRoute();
-console.log(route)
 const saveMode = ref<number>(1);
 const saveModeList = ref<string[]>(['使用公版', '自定義']);
 const productStore = Products()
@@ -256,7 +255,30 @@ const schema = {
     return !!val || '保存方式 為必填';
   },
 };
+let form = reactive<adminPost>({
+  title: '',
+  category: '',
+  origin_price: 0,
+  price: 0,
+  unit: '人',
+  description: '',
+  finalTime: 1,
+  content: [''],
+  saveMethods: [''],
+  imageUrl: '',
+  imagesUrl: [],
+  is_enabled: 1,
+});
 
+onMounted(() => {
+  nextTick(() => {
+    if (route.params.id !== '0') {
+      // 修改
+      productStore.adminProductGet(route.params.id as string)
+      form = {...productStore.product} as adminPost
+    }
+  })
+}),
 
 watch(
   () => saveMode.value,
@@ -272,24 +294,10 @@ watch(
   }
 );
 
-const form = reactive<adminPost>({
-  title: '',
-  category: '',
-  origin_price: 0,
-  price: 0,
-  unit: '人',
-  description: '',
-  finalTime: 1,
-  content: [''],
-  saveMethods: [''],
-  imageUrl: '',
-  imagesUrl: [],
-  is_enabled: 1,
-});
 
 function add(key: 'content' | 'saveMethods') {
   if (Object.keys(form).includes(key)) {
-    form[key].push('/admin/products');
+    form[key].push('');
   }
 }
 function del(key: 'content' | 'saveMethods', index: number) {
@@ -315,9 +323,12 @@ async function uploadImage (formKey: 'imageUrl'|'imagesUrl',e: Event) {
 async function submit() {
   form.price = form.origin_price
   form.description = `預計耗時: ${form.finalTime} h`
-  await productStore.adminAdd(form)
-  console.log('送出表單', form);
-  useRouter().push()
+  if (route.params.id !== '0' && form.id) {
+    await productStore.adminPUT(form.id, form)
+  } else {
+    await productStore.adminAdd(form)
+  }
+  useRouter().push('/admin/products')
 }
 </script>
 <style lang="scss" scoped>
