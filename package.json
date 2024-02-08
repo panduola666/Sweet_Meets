@@ -17,7 +17,7 @@
     "gh-pages": "^6.1.0",
     "nuxt": "^3.8.2",
     "sass": "^1.69.5",
-    "vue": "3.3.8",
+    "vue": "^3.3.8",
     "vue-router": "^4.2.5",
     "vue-scrollto": "^2.20.0"
   },
@@ -33,6 +33,7 @@
     "nuxt-swiper": "^1.2.2",
     "pinia": "^2.1.7",
     "sweetalert2": "^11.10.3",
-    "v-calendar": "^3.1.2"
+    "v-calendar": "^3.1.2",
+    "vee-validate": "^4.12.5"
   }
 }
