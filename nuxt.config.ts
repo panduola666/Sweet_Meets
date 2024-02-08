@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false
   },
-  ssr: true,
+  // ssr: true,
   // css: ['~/assets/css/main.scss'], // 全局樣式導入
   vite:{
     optimizeDeps: {
@@ -54,5 +54,5 @@ export default defineNuxtConfig({
         autoprefixer: true
     }
   },
-  // devtools: { enabled: true },
+  devtools: { enabled: true },
 })
