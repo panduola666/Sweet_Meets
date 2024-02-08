@@ -1,7 +1,9 @@
 <template>
-  <NuxtLayout name="back">
-    <div>
-    預約
+  <div>
+    <NuxtLayout name="back">
+      <div>
+      預約
+    </div>
+    </NuxtLayout>
   </div>
-  </NuxtLayout>
 </template>
