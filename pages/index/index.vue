@@ -57,7 +57,7 @@
       <div class="order bg-primary py-6 py-lg-7">
         <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
         <div class="products" @mouseover="pauseSlider" @mouseleave="resumeSlider">
-          <Swiper
+          <!-- <Swiper
             ref="swiper"
             v-bind="swiperConfig"
           >
@@ -72,7 +72,7 @@
                   <h3 class="fs-3 m-0">甜點名稱</h3>
                 </div>
             </SwiperSlide>
-          </Swiper>
+          </Swiper> -->
         </div>
       </div>
       <product-modal :product="product"/>

@@ -90,8 +90,8 @@ const isLoading = ref<boolean>(false)
 const { $bootstrap } = useNuxtApp()
 const activityModal = ref(null)
 let modal:any;
-onMounted(() => {
-  nextTick(() => openModal())
+onMounted(async () => {
+  await nextTick(() => openModal())
   
 })
 

@@ -78,7 +78,8 @@ async function submit(value: any, { resetForm }: any) {
   }
 }
 
-function openModal () {
+async function openModal () {
+  await nextTick()
   modal = $bootstrap.modal(adminModal.value)
   modal.show()
 }

@@ -52,8 +52,8 @@ const props = defineProps(['product'])
 const { $bootstrap } = useNuxtApp()
 const productModal = ref(null)
 let modal:any;
-watch(() => props.product, () => {
-  console.log(props.product);
+watch(() => props.product, async () => {
+  await nextTick()
   modal = $bootstrap.modal(productModal.value)
   modal.show()
 })

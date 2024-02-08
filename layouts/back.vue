@@ -83,8 +83,8 @@ const props = withDefaults(defineProps<{ breadPath?: string[] }>(), {
   breadPath: () => [],
 });
 
-onMounted(() => {
-  nextTick(() => {
+onMounted(async () => {
+  await nextTick(() => {
     userStore.checkLogin()
     const currRoute = headerList.value.find(
       (list) => list.route === route.path
