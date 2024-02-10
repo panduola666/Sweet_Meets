@@ -21,7 +21,7 @@
             </ul>
           </aside>
           <div class="col">
-            <div class="row g-4">
+            <div class="row g-4" v-if="productStore.products">
               <div class="col-md-4 col-lg-3" v-for="item in productStore.products" @click="editProduct(item)">
                 <div class="card product-card">
                   <img :src="item.imageUrl" class="card-img-top pointer object-fit-cover" :alt="item.title" height="150" />
