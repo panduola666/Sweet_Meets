@@ -32,7 +32,7 @@ export default defineNuxtConfig({
   experimental: {
     payloadExtraction: false
   },
-  // ssr: true,
+  ssr: false,
   // css: ['~/assets/css/main.scss'], // 全局樣式導入
   vite:{
     optimizeDeps: {
