@@ -6,7 +6,7 @@
       </h1>
       <VeeForm @submit="submit" :validation-schema="schema">
         <div class="row pb-2 mb-2 border-bottom border-2 border-secondary">
-          <div class="col-5">
+          <div class="col-lg-5">
             <img
               :src="form.image"
               :alt="form.title"
@@ -142,8 +142,12 @@ function setContent() {
 
 <style lang="scss" scoped>
 .cover {
-  clip-path: var(--clip-path-diamond);
-  max-height: 650px;
+  min-height: 200px;
+  max-height: 200px;
+  @include lg {
+    clip-path: var(--clip-path-diamond);
+    max-height: 650px;
+  }
 }
 
 // .imageUrl {
@@ -153,6 +157,7 @@ function setContent() {
 // }
 :deep(.ql-editor) {
   min-height: 200px;
+  max-height: 250px;
 }
 :deep(.ql-toolbar.ql-snow) {
   border-top-left-radius: 5px;
