@@ -8,6 +8,7 @@
         <div class="row pb-2 mb-2 border-bottom border-2 border-secondary">
           <div class="col-lg-5">
             <img
+              v-if="form.image"
               :src="form.image"
               :alt="form.title"
               class="cover w-100 img-fluid object-fit-cover"
@@ -57,21 +58,42 @@
               <label for="description" class="form-label fw-bold"
                 >活動時間</label
               >
-              <VeeField
+              <VDatePicker mode="dateTime" v-model="date" trim-weeks is24hr hide-time-header :rules="{hours: [18, 19, 20, 21], minutes: 0}">
+                <template v-slot="{ inputValue, inputEvents, isDragging }">
+                  <VeeField
+                    class="form-control"
+                    id="description"
+                    name="活動時間"
+                    type="text"
+                    placeholder="請輸入活動時間"
+                    v-model="form.description"
+                    v-on="inputEvents"
+                  />
+                </template>
+              </VDatePicker>
+              <!-- <VeeField
                 class="form-control"
                 id="description"
                 name="活動時間"
                 type="text"
                 placeholder="請輸入活動時間"
                 v-model="form.description"
-              />
+              /> -->
               <VeeErrorMessage name="活動時間" class="text-danger" />
             </div>
 
             <div class="mb-3">
-              <div class="d-flex align-items-center justify-content-between mb-2">
+              <div
+                class="d-flex align-items-center justify-content-between mb-2"
+              >
                 <p class="form-label fw-bold">活動內容</p>
-                <button type="button" class="btn btn-sm btn-secondary" @click="setContent">一鍵生成</button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-secondary"
+                  @click="setContent"
+                >
+                  一鍵生成
+                </button>
               </div>
               <ClientOnly>
                 <QuillEditor
@@ -98,32 +120,41 @@
 <script setup lang="ts">
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
+import Article from '@/store/article'
 
 const route = useRoute();
+const ArticleStore = Article();
 
 const schema = {
   活動圖片: 'required',
   標題: 'required',
   活動時間: 'required',
 };
-
-
-
+const date = ref(new Date())
 
 const form = ref({
   title: '',
   description: '',
-  image:
-    'https://media.istockphoto.com/id/1468486548/photo/vegan-walnut-tart.webp?b=1&s=170667a&w=0&k=20&c=c-0qCBulZgqq4FOb8wO5tAjwN2fLesro6fuDWOLSdgQ=',
-  tag: [],
-  create_at: new Date().getTime() / 1000,
-  author: '',
+  image: '',
+  tag: ['同好會'],
+  create_at: new Date().getTime(),
+  author: '管理員',
   isPublic: true,
   content: '',
 });
 
+
+onMounted(() => {
+  form.value.description = getDateStr(date.value)
+  
+}),
+watch(() => date.value, () => {
+  form.value.description = getDateStr(date.value)
+})
+
 function submit() {
-  console.log('送出', form.value);
+  ArticleStore.addArticle(form.value)
+  useRouter().push('/admin/activities');
 }
 
 // 上傳圖片
@@ -136,7 +167,7 @@ async function uploadImage(formKey: 'image', e: Event) {
 
 // 活動公版內容
 function setContent() {
-  form.value.content = `<p>還在苦惱平常太忙沒有時間交友嗎?</p><p>又或者是擔心交友軟體不靠普, 擔心自己受騙導致顧慮重重?</p><p><br></p><p>現在將推出同好聯誼活動, 無論是否是單身人士我們都很歡迎您的到來~</p><p>在這裡你可以很輕鬆的交到擁有相同興趣的好友, 也不用擔心私下赴約是否安全, 我們提供了友善的公共空間讓您可以放鬆地沉浸在甜點裡面能在廣大人海中, 在此時此刻遇到擁有共同興趣的機會少之又少...</p><p><br></p><p>你還在等什麼? 快來報名吧!</p>`
+  form.value.content = `<p>還在苦惱平常太忙沒有時間交友嗎?</p><p>又或者是擔心交友軟體不靠普, 擔心自己受騙導致顧慮重重?</p><p><br></p><p>現在將推出同好聯誼活動, 無論是否是單身人士我們都很歡迎您的到來~</p><p>在這裡你可以很輕鬆的交到擁有相同興趣的好友, 也不用擔心私下赴約是否安全, 我們提供了友善的公共空間讓您可以放鬆地沉浸在甜點裡面能在廣大人海中, 在此時此刻遇到擁有共同興趣的機會少之又少...</p><p><br></p><p>你還在等什麼? 快來報名吧!</p>`;
 }
 </script>
 

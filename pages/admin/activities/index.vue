@@ -18,30 +18,45 @@
             <th scope="col">操作</th>
           </tr>
         </thead>
-        <tbody class="fs-lg-5">
-          <tr>
-            <th scope="row">1</th>
-            <td>11 月甜點聯誼會</td>
+        <tbody class="fs-lg-5" v-if="ArticleStore.articles">
+          <tr v-for="(item, index) in ArticleStore.articles" :key="item.id">
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ item.title }}</td>
             <td class="d-none d-lg-block">
               <img
-                src="https://media.istockphoto.com/id/1468486548/photo/vegan-walnut-tart.webp?b=1&s=170667a&w=0&k=20&c=c-0qCBulZgqq4FOb8wO5tAjwN2fLesro6fuDWOLSdgQ="
-                alt=""
+                :src="item.image"
+                :alt="item.title"
                 height="100"
                 width="200"
                 class="object-fit-cover"
               />
             </td>
-            <td>2023/11/11 (六) 20:00</td>
+            <td>{{ item.description }}</td>
             <td class="py-7">
-              <table-operate />
+              <table-operate :id="item.id"/>
             </td>
           </tr>
         </tbody>
       </table>
 
       <div class="mt-3 mb-6">
-        <Pagination :pagination="{}" @click="" />
+        <Pagination :pagination="ArticleStore.pagination" @click="getDate" />
       </div>
     </NuxtLayout>
   </div>
 </template>
+
+<script setup lang="ts">
+import Article from '@/store/article'
+
+const ArticleStore = Article();
+
+onMounted(() => {
+  nextTick(async() => {
+    await getDate(1)
+  })
+})
+function getDate (page: string|number) {
+  ArticleStore.adminGet(page)
+}
+</script>

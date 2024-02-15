@@ -29,3 +29,9 @@
 .vc-arrow, .vc-title, .vc-nav-item, .vc-nav-title, .vc-nav-arrow{
   background: transparent;
 }
+.vc-base-select{
+  select{
+    border: none;
+    min-width: 2rem;
+  }
+}
