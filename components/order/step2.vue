@@ -207,7 +207,7 @@ watch(() => date.orderHour, () => form.order = date.orderDate ? `${timeFormat(da
 watch(() => date.orderMin, () => form.order = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
 
 function timeFormat(date: string):string {
-  return new Date(new Date(date).valueOf()).toLocaleDateString()
+  return new Date(new Date(date).getTime()).toLocaleDateString()
 }
 
 // 表單處理

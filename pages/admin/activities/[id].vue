@@ -58,7 +58,7 @@
               <label for="description" class="form-label fw-bold"
                 >活動時間</label
               >
-              <VDatePicker mode="dateTime" v-model="date" trim-weeks is24hr hide-time-header :rules="{hours: [18, 19, 20, 21], minutes: 0}">
+              <VDatePicker mode="dateTime" v-model="date" trim-weeks is24hr hide-time-header :rules="{hours: [18, 19, 20, 21], minutes: 0}" :disabled-dates="[{ start: null, end: new Date() }]">
                 <template v-slot="{ inputValue, inputEvents, isDragging }">
                   <VeeField
                     class="form-control"
@@ -130,7 +130,7 @@ const schema = {
   標題: 'required',
   活動時間: 'required',
 };
-const date = ref(new Date())
+const date = ref(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
 
 const form = ref({
   title: '',
@@ -152,8 +152,8 @@ watch(() => date.value, () => {
   form.value.description = getDateStr(date.value)
 })
 
-function submit() {
-  ArticleStore.addArticle(form.value)
+async function submit() {
+  await ArticleStore.addArticle(form.value)
   useRouter().push('/admin/activities');
 }
 
