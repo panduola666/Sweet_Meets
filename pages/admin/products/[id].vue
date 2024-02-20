@@ -299,8 +299,11 @@ onMounted(() => {
     if (route.params.id !== '0') {
       // 修改
       productStore.adminProductGet(route.params.id as string);
-      console.log(productStore.product);
-      form.value = { ...productStore.product } as adminPost;
+      const { imagesUrl = [] } = productStore.product as adminPost
+      form.value = { 
+        ...productStore.product,
+        imagesUrl: imagesUrl
+       } as adminPost;
     }
   });
 }),
@@ -334,7 +337,7 @@ async function uploadImage(formKey: 'imageUrl' | 'imagesUrl', e: Event) {
   const files = (e.target as HTMLInputElement).files;
   if (!files) return;
   const imgUrl = await upload(files);
-
+  console.log(imgUrl)
   if (typeof form.value[formKey] === 'string') {
     form.value[formKey] = imgUrl;
   } else if (Array.isArray(form.value[formKey])) {
