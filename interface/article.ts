@@ -16,3 +16,19 @@ export interface paginationType {
   total_pages: number,
   [propName: string]: any
 }
+
+export interface Article {
+  title: string,
+  description: string,
+  image: string,
+  tag: string[],
+  create_at: number|string|Date,
+  author: string,
+  isPublic: boolean,
+  id: string,
+  num: number
+}
+export interface ArticleDetail extends postArticle{
+  id: string,
+  num: number
+}

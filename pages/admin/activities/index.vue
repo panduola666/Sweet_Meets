@@ -37,7 +37,7 @@
                 <small class="fs-small text-danger" v-if="!checkDate(item.description)">- 已結束 -</small>
               </td>
               <td class="py-7">
-                <table-operate :id="item.id"/>
+                <table-operate :id="item.id" :title="item.title"/>
               </td>
             </tr>
           </tbody>

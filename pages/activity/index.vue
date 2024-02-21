@@ -92,7 +92,6 @@ const activityModal = ref(null)
 let modal:any;
 onMounted(async () => {
   await nextTick(() => openModal())
-  
 })
 
 function openModal () {

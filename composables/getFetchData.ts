@@ -5,17 +5,20 @@ interface Params{
   method?: 'GET' | 'POST' | 'PUT' | 'DELETE',
   params?: any
 }
-import process from "process";
+import loading from '../store/loading'
+
 export default function getFetchData ({url, method = 'GET', params}: Params) {
   const { baseUrl } = useRuntimeConfig().public
-  
+  const { changeLoading } = loading()
+
   return new Promise<void>(async (resolve, reject) => {
     try {
-      const { data } = await useFetch(url,
+      const { data, pending } = await useFetch(url,
       {
         method,
         baseURL: baseUrl,
         onRequest({options}) {
+            changeLoading(true)
               options.headers = {
               ...options.headers,
               authorization: useCookie('token').value || ''
@@ -41,6 +44,8 @@ export default function getFetchData ({url, method = 'GET', params}: Params) {
           reject(response?._data)
       }
       })
+
+      changeLoading(pending.value)
       resolve(data.value);
     } catch (error) {
       console.log('catch', error);

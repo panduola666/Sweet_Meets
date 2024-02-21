@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia';
-import type { postArticle, paginationType } from '../interface/article'
+import type { postArticle, paginationType, Article, ArticleDetail } from '../interface/article'
 
 const articleStore = defineStore('articleStore', () => {
   const { apiPath } = useRuntimeConfig().public;
-  const articles = ref<any[]>([])
+  
+  const articles = ref<Article[]>([])
+  const article = ref<ArticleDetail>()
   const pagination = ref<paginationType>({
     current_page: 0,
     has_next: false,
@@ -23,6 +25,16 @@ const articleStore = defineStore('articleStore', () => {
         pagination.value = res.pagination;
       }
     },
+    // 後台取得單一文章
+    async adminDetail(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/article/${id}`,
+        method: 'GET'
+      });
+      if (res && res.success) {
+        article.value = res.article;
+      }
+    },
     // 後台新增文章
     async addArticle(data: postArticle) {
       const res: any = await getFetchData({
@@ -36,10 +48,22 @@ const articleStore = defineStore('articleStore', () => {
         timer: 3000,
       })
     },
-    
+    // 後台刪除文章
+    async adminDel(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/article/${id}`,
+        method: 'DELETE'
+      });
+      useSwal({
+        title: res.message,
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    },
   }
   return{
     articles,
+    article,
     pagination,
     ...adminAPI
   }

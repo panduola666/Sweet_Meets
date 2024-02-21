@@ -1,5 +1,6 @@
 <template>
   <div>
+    <Loading />
     <NuxtPage />
   </div>
 </template>

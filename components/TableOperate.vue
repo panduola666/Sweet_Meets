@@ -2,8 +2,7 @@
   <div class="d-flex align-items-center justify-content-center gap-2">
     <div
       class="pointer p-2 border d-flex align-items-center bg-white position-relative h-100 search"
-      data-bs-toggle="modal"
-      data-bs-target="#detail"
+      @click="getDetail(id)"
     >
       <span class="position-absolute tip search-tip">詳情</span>
       <img
@@ -15,7 +14,7 @@
       />
     </div>
 
-    <NuxtLink to="/admin/activities/1" class="position-relative edit">
+    <NuxtLink :to="`/admin/activities/${id}`" class="position-relative edit">
       <span class="position-absolute tip edit-tip">編輯</span>
       <NuxtIcon
         name="edit"
@@ -23,7 +22,7 @@
       />
     </NuxtLink>
 
-    <div class="position-relative delete">
+    <div class="position-relative delete" @click="deleteArticle(id)">
       <span class="position-absolute tip delete-tip">刪除</span>
       <NuxtIcon
         name="delete"
@@ -39,6 +38,7 @@
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
+    ref="detailModal"
   >
     <div
       class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
@@ -49,39 +49,20 @@
           <button
             type="button"
             class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
+            @click="modal.hide()"
           ></button>
         </div>
-        <div class="modal-body">
-          <div class="d-flex gap-3">
+        <div class="modal-body contain">
+          <div class="row">
             <img
-              src="https://media.istockphoto.com/id/1468486548/photo/vegan-walnut-tart.webp?b=1&s=170667a&w=0&k=20&c=c-0qCBulZgqq4FOb8wO5tAjwN2fLesro6fuDWOLSdgQ="
-              alt=""
-              class="cover"
+              :src="detail.image"
+              :alt="detail.title"
+              class="col-12 col-lg-6 cover"
             />
-            <article class="text-start fs-6">
-              <h2 class="fs-4 fw-bold">11 月甜點聯誼會</h2>
-              <h3 class="fs-6 text-end mb-4">2023/11/11 (六) 20:00</h3>
-              <div>
-                <p>
-                  還在苦惱平常太忙沒有時間交友嗎? 又或者是擔心交友軟體不靠普,
-                  擔心自己受騙導致顧慮重重?
-                </p>
-                <p>
-                  現在將推出同好聯誼活動,
-                  無論是否是單身人士我們都很歡迎您的到來~
-                </p>
-                <p>
-                  在這裡你可以很輕鬆的交到擁有相同興趣的好友,
-                  也不用擔心私下赴約是否安全,
-                  我們提供了友善的公共空間讓您可以放鬆地沉浸在甜點裡面
-                </p>
-                <p>
-                  能在廣大人海中, 在此時此刻遇到擁有共同興趣的機會少之又少,
-                  你還在等什麼? 快來報名吧!
-                </p>
-              </div>
+            <article class="col text-start fs-6 text-wrap">
+              <h2 class="fs-4 fw-bold">{{ detail.title }}</h2>
+              <h3 class="fs-6 text-end mb-4">{{ detail.description }}</h3>
+              <div v-html="detail.content" />
             </article>
           </div>
         </div>
@@ -92,13 +73,48 @@
 
 <script setup lang="ts">
 import Article from '@/store/article'
+import type { ArticleDetail } from '@/interface/article'
 
+const { $bootstrap } = useNuxtApp()
 const ArticleStore = Article();
+const { id, title } = defineProps(['id', 'title']);
 
-const { id } = defineProps(['id']);
+let modal:any;
+const detailModal = ref(null)
+const detail = ref<ArticleDetail>({
+  id: '',
+  num: 0,
+  title: '',
+  description: '',
+  image: '',
+  tag: [],
+  create_at: 0,
+  author: '',
+  isPublic: false,
+  content: '',
+})
 
-function getDetail(id: string) {
-  console.log('詳情')
+onMounted(async () => {
+  await nextTick(() => modal = $bootstrap.modal(detailModal.value))
+})
+
+async function getDetail(id: string) {
+  await ArticleStore.adminDetail(id)
+  detail.value = ArticleStore.article as ArticleDetail
+  modal.show()
+  console.log(detail.value)
+}
+
+async function deleteArticle(id: string) {
+  const swal = await useSwal({
+    title: `確定刪除<span class="text-danger mx-3">${title}</span>嗎?`,
+    showCancelButton: true,
+    allowOutsideClick: false
+  })
+  if(swal.isConfirmed) {
+    await ArticleStore.adminDel(id)
+    ArticleStore.adminGet(ArticleStore.pagination.current_page)
+  }
 }
 </script>
 
