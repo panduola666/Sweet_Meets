@@ -29,6 +29,6 @@ export interface Article {
   num: number
 }
 export interface ArticleDetail extends postArticle{
-  id: string,
-  num: number
+  id?: string,
+  num?: number
 }

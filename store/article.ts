@@ -60,6 +60,19 @@ const articleStore = defineStore('articleStore', () => {
         timer: 3000,
       });
     },
+    // 後台修改文章
+    async adminPUT(id: string, data: postArticle) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/article/${id}`,
+        method: 'PUT',
+        params: { data }
+      });
+      useSwal({
+        title: res.message,
+        showConfirmButton: false,
+        timer: 3000,
+      })
+    },
   }
   return{
     articles,

@@ -273,7 +273,7 @@ const schema = {
     return !!val || '保存方式 為必填';
   },
 };
-let form = ref<adminPost>({
+const form = ref<adminPost>({
   title: '',
   category: '',
   origin_price: 0,

@@ -58,7 +58,15 @@
               <label for="description" class="form-label fw-bold"
                 >活動時間</label
               >
-              <VDatePicker mode="dateTime" v-model="date" trim-weeks is24hr hide-time-header :rules="{hours: [18, 19, 20, 21], minutes: 0}" :disabled-dates="[{ start: null, end: new Date() }]">
+              <VDatePicker
+                mode="dateTime"
+                v-model="date"
+                trim-weeks
+                is24hr
+                hide-time-header
+                :rules="{ hours: [18, 19, 20, 21], minutes: 0 }"
+                :disabled-dates="[{ start: null, end: new Date() }]"
+              >
                 <template v-slot="{ inputValue, inputEvents, isDragging }">
                   <VeeField
                     class="form-control"
@@ -120,19 +128,31 @@
 <script setup lang="ts">
 import { QuillEditor } from '@vueup/vue-quill';
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-import Article from '@/store/article'
+import Article from '@/store/article';
+import type { postArticle, ArticleDetail } from '@/interface/article';
 
 const route = useRoute();
 const ArticleStore = Article();
 
+const date = ref<number>(
+  new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000
+);
+
 const schema = {
   活動圖片: 'required',
   標題: 'required',
-  活動時間: 'required',
+  活動時間: (val: string) => {
+    if (!val) {
+      return '活動時間 為必填';
+    }
+    if (date.value < new Date().getTime()) {
+      return '當前 活動時間 已過期';
+    }
+    return true
+  },
 };
-const date = ref(new Date(new Date().toLocaleDateString()).getTime() + 24 * 60 * 60 * 1000)
 
-const form = ref({
+const form = ref<postArticle>({
   title: '',
   description: '',
   image: '',
@@ -143,17 +163,34 @@ const form = ref({
   content: '',
 });
 
-
 onMounted(() => {
-  form.value.description = getDateStr(date.value)
-  
+  nextTick(async () => {
+    if (route.params.id !== '0') {
+      // 修改
+      await ArticleStore.adminDetail(route.params.id as string);
+      const detail: ArticleDetail = ArticleStore.article as ArticleDetail;
+      if (detail.id) delete detail.id;
+      if (detail.num) delete detail.num;
+      form.value = detail;
+      date.value = new Date(form.value.description).getTime();
+    } else {
+      form.value.description = getDateStr(date.value);
+    }
+  });
 }),
-watch(() => date.value, () => {
-  form.value.description = getDateStr(date.value)
-})
+  watch(
+    () => date.value,
+    () => {
+      form.value.description = getDateStr(date.value);
+    }
+  );
 
 async function submit() {
-  await ArticleStore.addArticle(form.value)
+  if (route.params.id !== '0') {
+    await ArticleStore.adminPUT(route.params.id as string, form.value);
+  } else {
+    await ArticleStore.addArticle(form.value);
+  }
   useRouter().push('/admin/activities');
 }
 
