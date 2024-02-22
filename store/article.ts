@@ -74,6 +74,28 @@ const articleStore = defineStore('articleStore', () => {
       })
     },
   }
+
+  const frontAPI = {
+    async articlesGet (page: number|string = 1) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/articles?page=${page}`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        articles.value = res.articles;
+        pagination.value = res.pagination;
+      }
+    },
+    async articleView (id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/article/${id}`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        articles.value = res.article;
+      }
+    },
+  }
   return{
     articles,
     article,

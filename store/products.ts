@@ -74,12 +74,34 @@ const productStore = defineStore('productStore', () => {
     }
   }
 
+  const frontAPI = {
+    async productsGet () {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/products/all`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        products.value = res.products;
+      }
+    },
+    async productDetail(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/product/${id}`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        product.value = res.product;
+      }
+    }
+  }
+
   return {
     products,
     pagination,
     product,
     categoryList,
-    ...adminAPI
+    ...adminAPI,
+    ...frontAPI
   };
 });
 
