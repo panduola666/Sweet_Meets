@@ -100,7 +100,8 @@ const articleStore = defineStore('articleStore', () => {
     articles,
     article,
     pagination,
-    ...adminAPI
+    ...adminAPI,
+    ...frontAPI
   }
 })
 

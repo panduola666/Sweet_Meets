@@ -21,7 +21,7 @@
                  class="form-control"
                  id="username"
                  name="信箱"
-                 type="mail"
+                 type="email"
                  placeholder="請輸入信箱"
                  v-model="form.username"
                />

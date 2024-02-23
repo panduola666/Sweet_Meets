@@ -14,9 +14,9 @@
         />
         <section class="banner-content blur boxShadow p-6 p-lg-7">
           <h1 class="fs-2 fw-bold mb-6 mb-lg-7">相遇甜點，<br />開始甜蜜相約</h1>
-          <button type="button" class="btn btn-secondary fs-lg-3 w-100 py-3">
+          <NuxtLink to="/diy" class="btn btn-secondary fs-lg-3 w-100 py-3">
             開始課程
-          </button>
+          </NuxtLink>
         </section>
       </div>
   
@@ -57,25 +57,26 @@
       <div class="order bg-primary py-6 py-lg-7">
         <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
         <div class="products" @mouseover="pauseSlider" @mouseleave="resumeSlider">
-          <!-- <Swiper
+          <Swiper
             ref="swiper"
             v-bind="swiperConfig"
+            v-if="productList.length"
           >
-            <SwiperSlide v-for="i in 10" @click="product = {id: i}">
+            <SwiperSlide v-for="product in productList" @click="productTemp = product">
                 <div class="text-center pointer">
                   <img
-                    src="https://images.unsplash.com/photo-1596529267076-07866e3655cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDh8fGNha2V8ZW58MHwxfDB8fHww"
+                    :src="product.imageUrl"
                     height="375"
-                    alt=""
+                    :alt="product.title"
                     class="w-100 object-fit-cover mb-6"
                   />
-                  <h3 class="fs-3 m-0">甜點名稱</h3>
+                  <h3 class="fs-3 m-0">{{ product.title }}</h3>
                 </div>
             </SwiperSlide>
-          </Swiper> -->
+          </Swiper>
         </div>
       </div>
-      <product-modal :product="product"/>
+      <product-modal :product="productTemp" @close="productTemp = {}"/>
   
       <!-- 近期活動 -->
         <div class="d-flex bg-secondary">
@@ -90,7 +91,7 @@
                   <h4 class="h2">12月甜點聯誼會</h4>
                   <p class="text-white fs-4 m-0 d-flex justify-content-between align-items-end">
                     活動時間: 2023/12/23 (六) 20:00
-                    <NuxtLink to="" class="text-white fs-6 activity-link">詳情 >></NuxtLink>
+                    <NuxtLink to="" class="text-white fs-6 activity-link pointer">詳情 >></NuxtLink>
                   </p>
                 </li>
               </ul>
@@ -123,8 +124,27 @@ import step2Img from '@/assets/img/home/step2.png';
 import step3Img from '@/assets/img/home/step3.png';
 import step4Img from '@/assets/img/home/step4.png';
 import step5Img from '@/assets/img/home/step5.png';
+import Products from '@/store/products'
+import Article from '@/store/article'
 
+const productStore = Products()
+const ArticleStore = Article();
 const route = useRoute();
+const swiper = ref<{ [key: string]: any } | null>(null);
+
+const productTemp = ref({})
+const productList = computed(() => productStore.products)
+const activitiesList = computed(() => ArticleStore.articles)
+onMounted(() => {
+  nextTick(async () => {
+    await productStore.productsGet()
+    await ArticleStore.articlesGet(1)
+    resumeSlider()
+    console.log(productList)
+    console.log(activitiesList)
+  })
+})
+
 const homeNav = ref<homeNav[]>([
   {
     route: '/diy',
@@ -143,11 +163,10 @@ const homeNav = ref<homeNav[]>([
   },
 ]);
 
-const product = ref({})
-const swiper = ref<{ [key: string]: any } | null>(null);
 const swiperConfig = ref({
+  observer: true,
   modules: [SwiperAutoplay],
-  speed: 3000,
+  speed: 5000,
   loop: true,
   autoplay: {
     delay: 0,  
@@ -156,11 +175,13 @@ const swiperConfig = ref({
   spaceBetween: 16,
   breakpoints: {
     '992': {
+      speed: 3000,
       slidesPerView: 4,
       spaceBetween: 32,
     },
   },
 });
+
 function pauseSlider() {
   // 暫停輪播
   swiper.value!.$el.swiper.autoplay.stop();
@@ -192,7 +213,10 @@ const steps = ref<stepsType[]>([
     imgUrl: step5Img,
   }
 ])
+
+
 </script>
+
 <style lang="scss" scoped>
 @import 'swiper/css';
 @import 'swiper/css/navigation';

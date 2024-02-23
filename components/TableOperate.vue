@@ -77,7 +77,8 @@ import type { ArticleDetail } from '@/interface/article'
 
 const { $bootstrap } = useNuxtApp()
 const ArticleStore = Article();
-const { id, title } = defineProps(['id', 'title']);
+const props = defineProps(['id', 'title']);
+const { id, title } = toRefs(props);
 
 let modal:any;
 const detailModal = ref(null)

@@ -5,35 +5,30 @@
       <div class="modal-header">
         <button type="button" class="btn-close" aria-label="Close" @click="closeModal"></button>
       </div>
-      <div class="modal-body">
+      <div class="modal-body" v-if="product.id">
         <div class="container-fluid">
           <div class="row">
             <div class="col-12 col-lg-6 mb-4 mb-lg-0">
-              <div class="productImg" :style="{backgroundImage: `url(${'https://images.unsplash.com/photo-1596529267076-07866e3655cc?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NDh8fGNha2V8ZW58MHwxfDB8fHww'})`}">
+              <div class="productImg" :style="{backgroundImage: `url(${product.imageUrl})`}">
               </div>
             </div>
             <div class="col-12 col-lg-6">
               <article>
                 <p class="d-flex justify-content-between align-items-end h3 fw-bold">
-                  酸甜檸檬塔
-                  <small class="fs-6">耗時: 2.5 h</small>
+                  {{ product.title }}
+                  <small class="fs-6">{{ product.description }}</small>
                 </p>
                 <p class="">可兩人一同製作, 第三人需獨立製作一份甜點</p>
                 <p class="fs-5 fw-bold mb-0">[產品特色]</p>
                 <ul class="mb-3 list-disc ps-5">
-                  <li>主體:原味派皮</li>
-                  <li>內餡:檸檬蛋奶餡</li>
-                  <li>裝飾:檸檬皮屑、糖粉</li>
+                  <li v-for="(content, index) in product.content" :key="`特色${index}`">{{ content }}</li>
                 </ul>
                 <p class="fs-5 fw-bold mb-0">[保存方式]</p>
                 <ul class="list-disc ps-5">
-                  <li>製作完成:需2小時內冷藏。</li>
-                  <li>回家後請冷藏至少2小時,待內餡凝固再食用。</li>
-                  <li>冷藏保存。</li>
-                  <li>請於3天內食用完,口感較佳。</li>
+                  <li v-for="(saveContent, index) in product.saveMethods" :key="`保存${index}`">{{ saveContent }}</li>
                 </ul>
               </article>
-              <p class="text-end fs-2 fw-bold m-0">$450</p>
+              <p class="text-end fs-2 fw-bold m-0">{{ moneyFormat(product.price) }}</p>
             </div>
           </div>
         </div>
@@ -48,22 +43,29 @@
 </template>
 <script setup lang="ts">
 const props = defineProps(['product'])
+const emit = defineEmits(['close']);
+const { product } = toRefs(props)
 
 const { $bootstrap } = useNuxtApp()
 const productModal = ref(null)
 let modal:any;
-watch(() => props.product, async () => {
+watch(() => product?.value, async () => {
   await nextTick()
-  modal = $bootstrap.modal(productModal.value)
-  modal.show()
+  if (product?.value.id) {
+    modal = $bootstrap.modal(productModal.value)
+    modal.show()
+  }
 })
 function closeModal() {
   modal.hide()
+  emit('close', 0)
 }
 
 const router = useRouter()
 function orderProduct() {
   closeModal()
+  console.log('加入購物車');
+  
   router.push('/order')
 }
 </script>
