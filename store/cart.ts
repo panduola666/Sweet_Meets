@@ -1,27 +1,49 @@
 import { defineStore } from 'pinia'
+import type { addCartDate, cartDate, cartsList } from '@/interface/cart';
 
 const cartStore = defineStore('cartStore',() => {
   const { apiPath } = useRuntimeConfig().public;
+
+  const cartsData = ref<cartDate>({
+    carts: [],
+    final_total: 0,
+    total: 0
+  })
+  const carts = ref<cartsList[]>([])
+
   const frontAPI = {
-    async addCart (data) {
+    // 加入購物車
+    async addCart (data: addCartDate) {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/cart`,
         method: 'POST',
         params: { data }
       });
-      console.log(res)
+    },
+    // 查看購物車
+    async checkCart() {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/cart`,
+        method: 'GET',
+      });
+
+      if (res && res.success) {
+        cartsData.value = res.data as cartDate;
+        carts.value = res.data.carts as cartsList[];
+      }
     },
     async clearCart () {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/carts`,
         method: 'DELETE',
       });
-      console.log(res)
     },
   }
 
  
  return {
+  cartsData,
+  carts,
   ...frontAPI
  }
 })

@@ -3,33 +3,17 @@
     <NuxtLayout name="default">
       <section class="container">
         <ul class="d-flex flex-column gap-6 mb-6">
-          <li id="birth">
+          <li :id="categoryId[index]" v-for="(category, index) in categoryList" :key="index">
             <h1 class="h2 fw-bold pb-1 mb-3 border-bottom border-2 border-secondary default">
-              壽星優惠(限當日壽星)
+              {{ category }} <span v-if="index === 0">(限當日壽星)</span>
             </h1>
             <ul class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-              <li class="col" v-for="i in 4" @click="product = {id: i}">
+              <li class="col" v-for="product in productList[category]" @click="productTemp = product">
                 <div class="card border-0 pointer overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1573811409568-023d5d0110af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTcyfHxjb29raW5nfGVufDB8MXwwfHx8MA%3D%3D" class="card-img-top object-fit-cover" alt="" />
+                  <img :src="product.imageUrl" class="card-img-top object-fit-cover" :alt="product.title" height="200" />
                   <div class="card-img-overlay card-content d-flex justify-content-between align-items-end">
-                    <h2 class="card-title h4 fw-bold text-white mb-1">奧利奧蛋糕</h2>
-                    <p class="card-text fs-5 fw-bold text-white">$150</p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </li>
-          <li id="cake">
-            <p class="h2 fw-bold pb-1 mb-3 border-bottom border-2 border-secondary default">
-              蛋糕
-            </p>
-            <ul class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
-              <li class="col" v-for="i in 4" @click="product = {id: i}">
-                <div class="card border-0 pointer overflow-hidden">
-                  <img src="https://images.unsplash.com/photo-1573811409568-023d5d0110af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTcyfHxjb29raW5nfGVufDB8MXwwfHx8MA%3D%3D" class="card-img-top object-fit-cover" alt="" />
-                  <div class="card-img-overlay card-content d-flex justify-content-between align-items-end">
-                    <h2 class="card-title h4 fw-bold text-white mb-1">奧利奧蛋糕</h2>
-                    <p class="card-text fs-5 fw-bold text-white">$150</p>
+                    <h2 class="card-title h4 fw-bold text-white mb-1">{{ product.title }}</h2>
+                    <p class="card-text fs-5 fw-bold text-white">{{ moneyFormat(product.price) }}</p>
                   </div>
                 </div>
               </li>
@@ -39,17 +23,35 @@
       </section>
       <aside class="position-fixed end-0 top-50 translate-middle-y">
         <ul class="bg-white bg-opacity-50 blur shadow rounded-4 fs-5">
-          <li class="py-2 py-lg-3 px-3 px-lg-5 pointer" @click="scrollHash('#birth')">壽星優惠</li>
-          <li class="py-2 py-lg-3 px-3 px-lg-5 pointer" @click="scrollHash('#cake')">蛋糕</li>
+          <li class="py-2 py-lg-3 px-3 px-lg-5 pointer" @click="scrollHash(`#${categoryId[index]}`)" v-for="(item, index) in categoryList" :key="index">{{ item }}</li>
         </ul>
       </aside>
-      <product-modal :product="product"/>
+      <product-modal :product="productTemp"/>
     </NuxtLayout>
   </div>
 </template>
 <script setup lang="ts">
+import Products from '@/store/products'
+
 const { $scrollTo } = useNuxtApp()
-const product = ref({})
+const productStore = Products();
+
+const productTemp = ref({})
+const categoryList = computed(() => productStore.categoryList)
+const categoryId = ['birth', 'cake', 'cookie', 'pai']
+
+const productList = computed(() => {
+  return productStore.products.reduce((obj: Record<string, any>, item) => {
+    Array.isArray(obj[item.category]) ? obj[item.category].push(item) : obj[item.category] = [item]
+    return obj
+  }, {})
+})
+
+onMounted(() => {
+  nextTick(() => {
+    productStore.productsGet()
+  })
+})
 
 function scrollHash(id: string) {
   $scrollTo(id, {offset: - 16 * 6})

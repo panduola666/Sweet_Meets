@@ -3,8 +3,22 @@ import type { adminGet, paginationType, adminPost } from '../interface/product';
 
 const productStore = defineStore('productStore', () => {
   const { apiPath } = useRuntimeConfig().public;
-  const products = ref<any[]>([]);
-  const product = ref<object>({})
+  const products = ref<adminPost[]>([]);
+  const product = ref<adminPost>({
+    title: '',
+    category: '',
+    origin_price: 0,
+    price: 0,
+    unit: '',
+    description: '',
+    finalTime: 0,
+    content: [],
+    saveMethods: [],
+    imageUrl: '',
+    imagesUrl: [],
+    is_enabled: 0,
+    saveMode: 0
+  })
   const pagination = ref<paginationType>({
     current_page: 0,
     has_next: false,

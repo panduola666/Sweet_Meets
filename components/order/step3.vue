@@ -76,7 +76,19 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['currStep']);
+// import Order from '@/store/order'
+// import type { viewUserOrder } from '@/interface/order';
+
+// const props = defineProps(['currStep']);
+// const orderStore = Order()
+
+// const userOrder: ComputedRef<viewUserOrder> = computed(() => orderStore.userOrder)
+// onMounted(() => {
+//   nextTick(() => {
+//     orderStore.viewOrder()
+//   })
+// })
+
 const tips = [
   '租借費用為 1500元 / 時, 若超出時間半小時內加收 500 元, 超過半小時以一小時費用計算。',
   '因安全考量,無論是否有大人陪同,12歲以下小朋友都無法入場。 (為避免爭議,請攜帶可證明年齡之相關證件,供必要時核對)',

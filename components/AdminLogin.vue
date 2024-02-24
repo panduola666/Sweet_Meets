@@ -23,7 +23,7 @@
                  name="信箱"
                  type="email"
                  placeholder="請輸入信箱"
-                 v-model="form.username"
+                 v-model.trim="form.username"
                />
                <VeeErrorMessage name="信箱" class="text-danger" />
              </div>
@@ -36,7 +36,7 @@
                  name="密碼"
                  type="password"
                  placeholder="請輸入密碼"
-                 v-model="form.password"
+                 v-model.trim="form.password"
                />
                <VeeErrorMessage name="密碼" class="text-danger" />
              </div>

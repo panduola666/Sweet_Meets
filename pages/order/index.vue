@@ -15,13 +15,25 @@
   </div>
 </template>
 <script setup lang="ts">
+import Carts from '@/store/cart'
+
+const cartStore = Carts()
 const steps = ref<string[]>(['預約須知', '填寫資料', '訂單完成'])
 const currStep = ref<number>(0)
+
 
 function changStep(stepIndex: number) {
   currStep.value = stepIndex
   window.scrollTo(0, 0)
 }
+
+onBeforeRouteLeave(async() => {
+  await cartStore.checkCart()
+  if (cartStore.carts.length) {
+    cartStore.clearCart()
+  }
+})
+
 </script>
 <style lang="scss" scoped>
 .order-shadow {

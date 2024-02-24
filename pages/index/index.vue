@@ -87,11 +87,11 @@
             <article class="border border-2 text-white px-2 px-lg-4 pt-4 pb-9 mx-3 mx-lg-8 my-8">
               <h2 class="fs-1 fw-bold  text-center mb-6 mb-lg-7">近期活動</h2>
               <ul class="d-flex flex-column gap-6 gap-lg-7">
-                <li class="text-white pb-6 border-bottom border-2 default" v-for="i in 3" :key="i">
-                  <h4 class="h2">12月甜點聯誼會</h4>
+                <li class="text-white pb-6 border-bottom border-2 default" v-for="activity in activitiesList.slice(0, 3)" :key="activity.id">
+                  <h4 class="h2">{{ activity.title }}</h4>
                   <p class="text-white fs-4 m-0 d-flex justify-content-between align-items-end">
-                    活動時間: 2023/12/23 (六) 20:00
-                    <NuxtLink to="" class="text-white fs-6 activity-link pointer">詳情 >></NuxtLink>
+                    活動時間: {{ activity.description }}
+                    <NuxtLink :to="`/activity?id=${activity.id}`" class="text-white fs-6 activity-link pointer">詳情 >></NuxtLink>
                   </p>
                 </li>
               </ul>
@@ -133,15 +133,13 @@ const route = useRoute();
 const swiper = ref<{ [key: string]: any } | null>(null);
 
 const productTemp = ref({})
-const productList = computed(() => productStore.products)
-const activitiesList = computed(() => ArticleStore.articles)
+const productList = computed(() => productStore.products || [])
+const activitiesList = computed(() => ArticleStore.articles || [])
 onMounted(() => {
   nextTick(async () => {
     await productStore.productsGet()
     await ArticleStore.articlesGet(1)
     resumeSlider()
-    console.log(productList)
-    console.log(activitiesList)
   })
 })
 

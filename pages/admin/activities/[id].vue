@@ -24,7 +24,7 @@
                   name="活動圖片"
                   type="text"
                   placeholder="請輸入圖片網址"
-                  v-model="form.image"
+                  v-model.trim="form.image"
                 />
                 <VeeErrorMessage name="活動圖片" class="text-danger" />
               </div>
@@ -50,7 +50,7 @@
                 name="標題"
                 type="text"
                 placeholder="請輸入活動標題"
-                v-model="form.title"
+                v-model.trim="form.title"
               />
               <VeeErrorMessage name="標題" class="text-danger" />
             </div>
@@ -74,7 +74,7 @@
                     name="活動時間"
                     type="text"
                     placeholder="請輸入活動時間"
-                    v-model="form.description"
+                    v-model.trim="form.description"
                     v-on="inputEvents"
                   />
                 </template>

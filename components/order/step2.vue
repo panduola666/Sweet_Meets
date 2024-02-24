@@ -3,34 +3,53 @@
     <VeeForm @submit="submit" :validation-schema="schema">
       <div class="row mb-3">
         <div class="col-12 col-lg">
-          <ProductCard v-if="singleOrder" class="mb-3 d-lg-none" />
+          <div v-if="singleOrder" class="mb-3 d-lg-none">
+            <ProductCard :product="form.user.productData" />
+          </div>
           <!-- 姓名 -->
           <div class="mb-3">
             <label for="name" class="form-label fw-bold">姓名</label>
             <VeeField
+              v-trim
               class="form-control"
               id="name"
               name="姓名"
               type="text"
               placeholder="請輸入姓名"
-              v-model="form.name"
+              v-model.trim="form.user.name"
             />
             <VeeErrorMessage name="姓名" class="text-danger" />
           </div>
 
           <!-- 聯繫方式 -->
           <div class="mb-3">
-            <label for="phone" class="form-label fw-bold">聯繫方式</label>
-            <VeeField
-              class="form-control"
-              id="phone"
-              name="聯繫方式"
-              type="text"
-              inputmode="tel"
-              placeholder="請輸入聯繫方式"
-              v-model="form.phone"
-            />
-            <VeeErrorMessage name="聯繫方式" class="text-danger" />
+            <div class="row">
+              <div class="col">
+                <label for="phone" class="form-label fw-bold">手機</label>
+                <VeeField
+                  v-number
+                  class="form-control"
+                  id="phone"
+                  name="手機"
+                  type="tel"
+                  placeholder="請輸入手機號碼"
+                  v-model.trim="form.user.tel"
+                />
+                <VeeErrorMessage name="手機" class="text-danger" />
+              </div>
+              <div class="col">
+                <label for="email" class="form-label fw-bold">信箱</label>
+                <VeeField
+                  class="form-control"
+                  id="email"
+                  name="信箱"
+                  type="email"
+                  placeholder="請輸入信箱"
+                  v-model.trim="form.user.email"
+                />
+                <VeeErrorMessage name="信箱" class="text-danger" />
+              </div>
+            </div>
           </div>
 
           <!-- 甜點品項 -->
@@ -42,9 +61,10 @@
               name="品項"
               as="select"
               placeholder="請選擇品項"
-              v-model="form.product"
+              v-model="form.user.productId"
             >
               <option value="">到店選擇</option>
+              <option :value="option.id" v-for="option in productList" :key="option.id">{{ option.title }} - {{ moneyFormat(option.price) }}</option>
             </VeeField>
           </div>
 
@@ -57,7 +77,7 @@
               name="人數"
               as="select"
               placeholder="請選擇人數"
-              v-model="form.totalPerson"
+              v-model="form.user.totalPerson"
             >
               <option v-for="num in [5, 6, 7, 8, 9, 10]" :key="num" :value="num">{{num}} 人</option>
             </VeeField>
@@ -72,7 +92,7 @@
               name="預約時數"
               as="select"
               placeholder="請選擇預約時數"
-              v-model="form.totalTime"
+              v-model="form.user.totalTime"
             >
               <option v-for="(hour, index) in [1, 1.5, 2, 2.5, 3]" :key="hour" :value="hour" >{{ hour }} 小時</option>
             </VeeField>
@@ -85,11 +105,12 @@
               v-model="date.orderDate"
               :input-debounce="500"
               :disabled-dates="disabledDates"
+              :max-date="maxDate"
             >
               <template #default="{ togglePopover }">
                 <label for="date" class="form-label fw-bold">預約日期</label>
                 <VeeField
-                  v-model="form.order"
+                  v-model="form.user.orderDate"
                   @click="togglePopover"
                   class="form-control mb-1"
                   id="date"
@@ -116,11 +137,11 @@
 
           <!-- 生日 -->
           <div class="mb-3" v-if="singleOrder">
-            <VDatePicker trim-weeks v-model="date.birthDate" :input-debounce="500">
+            <VDatePicker trim-weeks v-model="date.birthDate" :input-debounce="500" :max-date="new Date()">
               <template #default="{ togglePopover }">
                 <label for="birth" class="form-label fw-bold">生日</label>
                 <VeeField
-                  v-model="form.birth"
+                  v-model.trim="form.user.birth"
                   @click="togglePopover"
                   class="form-control"
                   id="birth"
@@ -137,7 +158,9 @@
         </div>
 
         <div class="col-12 col-lg">
-          <ProductCard v-if="singleOrder" class="mb-3 d-none d-lg-block" />
+          <div v-if="singleOrder" class="mb-3 d-none d-lg-block">
+            <ProductCard :product="form.user.productData" />
+          </div>
           <div v-else class="mb-3">
             <label for="remark" class="form-label fw-bold">備註</label>
             <VeeField
@@ -146,7 +169,7 @@
                 name="備註"
                 as="textarea"
                 placeholder="請輸入備註"
-                v-model="form.remark"
+                v-model.trim="form.message"
                 style="resize: none;height: 140px;"
               />
           </div>
@@ -156,10 +179,11 @@
             trim-weeks
             :attributes="[{highlight: true,dates: date.orderDate}]"
             :disabled-dates="disabledDates"
+            :max-date="maxDate"
             style="pointer-events: none"
           >
             <template #footer>
-              <p class="text-center" :class="{hidden: !form.order}">預約日期: {{ form.order }}</p>
+              <p class="text-center" :class="{hidden: !form.user.orderDate}">預約日期: {{ form.user.orderDate }}</p>
             </template>
           </VDatePicker>
         </div>
@@ -178,20 +202,122 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { cartsList } from '@/interface/cart';
+import type { adminPost } from '@/interface/product';
+import type { postOrder } from '@/interface/order';
+
+import Products from '@/store/products'
+import Carts from '@/store/cart'
+import Order from '@/store/order'
+
 const props = defineProps(['currStep']);
 const singleOrder: boolean = ['order'].includes(useRoute().name as string)
+const productStore = Products();
+const cartStore = Carts()
+const orderStore = Order()
 
-const form = reactive({
-  name: '',
-  phone: '',
-  product: '',
-  birth: '',
-  order: '',
-  remark: '',
-  totalPerson: 5,
-  totalTime: 1
+const isEditCart = ref<boolean>(false) // 是否有更換品項
+
+const form = ref<postOrder>({
+  user: {
+   name: '',
+    email: '',
+    tel: '',
+    address: '本店',
+    birth: '',
+    productData: {
+      title: '',
+      category: '',
+      origin_price: 0,
+      price: 0,
+      unit: '',
+      description: '',
+      finalTime: 0,
+      content: [],
+      saveMethods: [],
+      imageUrl: '',
+      imagesUrl: [],
+      is_enabled: 0,
+      saveMode: 0
+    },
+    productId: '',
+    orderDate: '',
+    totalPerson: 1, // 人數
+    totalTime: 0 // 預約時數
+  },
+  message: '',
 })
 
+
+const carts: ComputedRef<cartsList[]> = computed(() => cartStore.carts || [])
+const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
+
+onMounted(() => {
+  nextTick(async () => {
+    await productStore.productsGet()
+    if (singleOrder) { // 單人預約
+      await cartStore.checkCart()
+      if (!carts.value.length) {
+        const swal =  await useSwal({
+          title: '暫無商品',
+          confirmButtonText: '來去選購',
+          confirmButtonColor: '#603D3D',
+          allowOutsideClick: false
+        });
+        if (swal.isConfirmed) {
+          useRouter().push('/diy')
+        }
+        return
+      }
+      form.value.user.productId = carts.value[0].product_id
+    } else {
+      form.value.user.totalPerson = 5
+      form.value.user.totalTime = 1
+    }
+  })
+})
+
+watch(() => form.value.user.productId, (productId) => {
+  isEditCart.value = true
+  if (productId) {
+    const productData = productList.value.find(item => item.id === form.value.user.productId)
+    if (productData) {
+      form.value.user.totalTime = productData.finalTime
+      form.value.user.productData = productData
+    }
+  } else {
+    form.value.user.productData = {
+      title: '',
+      category: '',
+      origin_price: 0,
+      price: 0,
+      unit: '',
+      description: '',
+      finalTime: 0,
+      content: [],
+      saveMethods: [],
+      imageUrl: '',
+      imagesUrl: [],
+      is_enabled: 0,
+      saveMode: 0
+    }
+    form.value.user.totalTime = 0
+  }
+})
+
+async function submit (value: any, { resetForm }: any) {
+  if (isEditCart.value && form.value.user.productId) { // 需更換購物車內容
+    await cartStore.clearCart()
+    await cartStore.addCart({
+      product_id: form.value.user.productId,
+      qty: 1
+    })
+  }
+  await orderStore.createOrder(form.value)
+  
+  changeStep(1);
+  resetForm();
+};
 
 // 日期設定
 const date = reactive({
@@ -200,11 +326,13 @@ const date = reactive({
   orderHour: '12',
   orderMin: '00'
 })
+
 const disabledDates = ref([{ start: null, end: new Date() }]);
-watch(() => date.birthDate, (value) => form.birth = timeFormat(value))
-watch(() => date.orderDate, () => form.order = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
-watch(() => date.orderHour, () => form.order = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
-watch(() => date.orderMin, () => form.order = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
+const maxDate = ref(new Date().getTime() + (30 * 24 * 60 * 60 * 1000))
+watch(() => date.birthDate, (value) => form.value.user.birth = timeFormat(value))
+watch(() => date.orderDate, () => form.value.user.orderDate = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
+watch(() => date.orderHour, () => form.value.user.orderDate = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
+watch(() => date.orderMin, () => form.value.user.orderDate = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
 
 function timeFormat(date: string):string {
   return new Date(new Date(date).getTime()).toLocaleDateString()
@@ -213,15 +341,10 @@ function timeFormat(date: string):string {
 // 表單處理
 const schema = {
   姓名: 'required',
-  聯繫方式: 'required',
+  手機: 'required|min:8',
+  信箱: 'required|email',
   預約日期: 'required',
   生日: singleOrder ? 'required' : '',
-};
-const submit = (value: any, { resetForm }: any) => {
-  console.log(value);
-  
-  changeStep(1);
-  resetForm();
 };
 
 // 換頁

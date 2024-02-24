@@ -103,7 +103,6 @@ async function getDetail(id: string) {
   await ArticleStore.adminDetail(id)
   detail.value = ArticleStore.article as ArticleDetail
   modal.show()
-  console.log(detail.value)
 }
 
 async function deleteArticle(id: string) {

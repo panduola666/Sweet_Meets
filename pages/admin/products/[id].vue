@@ -18,7 +18,7 @@
                 name="產品圖片"
                 type="text"
                 placeholder="請輸入圖片網址"
-                v-model="form.imageUrl"
+                v-model.trim="form.imageUrl"
               />
               <VeeErrorMessage name="產品圖片" class="text-danger" />
             </div>
@@ -49,7 +49,7 @@
                 name="產品名稱"
                 type="text"
                 placeholder="請輸入產品名稱"
-                v-model="form.title"
+                v-model.trim="form.title"
               />
               <VeeErrorMessage name="產品名稱" class="text-danger" />
             </div>
@@ -118,7 +118,7 @@
                       class="form-control mb-2"
                       :name="`產品特色${index}`"
                       type="text"
-                      v-model="form.content[index]"
+                      v-model.trim="form.content[index]"
                     />
                   </div>
                   <div
@@ -178,7 +178,7 @@
                       class="form-control mb-2"
                       :name="`保存方式${index}`"
                       type="text"
-                      v-model="form.saveMethods[index]"
+                      v-model.trim="form.saveMethods[index]"
                       :readonly="!form.saveMode"
                     />
                   </div>
@@ -337,7 +337,6 @@ async function uploadImage(formKey: 'imageUrl' | 'imagesUrl', e: Event) {
   const files = (e.target as HTMLInputElement).files;
   if (!files) return;
   const imgUrl = await upload(files);
-  console.log(imgUrl)
   if (typeof form.value[formKey] === 'string') {
     form.value[formKey] = imgUrl;
   } else if (Array.isArray(form.value[formKey])) {

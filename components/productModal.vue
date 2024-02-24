@@ -42,13 +42,16 @@
 </div>
 </template>
 <script setup lang="ts">
+import Carts from '@/store/cart'
+
 const props = defineProps(['product'])
 const emit = defineEmits(['close']);
 const { product } = toRefs(props)
-
+const cartStore = Carts()
 const { $bootstrap } = useNuxtApp()
 const productModal = ref(null)
 let modal:any;
+
 watch(() => product?.value, async () => {
   await nextTick()
   if (product?.value.id) {
@@ -62,10 +65,12 @@ function closeModal() {
 }
 
 const router = useRouter()
-function orderProduct() {
+async function orderProduct() {
+   await cartStore.addCart({
+    product_id: product?.value.id,
+    qty: 1
+  })
   closeModal()
-  console.log('加入購物車');
-  
   router.push('/order')
 }
 </script>
