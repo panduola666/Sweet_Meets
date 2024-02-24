@@ -21,7 +21,7 @@
           </li>
         </ul>
       </section>
-      <aside class="position-fixed end-0 top-50 translate-middle-y">
+      <aside class="position-fixed end-0 top-50 translate-middle-y z-3">
         <ul class="bg-white bg-opacity-50 blur shadow rounded-4 fs-5">
           <li class="py-2 py-lg-3 px-3 px-lg-5 pointer" @click="scrollHash(`#${categoryId[index]}`)" v-for="(item, index) in categoryList" :key="index">{{ item }}</li>
         </ul>
