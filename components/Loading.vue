@@ -8,8 +8,12 @@
 import Loading from '@/store/loading';
 
 const loadingStore = Loading()
-
 const nuxtApp = useNuxtApp();
+
+onMounted(() => {
+  loadingStore.changeLoading(true)
+})
+
 nuxtApp.hook('page:start', () => {
   loadingStore.changeLoading(true)
   });
@@ -25,7 +29,7 @@ nuxtApp.hook('page:finish', () => {
   right: 0;
   left: 0;
   background: rgba($color: $black, $alpha: .2);
-  z-index: 1050; // swal -> 1060
+  z-index: 1057; // swal->1060  bsModal->1056
 }
 
 .LogoIcon{

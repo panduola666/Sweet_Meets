@@ -97,7 +97,6 @@
               <option v-for="(hour, index) in [1, 1.5, 2, 2.5, 3]" :key="hour" :value="hour" >{{ hour }} 小時</option>
             </VeeField>
           </div>
-
           <!-- 預約日期 -->
           <div class="mb-3">
             <VDatePicker
@@ -217,6 +216,7 @@ const cartStore = Carts()
 const orderStore = Order()
 
 const isEditCart = ref<boolean>(false) // 是否有更換品項
+const joinActivity = ref<boolean>(false) // 是否從參加活動
 
 const form = ref<postOrder>({
   user: {
@@ -253,9 +253,19 @@ const carts: ComputedRef<cartsList[]> = computed(() => cartStore.carts || [])
 const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
 
 onMounted(() => {
+  const timer = useRoute().query.timer
   nextTick(async () => {
     await productStore.productsGet()
     if (singleOrder) { // 單人預約
+      joinActivity.value = !!timer
+
+      if (joinActivity.value) { // 活動預約 => 因 API 限制須至少購物車有東西
+        date.orderDate = new Date(Number(timer))
+        await cartStore.addCart({
+          product_id: productList.value[0].id as string,
+          qty: 1
+        })
+      }
       await cartStore.checkCart()
       if (!carts.value.length) {
         const swal =  await useSwal({
@@ -322,7 +332,7 @@ async function submit (value: any, { resetForm }: any) {
 // 日期設定
 const date = reactive({
   birthDate: '',
-  orderDate: '',
+  orderDate: '' as Date|string,
   orderHour: '12',
   orderMin: '00'
 })

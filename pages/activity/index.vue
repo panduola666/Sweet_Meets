@@ -11,9 +11,9 @@
             活動列表
           </button>
         </div>
-        <div class="row border-bottom border-2 border-secondary pb-5 mb-5 gy-3 gy-lg-0">
+        <div class="row pb-5 mb-5 gy-3 gy-lg-0">
           <div class="col-12 col-lg-6 placeholder-glow">
-            <div class="activityImg" :class="{placeholder: isLoading}" :style="{backgroundImage: `url(${'https://images.unsplash.com/photo-1701743806134-9a7bfe1ffc04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D'})`}"></div>
+            <div class="activityImg" :class="{placeholder: isLoading}" :style="{backgroundImage: `url(${detail.image})`}"></div>
             <!-- <img
               src="https://images.unsplash.com/photo-1701743806134-9a7bfe1ffc04?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxM3x8fGVufDB8fHx8fA%3D%3D"
               alt=""
@@ -22,36 +22,19 @@
           </div>
           <div class="col-12 col-lg-6 d-flex flex-column justify-content-between gap-5 gap-lg-8 placeholder-glow">
             <article class="fs-5 default">
-              <h1 class="h2 fw-bold title" :class="{placeholder: isLoading}">11月甜點聯誼會</h1>
-              <h2 class="fs-5 fs-lg-4 fw-bold pb-3 mb-3 border-bottom border-secondary" :class="{placeholder: isLoading}">活動時間: 2023/11/11 (六) 20:00</h2>
-              <div :class="{placeholder: isLoading}">
-                <p>
-                  還在苦惱平常太忙沒有時間交友嗎? 又或者是擔心交友軟體不靠普,
-                  擔心自己受騙導致顧慮重重?
-                </p>
-                <p>
-                  現在將推出同好聯誼活動, 無論是否是單身人士我們都很歡迎您的到來~
-                </p>
-                <p>
-                  在這裡你可以很輕鬆的交到擁有相同興趣的好友,
-                  也不用擔心私下赴約是否安全,
-                  我們提供了友善的公共空間讓您可以放鬆地沉浸在甜點裡面
-                </p>
-                <p>
-                  能在廣大人海中, 在此時此刻遇到擁有共同興趣的機會少之又少,
-                  你還在等什麼? 快來報名吧!
-                </p>
-              </div>
+              <h1 class="h2 fw-bold title" :class="{placeholder: isLoading}">{{ detail.title }}</h1>
+              <h2 class="fs-5 fs-lg-4 fw-bold pb-3 mb-3 border-bottom border-secondary" :class="{placeholder: isLoading}">
+                活動時間: {{ detail.description }}
+                <span class="badge text-bg-danger fs-6" v-if="checkTime(detail.description)">已結束</span>
+              </h2>
+              <div :class="{placeholder: isLoading}" v-html="detail.content" />
             </article>
-            <NuxtLink to="/order" class="btn btn-secondary fs-4">立即報名</NuxtLink>
+            <NuxtLink :to="`/order?timer=${new Date(detail.description).getTime()}`" class="btn btn-secondary fs-4" :class="{disabled: checkTime(detail.description)}">立即報名</NuxtLink>
           </div>
-        </div>
-        <div class="d-flex justify-content-between justify-content-lg-end fs-5 gap-7">
-          <span class="pointer">上一則</span>
-          <span class="pointer">下一則</span>
         </div>
   
       </div>
+
       <!-- Modal -->
       <div
         class="modal fade"
@@ -71,12 +54,21 @@
               ></button>
             </div>
             <div class="modal-body">
-              <ul>
-                <li class="py-2 px-4 border-bottom border-secondary pointer font-monospace activityItem" v-for="i in 10">
-                  <h3 class="fs-5 fw-bold mb-1">11月甜點聯誼會</h3>
-                  <p class="mb-0">活動時間: 2023/11/11 (六) 20:00</p>
+              <div class="text-center py-9" v-if="isLoading">
+                <div class="spinner-border" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+              </div>
+              <ul class="mb-2 overflow-y-scroll modal-list w-100" v-else>
+                <li class="py-2 px-4 border-bottom border-secondary pointer font-monospace activityItem" v-for="activity in activityList" :key="activity.id" @click="getDetail(activity.id)">
+                  <h3 class="fs-5 fw-bold mb-1">{{ activity.title }}</h3>
+                  <p class="mb-0">
+                    活動時間: {{ activity.description }}
+                    <span class="badge text-bg-danger fs-small" v-if="checkTime(activity.description)">已結束</span>
+                  </p>
                 </li>
               </ul>
+              <Pagination :pagination="ArticleStore.pagination" @click="getDate" />
             </div>
           </div>
         </div>
@@ -85,21 +77,55 @@
   </div>
 </template>
 <script setup lang="ts">
-const isLoading = ref<boolean>(false)
+import Article from '@/store/article'
+
+const ArticleStore = Article();
+const isLoading = ref<boolean>(false) // 文章 loading 佔位
 
 const { $bootstrap } = useNuxtApp()
 const activityModal = ref(null)
 let modal:any;
-onMounted(async () => {
-  await nextTick(() => openModal())
+const activityId = ref<string>('')
+
+const detail = computed(() => ArticleStore.article)
+const activityList = computed(() => ArticleStore.articles)
+onMounted(() => {
+  activityId.value = useRoute().query.id as string
+  nextTick(async () => {
+    modal = $bootstrap.modal(activityModal.value)
+    isLoading.value = true
+    if (activityId.value) {
+      getDetail(activityId.value)
+    } else {
+     openModal()
+    }
+  })
 })
 
-function openModal () {
-  modal = $bootstrap.modal(activityModal.value)
+async function getDetail (id:string) {
+  isLoading.value = true
+  activityId.value = id
+  await ArticleStore.articleView(id)
+  closeModal()
+  isLoading.value = false
+}
+
+async function getDate (page: string|number) {
+  await ArticleStore.articlesGet(page)
+  isLoading.value = false
+}
+
+function checkTime(description: string):boolean  {
+  return new Date(description).getTime() <= new Date().getTime()
+}
+
+async function openModal () {
   modal.show()
+  await getDate(1)
 }
 
 function closeModal() {
+  if (!activityId.value) return
   modal.hide()
 }
 </script>
@@ -119,8 +145,9 @@ function closeModal() {
 .activityItem:hover{
   background: rgba($color: $primary, $alpha: .1);
 }
-.modal-body{
-  height: 50dvh;
+.modal-list{
+  min-height: 20dvh;
+  max-height: 50dvh;
 }
 
 .modal{

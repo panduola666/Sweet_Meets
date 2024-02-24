@@ -5,7 +5,16 @@ const articleStore = defineStore('articleStore', () => {
   const { apiPath } = useRuntimeConfig().public;
   
   const articles = ref<Article[]>([])
-  const article = ref<ArticleDetail>()
+  const article = ref<ArticleDetail>({
+    title: '',
+    description: '',
+    image: '',
+    tag: [],
+    create_at: '',
+    author: '',
+    isPublic: false,
+    content: ''
+  })
   const pagination = ref<paginationType>({
     current_page: 0,
     has_next: false,
@@ -92,7 +101,7 @@ const articleStore = defineStore('articleStore', () => {
         method: 'GET',
       });
       if (res && res.success) {
-        articles.value = res.article;
+        article.value = res.article;
       }
     },
   }
