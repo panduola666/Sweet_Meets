@@ -14,7 +14,14 @@ export default defineNuxtPlugin((nuxtApp) => {
 function keyUpEvent(el, regExp) {
   el.addEventListener('keyup', (event) => {
     if (el.tagName === 'INPUT') {
-      el.value = el.value.toString().replace(regExp, '');
+      let str = el.value
+      el.value = str.toString().replace(regExp, '');
+    }
+  });
+  el.addEventListener('blur', (event) => {
+    if (el.tagName === 'INPUT') {
+      let str = el.value
+      el.value = str.toString().trim();
     }
   });
 }

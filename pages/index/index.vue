@@ -182,11 +182,11 @@ const swiperConfig = ref({
 
 function pauseSlider() {
   // 暫停輪播
-  nextTick(() => swiper.value!.$el.swiper.autoplay.stop())
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop())
 }
 function resumeSlider() {
   // 開始輪播
-  nextTick(() => swiper.value!.$el.swiper.autoplay.start())
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.start())
 }
 
 const steps = ref<stepsType[]>([

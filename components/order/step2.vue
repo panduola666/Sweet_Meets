@@ -10,7 +10,6 @@
           <div class="mb-3">
             <label for="name" class="form-label fw-bold">姓名</label>
             <VeeField
-              v-trim
               class="form-control"
               id="name"
               name="姓名"
@@ -253,19 +252,28 @@ const carts: ComputedRef<cartsList[]> = computed(() => cartStore.carts || [])
 const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
 
 onMounted(() => {
+  
   const timer = useRoute().query.timer
   nextTick(async () => {
     await productStore.productsGet()
-    if (singleOrder) { // 單人預約
-      joinActivity.value = !!timer
 
-      if (joinActivity.value) { // 活動預約 => 因 API 限制須至少購物車有東西
-        date.orderDate = new Date(Number(timer))
+    if(timer) { // 判斷活動預約時間代入
+      date.orderDate = new Date(Number(timer))
+    }
+    joinActivity.value = !!timer
+
+    if(orderStore.placeOrder.user.name) { // 判斷場地租借修改資料
+      form.value = orderStore.placeOrder
+    }
+
+    if (joinActivity.value || !singleOrder) { // 活動預約 or 場地租借 => 因 API 限制須至少購物車有東西
         await cartStore.addCart({
           product_id: productList.value[0].id as string,
           qty: 1
         })
       }
+
+    if (singleOrder) { // 單人預約
       await cartStore.checkCart()
       if (!carts.value.length) {
         const swal =  await useSwal({
@@ -323,7 +331,11 @@ async function submit (value: any, { resetForm }: any) {
       qty: 1
     })
   }
-  await orderStore.createOrder(form.value)
+  if (singleOrder) {
+    await orderStore.createOrder(form.value)
+  } else {
+    orderStore.placeOrder = form.value
+  }
   
   changeStep(1);
   resetForm();

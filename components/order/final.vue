@@ -45,7 +45,7 @@
           </p>
         </template>
         <p class="text-end fw-bold fs-4 text-danger">
-          {{ userOrder.user.productId ? moneyFormat(userOrder.total) : '依品項價格' }}
+          {{ totalPrice }}
         </p>
         <div
           v-if="!singleOrder"
@@ -86,12 +86,23 @@ const orderStore = Order();
 const userOrder: ComputedRef<viewUserOrder> = computed(
   () => orderStore.userOrder
 );
+const totalPrice: ComputedRef<string> = computed(() => {
+  if (userOrder.value.user.productId) {
+    return moneyFormat(userOrder.value.total)
+  }
+  if (userOrder.value.user.totalPerson >= 5) { // 場地租借
+    return moneyFormat(1500 * userOrder.value.user.totalTime)
+  }
+  return '依品項價格'
+})
 onMounted(() => {
   nextTick(() => {
     orderStore.viewOrder();
   });
 });
 
+
+// 匯出 pdf
 import html2Canvas from 'html2canvas';
 import jspdf from 'jspdf';
 

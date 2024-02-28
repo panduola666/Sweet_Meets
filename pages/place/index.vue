@@ -17,8 +17,11 @@
 </template>
 <script setup lang="ts">
 import Carts from '@/store/cart'
+import Order from '@/store/order'
 
 const cartStore = Carts()
+const orderStore = Order()
+
 const steps = ref<string[]>(['租借須知', '填寫資料', '費用繳付', '預約完成'])
 const currStep = ref<number>(0)
 
@@ -32,6 +35,7 @@ onBeforeRouteLeave(async() => {
   if (cartStore.carts.length) {
     cartStore.clearCart()
   }
+  orderStore.resetPlaceOrder()
 })
 
 </script>
