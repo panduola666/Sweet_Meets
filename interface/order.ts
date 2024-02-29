@@ -27,3 +27,11 @@ export interface viewUserOrder {
   total: number,
   user: orderUser
 }
+
+
+export interface orderAdminData {
+  id: string,
+  total: number,
+  user: orderUser,
+  [key: string]: any
+}

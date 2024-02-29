@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { postOrder, viewUserOrder } from '@/interface/order';
+import type { paginationType } from '../interface/product';
 
 const orderStore = defineStore('orderStore', () => {
   const { apiPath } = useRuntimeConfig().public;
@@ -30,7 +31,7 @@ const orderStore = defineStore('orderStore', () => {
         imageUrl: '',
         imagesUrl: [],
         is_enabled: 0,
-        saveMode: 0
+        saveMode: 0,
       },
       totalPerson: 0,
       totalTime: 0,
@@ -59,14 +60,49 @@ const orderStore = defineStore('orderStore', () => {
         imageUrl: '',
         imagesUrl: [],
         is_enabled: 0,
-        saveMode: 0
+        saveMode: 0,
       },
       orderDate: '',
       totalPerson: 0,
       totalTime: 0,
-      productId: ''
+      productId: '',
+    },
+  });
+
+  const orders = ref([])
+  const pagination = ref<paginationType>({
+    current_page: 0,
+    has_next: false,
+    has_pre: false,
+    total_pages: 0,
+  });
+
+  const adminAPI = {
+    // 後台取得預約訂單
+    async adminGet(page: number|string = 1) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/orders?page=${page}`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        orders.value = res.orders;
+        pagination.value = res.pagination;
+      }
+    },
+    // 後台取消預約
+    async adminDel(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/order/${id}`,
+        method: 'DELETE',
+      });
+  
+      useSwal({
+        title: '已取消預約',
+        showConfirmButton: false,
+        timer: 3000,
+      });
     }
-  })
+  };
 
   const frontAPI = {
     // 建立訂單
@@ -78,7 +114,7 @@ const orderStore = defineStore('orderStore', () => {
       });
       if (res && res.success) {
         orderId.value = res.orderId;
-        resetPlaceOrder()
+        resetPlaceOrder();
         localStorage.setItem('orderId', res.orderId);
         useSwal({
           title: '預約成功',
@@ -123,7 +159,7 @@ const orderStore = defineStore('orderStore', () => {
         method: 'POST',
         params: {},
       });
-      return res
+      return res;
     },
   };
 
@@ -149,24 +185,25 @@ const orderStore = defineStore('orderStore', () => {
           imageUrl: '',
           imagesUrl: [],
           is_enabled: 0,
-          saveMode: 0
+          saveMode: 0,
         },
         orderDate: '',
         totalPerson: 0,
         totalTime: 0,
-        productId: ''
-      }
-    }
+        productId: '',
+      },
+    };
   }
 
   return {
     userOrder,
     placeOrder,
+    orders,
+    pagination,
     resetPlaceOrder,
     ...frontAPI,
+    ...adminAPI,
   };
 });
-
-
 
 export default orderStore;

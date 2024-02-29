@@ -4,13 +4,13 @@
       <div class="row">
         <div class="col-12 col-lg-9">
           <div class="d-flex align-items-center justify-content-end gap-3 mb-3">
-            <button type="button" class="btn btn-outline-secondary">
+            <button type="button" class="btn btn-outline-secondary" :class="{disabled: !currOrder.id}" @click="deleteOrder">
               取消預約
             </button>
-            <button type="button" class="btn btn-secondary">報到</button>
+            <button type="button" class="btn btn-secondary" :class="{disabled: !currOrder.id}">報到</button>
           </div>
           <div class="table-responsive">
-            <table class="table table-bordered align-middle text-center">
+            <table class="table table-bordered align-middle text-center table-hover">
               <thead>
                 <tr>
                   <th scope="col">#</th>
@@ -22,28 +22,36 @@
                 </tr>
               </thead>
               <tbody class="fs-lg-5">
-                <tr>
-                  <th scope="row">1</th>
+                <tr v-for="(order, index) in orders" :key="order.id" @click="currOrder = order" :class="{'table-active': currOrder.id === order.id}">
+                  <th scope="row">{{ index + 1 }}</th>
                   <td class="text-nowrap position-relative">
-                    張三
+                    {{ order.user.name }}
                     <NuxtIcon
+                      v-if="order.message"
                       name="info"
                       class="pointer fs-6 ms-2"
                       data-bs-toggle="modal"
                       data-bs-target="#remark"
+                      @click="remark = order.message"
                     />
                   </td>
-                  <td class="text-nowrap">2016/05/15 20:00</td>
-                  <td class="text-nowrap">0912365546</td>
-                  <td class="text-nowrap">場地預約 - 6人(2 小時)</td>
-                  <td class="text-nowrap">$3000</td>
+                  <td class="text-nowrap">{{ order.user.orderDate }}</td>
+                  <td class="text-nowrap">{{ order.user.tel }}</td>
+                  <td class="text-nowrap">
+                    <span v-if="getItem(order)">{{ getItem(order) }}</span>
+                    <select class="form-select" v-model="order.user.productId" v-else>
+                      <option value="">請選擇品項</option>
+                      <option :value="option.id" v-for="option in productList" :key="option.id">{{ option.title }} - {{ moneyFormat(option.price) }}</option>
+                    </select>
+                  </td>
+                  <td class="text-nowrap">{{ getMoney(order) }}</td>
                 </tr>
               </tbody>
             </table>
           </div>
 
           <div class="mt-3 mb-6">
-            <Pagination :pagination="{}" @click="" />
+            <Pagination :pagination="orderStore.pagination" @click="getDate" />
           </div>
         </div>
         <div class="col bg-primary bg-opacity-50 py-5">
@@ -117,13 +125,105 @@
                 aria-label="Close"
               ></button>
             </div>
-            <div class="modal-body fw-bold fs-5" style="min-height: 100px;">我們會自己另外帶一些包裝材料, 後續會清理乾淨</div>
+            <div class="modal-body fw-bold fs-5" style="min-height: 100px;">{{ remark }}</div>
           </div>
         </div>
       </div>
     </NuxtLayout>
   </div>
 </template>
+<script setup lang="ts">
+import type { adminPost } from '@/interface/product';
+import type { orderAdminData } from '@/interface/order';
+import Order from '@/store/order'
+import Products from '@/store/products'
+
+const orderStore = Order()
+const productStore = Products()
+
+const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders)
+const remark = ref<string>('')
+const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
+const currOrder = ref<orderAdminData>({
+  id: '',
+  total: 0,
+  user: {
+    name: '',
+      email: '',
+      tel: '',
+      address: '',
+      birth: '',
+      orderDate: '',
+      productData: {
+        title: '',
+        category: '',
+        origin_price: 0,
+        price: 0,
+        unit: '',
+        description: '',
+        finalTime: 0,
+        content: [],
+        saveMethods: [],
+        imageUrl: '',
+        imagesUrl: [],
+        is_enabled: 0,
+        saveMode: 0,
+      },
+      totalPerson: 0,
+      totalTime: 0,
+      productId: '',
+  }
+}) // 暫存的訂單資料
+
+onMounted(() => {
+  nextTick(async() => {
+    await productStore.adminGetAll()
+    getDate(1)
+    console.log(orders.value);
+  })
+})
+
+function getDate (page: string|number) {
+  orderStore.adminGet(page)
+}
+
+async function deleteOrder() {
+  const swal = await useSwal({
+    title: `確定刪除此預約訂單嗎?`,
+    showCancelButton: true,
+    allowOutsideClick: false
+  })
+  if(swal.isConfirmed) {
+    await orderStore.adminDel(currOrder.value.id)
+    getDate(orderStore.pagination.current_page)
+  }
+}
+
+// 取得訂單品項
+function getItem(data: orderAdminData) {
+  const { totalPerson, totalTime, productId, productData } = data.user
+  if (totalPerson >= 5) { // 場地預約
+    return `場地預約 - ${totalPerson}人(${totalTime} 小時)`
+  } else if (productId) { // 已選定品項
+    return productData.title
+  } else {
+    return '' // 現場選擇
+  }
+}
+
+// 取得訂單金額
+function getMoney(data: orderAdminData) {
+  const { totalPerson, totalTime, productId } = data.user
+  if (totalPerson >= 5) { // 場地預約
+    return moneyFormat(1500 * totalTime)
+  } else if (productId) { // 已選定品項
+    return moneyFormat(data.total)
+  } else {
+    return '---' // 現場選擇
+  }
+}
+</script>
+
 <style lang="scss" scoped>
 .checkList{
   overflow-y: auto;

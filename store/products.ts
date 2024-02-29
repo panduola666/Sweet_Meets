@@ -28,6 +28,16 @@ const productStore = defineStore('productStore', () => {
   const categoryList = ['壽星優惠', '蛋糕', '餅乾', '塔派']
 
   const adminAPI = {
+    // 後台取得全部產品
+    async adminGetAll() {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/products/all`,
+        method: 'GET',
+      });
+      if (res && res.success) {
+        products.value = res.products;
+      }
+    },
     // 後台取得產品列表
     async adminGet (data: adminGet) {
       const res: any = await getFetchData({
