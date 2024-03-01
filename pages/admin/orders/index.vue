@@ -7,7 +7,7 @@
             <button type="button" class="btn btn-outline-secondary" :class="{disabled: !currOrder.id}" @click="deleteOrder">
               取消預約
             </button>
-            <button type="button" class="btn btn-secondary" :class="{disabled: !currOrder.id}">報到</button>
+            <button type="button" class="btn btn-secondary" :class="{disabled: !currOrder.id || !currOrder.user.productId}" @click="checkIn">報到</button>
           </div>
           <div class="table-responsive">
             <table class="table table-bordered align-middle text-center table-hover">
@@ -60,50 +60,40 @@
             <span>離場</span>
           </p>
           <ul class="mb-5 checkList px-3">
-            <li class="d-flex align-items-center gap-3 mb-5" v-for="i in 5">
+            <li class="d-flex align-items-center gap-3 mb-5" v-for="item in checkInList" :key="item.id">
               <div class="bg-white rounded-3 flex-grow-1">
-                <label
-                  class="form-check-label d-flex flex-column fs-5 p-3"
-                  for="check1"
+                <div
+                  class="d-flex flex-column fs-5 p-3"
                 >
                   <p
                     class="mb-0 d-flex align-items-center justify-content-between"
                   >
-                    <span class="fw-bold">張三</span>
-                    <small class="fs-6">18:05</small>
+                    <span class="fw-bold">{{ item.name }}</span>
+                    <small class="fs-6">{{ getTime(item.due_date) }}</small>
                   </p>
-                  <p class="fw-bold mb-4">焦糖布丁塔</p>
+                  <p class="fw-bold mb-0">{{ item.totalPerson >= 5 ? `場地預約 - ${item.totalPerson}人` : item.title }}</p>
+                  <p class="fs-6 mb-0" v-if="item.totalPerson >= 5">預計離場: {{ getTime(item.final_date) }}</p>
                   <p
                     class="mb-0 d-flex align-items-center justify-content-between"
                   >
-                    <small class="fs-6">(未付款)</small>
-                    <span class="fw-bold">$180</span>
+                    <small class="fs-6" :class="{
+                      'text-danger': !item.is_paid,
+                      'text-success': item.is_paid,
+                    }">{{ item.is_paid ? `(已付款)` : `(未付款)` }}</small>
+                    <span class="fw-bold">{{ item.total }}</span>
                   </p>
-                </label>
-                <button type="button" class="btn btn-secondary w-100 rounded-0">
+                </div>
+                <button type="button" class="btn btn-secondary w-100 rounded-0" v-if="!item.is_paid">
                   付款
                 </button>
               </div>
-              <input
-                class="form-check-input p-2"
-                type="checkbox"
-                value=""
-                id="check1"
+              <NuxtIcon
+                name="delete"
+                class="pointer"
               />
             </li>
           </ul>
-
-          <!-- <nav>
-            <ul class="pagination align-items-center justify-content-center">
-              <li class="page-item" :class="{ disabled: false }">
-                <button class="page-link">&lt;</button>
-              </li>
-              <li class="p-3 fw-bold">1</li>
-              <li class="page-item" :class="{ disabled: true }">
-                <button class="page-link">&gt;</button>
-              </li>
-            </ul>
-          </nav> -->
+          <Pagination :pagination="couponStore.pagination" :hideStr="true" @click="getCheckIn" />
         </div>
       </div>
 
@@ -137,13 +127,16 @@ import type { adminPost } from '@/interface/product';
 import type { orderAdminData } from '@/interface/order';
 import Order from '@/store/order'
 import Products from '@/store/products'
+import Coupon from '@/store/coupon'
 
 const orderStore = Order()
 const productStore = Products()
+const couponStore = Coupon()
 
 const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders)
 const remark = ref<string>('')
-const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
+const productList: ComputedRef<{[key: string]: any}> = computed(() => productStore.products || {})
+const checkInList = computed(() => couponStore.coupons || [])
 const currOrder = ref<orderAdminData>({
   id: '',
   total: 0,
@@ -175,18 +168,23 @@ const currOrder = ref<orderAdminData>({
   }
 }) // 暫存的訂單資料
 
+
 onMounted(() => {
   nextTick(async() => {
     await productStore.adminGetAll()
     getDate(1)
-    console.log(orders.value);
+    getCheckIn(1)
   })
 })
 
 function getDate (page: string|number) {
   orderStore.adminGet(page)
 }
+function getCheckIn (page: string|number) {
+  couponStore.adminGet(page)
+}
 
+// 取消預約
 async function deleteOrder() {
   const swal = await useSwal({
     title: `確定刪除此預約訂單嗎?`,
@@ -197,6 +195,33 @@ async function deleteOrder() {
     await orderStore.adminDel(currOrder.value.id)
     getDate(orderStore.pagination.current_page)
   }
+}
+
+// 預約報到
+async function checkIn() {
+  const { is_paid, id } = currOrder.value
+  const { name, totalPerson, totalTime, productId } = currOrder.value.user
+  
+  const data = {
+    name,
+    productId,
+    title: totalPerson >= 5 ? '場地預約' : productList.value[productId].title,
+    is_enabled: 1,
+    total: getMoney(currOrder.value),
+    is_paid,
+    percent: 100,
+    totalPerson,
+    due_date: new Date().getTime(), // 進場時間
+    update_date: new Date().getTime(),
+    final_date: totalPerson >= 5 ? new Date().getTime() + Number(totalTime) * 60 * 60 * 1000 : 0, // 離場時間
+    code: '---'
+  }
+  
+  await couponStore.checkIn(data)
+  await orderStore.adminCheck(id)
+  getCheckIn(couponStore.pagination.current_page)
+  getDate(orderStore.pagination.current_page)
+
 }
 
 // 取得訂單品項
@@ -217,10 +242,19 @@ function getMoney(data: orderAdminData) {
   if (totalPerson >= 5) { // 場地預約
     return moneyFormat(1500 * totalTime)
   } else if (productId) { // 已選定品項
-    return moneyFormat(data.total)
+    return moneyFormat(productList.value[productId].price)
   } else {
     return '---' // 現場選擇
   }
+}
+
+function getTime(date: number):string {
+  const timeStr = new Date(date).toLocaleString('zh-TW', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false
+  })
+  return timeStr
 }
 </script>
 

@@ -1,8 +1,12 @@
 <template>
   <div
-    class="d-flex flex-column flex-md-row align-items-md-center justify-content-between"
+    class="d-flex flex-column flex-md-row align-items-md-center"
+    :class="{
+      'justify-content-between': !hideStr,
+      'justify-content-end': hideStr,
+    }"
   >
-    <p class="mb-0 fs-5">
+    <p class="mb-0 fs-5" v-if="!hideStr">
       當前為第 {{ pagination.current_page }} 頁, 共
       {{ pagination.total_pages }} 頁
     </p>
@@ -21,8 +25,8 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['pagination']);
-const { pagination } = toRefs(props);
+const props = defineProps(['pagination', 'hideStr']);
+const { pagination, hideStr } = toRefs(props);
 
 const emit = defineEmits(['click']);
 function changePage(page: string | number): void {

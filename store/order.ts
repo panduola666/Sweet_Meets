@@ -101,6 +101,13 @@ const orderStore = defineStore('orderStore', () => {
         showConfirmButton: false,
         timer: 3000,
       });
+    },
+    // 後台報到
+    async adminCheck(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/order/${id}`,
+        method: 'DELETE',
+      });
     }
   };
 
