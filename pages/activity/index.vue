@@ -125,7 +125,16 @@ async function openModal () {
 }
 
 function closeModal() {
-  if (!activityId.value) return
+  if (!activityId.value && activityList.value.length) {
+    getDetail(activityList.value[0].id)
+  } else {
+    useSwal({
+      title: '暫無活動',
+      showConfirmButton: false,
+      timer: 3000,
+    });
+    return
+  }
   modal.hide()
 }
 </script>

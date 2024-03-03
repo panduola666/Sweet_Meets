@@ -24,11 +24,12 @@ export default defineNuxtConfig({
       ErrorMessage: 'VeeErrorMessage',
     }
   },
-  // app:{ // 部屬配置
-  //   // baseURL: process.env.NODE_ENV === 'production' ? '/Sweet_Meets/' : '/',
-  //   baseURL: '/',
-  //   buildAssetsDir: "/static/",
-  // },
+  app:{ // SEO and Meta
+    head: {
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+    }
+  },
   experimental: {
     payloadExtraction: false
   },

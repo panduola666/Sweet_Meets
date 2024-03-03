@@ -107,7 +107,7 @@ async function getDetail(id: string) {
 
 async function deleteArticle(id: string) {
   const swal = await useSwal({
-    title: `確定刪除<span class="text-danger mx-3">${title}</span>嗎?`,
+    title: `確定刪除<span class="text-danger mx-3">${title?.value}</span>嗎?`,
     showCancelButton: true,
     allowOutsideClick: false
   })
