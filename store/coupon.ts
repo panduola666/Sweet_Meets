@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import type { paginationType } from '../interface/product';
+import type { couponData } from '@/interface/coupon';
 
 const couponStore = defineStore('couponStore', () => {
   const { apiPath } = useRuntimeConfig().public;
@@ -14,7 +15,7 @@ const couponStore = defineStore('couponStore', () => {
 
   const adminAPI = {
     // 後台預約報到
-    async checkIn(data) {
+    async checkIn(data: couponData) {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/coupon`,
         method: 'POST',
@@ -38,6 +39,31 @@ const couponStore = defineStore('couponStore', () => {
         pagination.value = res.pagination;
       }
     },
+    // 後台確認付款
+    async adminPaid(data: couponData) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/coupon/${data.id}`,
+        method: 'PUT',
+        params: { data },
+      });
+
+      useSwal({
+        title: '付款成功',
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    },
+    async adminLeave(id: string) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/coupon/${id}`,
+        method: 'DELETE',
+      });
+      useSwal({
+        title: '確認離場',
+        showConfirmButton: false,
+        timer: 3000,
+      });
+    }
   };
 
 
