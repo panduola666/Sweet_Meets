@@ -35,3 +35,11 @@
     min-width: 2rem;
   }
 }
+
+:root{
+  --swiper-pagination-bottom: 0px;
+  --swiper-pagination-color: var(--bs-secondary);
+  --swiper-pagination-bullet-border-radius: 0;
+  --swiper-pagination-bullet-width: 20px;
+  --swiper-pagination-bullet-height: 4px;
+}

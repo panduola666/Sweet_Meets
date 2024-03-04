@@ -17,7 +17,6 @@ const routeStore = defineStore('routeStore',() => {
 ])
 
  function changeTitle(routeName: string|null|undefined) {
-  console.log(routeName);
   
   if (routeName) {
     pageTitle.value = title.get(routeName) || '相遇甜點'
