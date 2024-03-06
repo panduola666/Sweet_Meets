@@ -2,7 +2,8 @@
   <div>
     <NuxtLayout name="back">
       <div class="row">
-        <div class="col-12 col-lg-9">
+        <!-- 左側表格 -->
+        <div class="col-12 col-lg-9 position-relative">
           <div class="d-flex align-items-center justify-content-end gap-3 mb-3">
             <button
               type="button"
@@ -21,7 +22,7 @@
               報到
             </button>
           </div>
-          <div class="table-responsive">
+          <div class="table-responsive" :class="{ 'opacity-25': isDrag }">
             <table
               class="table table-bordered align-middle text-center table-hover"
             >
@@ -35,12 +36,27 @@
                   <th scope="col">費用</th>
                 </tr>
               </thead>
-              <tbody class="fs-lg-5">
+              <VueDraggableNext
+                v-model="fakeOrders"
+                :sort="false"
+                group="list"
+                tag="tbody"
+                class="fs-lg-5"
+                @change="onChange"
+                @start="onStart"
+                @end="onEnd"
+                handle=".mover"
+              >
                 <tr
                   v-for="(order, index) in orders"
                   :key="order.id"
                   @click="currOrder = order"
-                  :class="{ 'table-active': currOrder.id === order.id }"
+                  :class="{
+                    'table-active': currOrder.id === order.id,
+                    mover:
+                      new Date(order.user.orderDate).getTime() >=
+                      new Date().getTime() + 10 * 60 * 1000,
+                  }"
                 >
                   <th scope="row">{{ index + 1 }}</th>
                   <td class="text-nowrap position-relative">
@@ -54,7 +70,16 @@
                       @click="remark = order.message"
                     />
                   </td>
-                  <td class="text-nowrap" :class="{'text-danger text-decoration-line-through': new Date(order.user.orderDate).getTime() < (new Date().getTime() + 10 * 60 * 1000)}">{{ order.user.orderDate }}</td>
+                  <td
+                    class="text-nowrap"
+                    :class="{
+                      'text-danger text-decoration-line-through':
+                        new Date(order.user.orderDate).getTime() <
+                        new Date().getTime() + 10 * 60 * 1000,
+                    }"
+                  >
+                    {{ order.user.orderDate }}
+                  </td>
                   <td class="text-nowrap">{{ order.user.tel }}</td>
                   <td class="text-nowrap">
                     <span v-if="getItem(order)">{{ getItem(order) }}</span>
@@ -75,20 +100,32 @@
                   </td>
                   <td class="text-nowrap">{{ getMoney(order) }}</td>
                 </tr>
-              </tbody>
+              </VueDraggableNext>
             </table>
           </div>
-
           <div class="mt-3 mb-6">
             <Pagination :pagination="orderStore.pagination" @click="getDate" />
           </div>
         </div>
-        <div class="col bg-primary bg-opacity-50 py-5">
+
+        <!-- 右側表格 -->
+        <div class="col bg-primary bg-opacity-50 py-5 position-relative">
+          <span
+            class="position-absolute start-0 bg-white text-center fs-5 w-100 fw-bold"
+            style="top: -20px; border: 5px double red"
+            v-if="isDrag"
+            >拖曳至此處報到</span
+          >
           <p class="d-flex justify-content-between fw-bold">
             <span>報到名單</span>
             <span>離場</span>
           </p>
-          <ul class="mb-5 checkList px-3">
+          <VueDraggableNext
+            handle=".mover"
+            group="list"
+            tag="ul"
+            class="mb-5 checkList px-3"
+          >
             <li
               class="d-flex align-items-center gap-3 mb-5"
               v-for="item in checkInList"
@@ -135,9 +172,14 @@
                   付款
                 </button>
               </div>
-              <NuxtIcon name="delete" class="pointer" @click="checkLeave(item)" />
+              <NuxtIcon
+                name="delete"
+                class="pointer"
+                :class="{ hideDel: !item.is_paid }"
+                @click="checkLeave(item)"
+              />
             </li>
-          </ul>
+          </VueDraggableNext>
           <Pagination
             :pagination="couponStore.pagination"
             :hideStr="true"
@@ -179,9 +221,15 @@
               ></button>
             </div>
             <div class="modal-body">
-              <p><span class="fw-bold me-3">姓名:</span> {{ modalData.name }}</p>
+              <p>
+                <span class="fw-bold me-3">姓名:</span> {{ modalData.name }}
+              </p>
               <div class="mb-3 d-flex align-items-center">
-                <label for="finalProduct" class="form-label fw-bold flex-shrink-0 me-3">品項:</label>
+                <label
+                  for="finalProduct"
+                  class="form-label fw-bold flex-shrink-0 me-3"
+                  >品項:</label
+                >
                 <select
                   class="form-select"
                   id="finalProduct"
@@ -209,7 +257,11 @@
               >
                 再想想
               </button>
-              <button type="button" class="btn btn-secondary" @click="paidNow(modalData)">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                @click="paidNow(modalData)"
+              >
                 確認並付款
               </button>
             </div>
@@ -225,6 +277,7 @@ import type { orderAdminData } from '@/interface/order';
 import Order from '@/store/order';
 import Products from '@/store/products';
 import Coupon from '@/store/coupon';
+import { VueDraggableNext } from 'vue-draggable-next';
 
 const orderStore = Order();
 const productStore = Products();
@@ -247,8 +300,10 @@ const modalData = ref<couponData>({
   total: '',
   totalPerson: 0,
   update_date: 0,
-  percent: 0
+  percent: 0,
 });
+const fakeOrders = ref<orderAdminData[]>([]); // 避免影響原畫面
+const isDrag = ref<boolean>(false);
 
 const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders);
 const remark = ref<string>('');
@@ -299,11 +354,12 @@ onMounted(() => {
   });
 });
 
-function getDate(page: string | number) {
-  orderStore.adminGet(page);
+async function getDate(page: string | number) {
+  await orderStore.adminGet(page);
+  fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders));
 }
-function getCheckIn(page: string | number) {
-  couponStore.adminGet(page);
+async function getCheckIn(page: string | number) {
+  await couponStore.adminGet(page);
 }
 
 // 付款流程 start
@@ -318,22 +374,22 @@ function closePaidModal() {
   modal.hide();
 }
 function getFinalPaid(data: couponData) {
-  if (!data.productId) return moneyFormat(0)
-  const product = productList.value[data.productId]
-  
-  return moneyFormat(product.price)
+  if (!data.productId) return moneyFormat(0);
+  const product = productList.value[data.productId];
+
+  return moneyFormat(product.price);
 }
 // 確認付款
 async function paidNow(data: couponData) {
-  const product = productList.value[data.productId]
-  
-  data.is_paid = true
-  data.title = product.title
-  data.total = moneyFormat(product.price)
-  data.update_date = new Date().getTime()
+  const product = productList.value[data.productId];
 
-  await couponStore.adminPaid(data)
-  closePaidModal()
+  data.is_paid = true;
+  data.title = product.title;
+  data.total = moneyFormat(product.price);
+  data.update_date = new Date().getTime();
+
+  await couponStore.adminPaid(data);
+  closePaidModal();
   getCheckIn(couponStore.pagination.current_page);
 }
 // 付款流程 end
@@ -345,8 +401,8 @@ async function checkLeave(item: couponData) {
     showCancelButton: true,
     allowOutsideClick: false,
   });
-  if(swal.isConfirmed && item.id) {
-    await couponStore.adminLeave(item.id)
+  if (swal.isConfirmed && item.id) {
+    await couponStore.adminLeave(item.id);
     getCheckIn(couponStore.pagination.current_page);
   }
 }
@@ -392,6 +448,30 @@ async function checkIn() {
   getCheckIn(couponStore.pagination.current_page);
   getDate(orderStore.pagination.current_page);
 }
+// 預約拖曳報到
+function onStart() {
+  isDrag.value = true;
+}
+async function onChange(evt: any) {
+  currOrder.value = evt.removed.element;
+  const { id, user } = currOrder.value;
+  if (
+    id &&
+    new Date(user.orderDate).getTime() >= new Date().getTime() + 10 * 60 * 1000
+  ) {
+    const swal = await useSwal({
+      title: `預約人:<span class="text-danger mx-3">${user.name}</span>, 是否確認報到?`,
+      showCancelButton: true,
+      allowOutsideClick: false,
+    });
+    if (swal.isConfirmed) {
+      checkIn();
+    }
+  }
+}
+function onEnd() {
+  isDrag.value = false;
+}
 
 // 取得訂單品項
 function getItem(data: orderAdminData) {
@@ -408,8 +488,8 @@ function getItem(data: orderAdminData) {
 }
 
 // 取得訂單金額
-function getMoney(data: orderAdminData) {  
-  if(!productList.value || !data) return moneyFormat(0)
+function getMoney(data: orderAdminData) {
+  if (!productList.value || !data) return moneyFormat(0);
   const { totalPerson, totalTime, productId } = data.user;
   if (totalPerson >= 5) {
     // 場地預約
@@ -433,8 +513,14 @@ function getTime(date: number): string {
 </script>
 
 <style lang="scss" scoped>
+.hideDel {
+  visibility: hidden;
+}
 .checkList {
   overflow-y: auto;
   max-height: 530px;
+  .sortable-ghost {
+    display: none !important;
+  }
 }
 </style>

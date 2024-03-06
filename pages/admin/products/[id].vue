@@ -299,11 +299,11 @@ onMounted(() => {
     if (route.params.id !== '0') {
       // 修改
       productStore.adminProductGet(route.params.id as string);
-      const { imagesUrl = [] } = productStore.product as adminPost
-      form.value = { 
+      const { imagesUrl = [] } = productStore.product as adminPost;
+      form.value = {
         ...productStore.product,
-        imagesUrl: imagesUrl
-       } as adminPost;
+        imagesUrl: imagesUrl,
+      } as adminPost;
     }
   });
 }),

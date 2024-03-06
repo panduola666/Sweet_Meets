@@ -13,20 +13,26 @@
           class="d-lg-none w-100 rounded-4"
         />
         <section class="banner-content blur boxShadow p-6 p-lg-7">
-          <h1 class="fs-2 fw-bold mb-6 mb-lg-7">相遇甜點，<br />開始甜蜜相約</h1>
+          <h1 class="fs-2 fw-bold mb-6 mb-lg-7">
+            相遇甜點，<br />開始甜蜜相約
+          </h1>
           <NuxtLink to="/diy" class="btn btn-secondary fs-lg-3 w-100 py-3">
             開始課程
           </NuxtLink>
         </section>
       </div>
-  
+
       <nav class="container my-lg-9 my-8">
         <div class="d-flex align-items-center gap-9">
           <div class="d-none d-lg-block">
             <p
               class="nav-tab text-center p-7 bg-white bg-opacity-50 blur boxShadow rounded-4"
             >
-              <img src="../../assets/svg/homeTag.svg" alt="相遇甜點" width="80" />
+              <img
+                src="../../assets/svg/homeTag.svg"
+                alt="相遇甜點"
+                width="80"
+              />
             </p>
           </div>
           <div
@@ -40,7 +46,7 @@
               <NuxtLink
                 :to="link.route"
                 class="nav-link"
-                :style="{backgroundImage: `url(${link.imgUrl})`}"
+                :style="{ backgroundImage: `url(${link.imgUrl})` }"
               >
                 <div
                   class="nav-name bg-black bg-opacity-50 text-white fs-3 d-flex justify-content-around align-items-center"
@@ -52,65 +58,86 @@
           </div>
         </div>
       </nav>
-  
+
       <!-- 快速預約 -->
       <div class="order bg-primary py-6 py-lg-7">
         <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
-        <div class="products" @mouseover="pauseSlider" @mouseleave="resumeSlider">
-          <Swiper
-            ref="swiper"
-            v-bind="swiperConfig"
-            v-if="productList.length"
-          >
-            <SwiperSlide v-for="product in productList" @click="productTemp = product">
-                <div class="text-center pointer">
-                  <img
-                    :src="product.imageUrl"
-                    height="375"
-                    :alt="product.title"
-                    class="w-100 object-fit-cover mb-6"
-                  />
-                  <h3 class="fs-3 m-0">{{ product.title }}</h3>
-                </div>
+        <div
+          class="products"
+          @mouseover="pauseSlider"
+          @mouseleave="resumeSlider"
+        >
+          <Swiper ref="swiper" v-bind="swiperConfig" v-if="productList.length">
+            <SwiperSlide
+              v-for="product in productList"
+              @click="productTemp = product"
+            >
+              <div class="text-center pointer">
+                <img
+                  :src="product.imageUrl"
+                  height="375"
+                  :alt="product.title"
+                  class="w-100 object-fit-cover mb-6"
+                />
+                <h3 class="fs-3 m-0">{{ product.title }}</h3>
+              </div>
             </SwiperSlide>
           </Swiper>
         </div>
       </div>
-      <product-modal :product="productTemp" @close="productTemp = {}"/>
-  
+      <product-modal :product="productTemp" @close="productTemp = {}" />
+
       <!-- 近期活動 -->
-        <div class="d-flex bg-secondary">
-          <div class="w-50 d-none d-lg-block">
-            <img src="../../assets/img/home/activiryBanner.png" alt="" class="w-100 h-100 object-fit-cover opacity-75">
-          </div>
-          <div class="flex-grow-1">
-            <article class="border border-2 text-white px-2 px-lg-4 pt-4 pb-9 mx-3 mx-lg-8 my-8">
-              <h2 class="fs-1 fw-bold  text-center mb-6 mb-lg-7">近期活動</h2>
-              <ul class="d-flex flex-column gap-6 gap-lg-7">
-                <li class="text-white pb-6 border-bottom border-2 default" v-for="activity in activitiesList.slice(0, 3)" :key="activity.id">
-                  <h4 class="h2">{{ activity.title }}</h4>
-                  <p class="text-white fs-4 m-0 d-flex justify-content-between align-items-end">
-                    活動時間: {{ activity.description }}
-                    <NuxtLink :to="`/activity?id=${activity.id}`" class="text-white fs-6 activity-link pointer">詳情 >></NuxtLink>
-                  </p>
-                </li>
-              </ul>
-            </article>
-          </div>
+      <div class="d-flex bg-secondary">
+        <div class="w-50 d-none d-lg-block">
+          <img
+            src="../../assets/img/home/activiryBanner.png"
+            alt=""
+            class="w-100 h-100 object-fit-cover opacity-75"
+          />
         </div>
-  
-        <!-- 操作步驟 -->
-        <div class="container py-8 py-lg-9">
+        <div class="flex-grow-1">
+          <article
+            class="border border-2 text-white px-2 px-lg-4 pt-4 pb-9 mx-3 mx-lg-8 my-8"
+          >
+            <h2 class="fs-1 fw-bold text-center mb-6 mb-lg-7">近期活動</h2>
+            <ul class="d-flex flex-column gap-6 gap-lg-7">
+              <li
+                class="text-white pb-6 border-bottom border-2 default"
+                v-for="activity in activitiesList.slice(0, 3)"
+                :key="activity.id"
+              >
+                <h4 class="h2">{{ activity.title }}</h4>
+                <p
+                  class="text-white fs-4 m-0 d-flex justify-content-between align-items-end"
+                >
+                  活動時間: {{ activity.description }}
+                  <NuxtLink
+                    :to="`/activity?id=${activity.id}`"
+                    class="text-white fs-6 activity-link pointer"
+                    >詳情 >></NuxtLink
+                  >
+                </p>
+              </li>
+            </ul>
+          </article>
+        </div>
+      </div>
+
+      <!-- 操作步驟 -->
+      <div class="container py-8 py-lg-9">
         <h2 class="h1 fw-bold text-center mb-6">操作步驟</h2>
-          <div class="row justify-content-center gap-6 gap-lg-0">
-            <div class="col-12 col-lg-4 d-flex flex-column align-items-center default" v-for="step in steps" :key="step.name">
-              <img :src="step.imgUrl" :alt="step.name" class="img-fluid">
-              <p class="fs-2 fw-bold m-0">{{ step.name }}</p>
-            </div>
+        <div class="row justify-content-center gap-6 gap-lg-0">
+          <div
+            class="col-12 col-lg-4 d-flex flex-column align-items-center default"
+            v-for="step in steps"
+            :key="step.name"
+          >
+            <img :src="step.imgUrl" :alt="step.name" class="img-fluid" />
+            <p class="fs-2 fw-bold m-0">{{ step.name }}</p>
           </div>
         </div>
-  
-  
+      </div>
     </NuxtLayout>
   </div>
 </template>
@@ -124,24 +151,24 @@ import step2Img from '@/assets/img/home/step2.png';
 import step3Img from '@/assets/img/home/step3.png';
 import step4Img from '@/assets/img/home/step4.png';
 import step5Img from '@/assets/img/home/step5.png';
-import Products from '@/store/products'
-import Article from '@/store/article'
+import Products from '@/store/products';
+import Article from '@/store/article';
 
-const productStore = Products()
+const productStore = Products();
 const ArticleStore = Article();
 const route = useRoute();
 const swiper = ref<{ [key: string]: any } | null>(null);
 
-const productTemp = ref({})
-const productList = computed(() => productStore.products || [])
-const activitiesList = computed(() => ArticleStore.articles || [])
+const productTemp = ref({});
+const productList = computed(() => productStore.products || []);
+const activitiesList = computed(() => ArticleStore.articles || []);
 onMounted(() => {
   nextTick(async () => {
-    await productStore.productsGet()
-    await ArticleStore.articlesGet(1)
-    resumeSlider()
-  })
-})
+    await productStore.productsGet();
+    await ArticleStore.articlesGet(1);
+    resumeSlider();
+  });
+});
 
 const homeNav = ref<homeNav[]>([
   {
@@ -167,7 +194,7 @@ const swiperConfig = ref({
   speed: 5000,
   loop: true,
   autoplay: {
-    delay: 0,  
+    delay: 0,
     disableOnInteraction: true,
   },
   spaceBetween: 16,
@@ -182,11 +209,11 @@ const swiperConfig = ref({
 
 function pauseSlider() {
   // 暫停輪播
-  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop())
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop());
 }
 function resumeSlider() {
   // 開始輪播
-  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.start())
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.start());
 }
 
 const steps = ref<stepsType[]>([
@@ -209,10 +236,8 @@ const steps = ref<stepsType[]>([
   {
     name: '5. 清洗用具並歸還',
     imgUrl: step5Img,
-  }
-])
-
-
+  },
+]);
 </script>
 
 <style lang="scss" scoped>
@@ -265,11 +290,11 @@ const steps = ref<stepsType[]>([
 }
 .products {
   --swiper-wrapper-transition-timing-function: linear;
-  .swiper-slide:hover{
+  .swiper-slide:hover {
     transform: translateY(-5px);
   }
 }
-.activity-link:hover{
+.activity-link:hover {
   text-decoration: underline;
   text-underline-offset: 4px;
 }

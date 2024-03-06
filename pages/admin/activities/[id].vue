@@ -148,7 +148,7 @@ const schema = {
     if (date.value < new Date().getTime()) {
       return '當前 活動時間 已過期';
     }
-    return true
+    return true;
   },
 };
 
