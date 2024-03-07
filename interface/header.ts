@@ -1,4 +1,4 @@
 export interface headerLink {
-  route: string,
+  route: string
   name: string
 }

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <NuxtLayout name="back" :breadPath="[currType]">
+    <NuxtLayout name="back" :bread-path="[currType]">
       <div class="text-end mb-3">
         <nuxt-link to="/admin/products/0" class="btn btn-lg btn-secondary px-6"
           >新增甜點</nuxt-link
@@ -12,9 +12,9 @@
             class="bg-white mx-auto fs-lg-4 fw-bold text-center border border-secondary shadow-sm d-flex d-lg-block overflow-auto"
           >
             <li
-              class="p-3 border-bottom border-end flex-shrink-0 flex-grow-1 border-secondary pointer product-nav"
               v-for="item in categoryList"
               :key="item"
+              class="p-3 border-bottom border-end flex-shrink-0 flex-grow-1 border-secondary pointer product-nav"
               :class="{ active: currType === item }"
               @click="changeType(item)"
             >
@@ -24,12 +24,13 @@
         </aside>
         <div class="col">
           <div
-            class="row row-cols-2 row-cols-lg-5 g-4"
             v-if="productStore.products"
+            class="row row-cols-2 row-cols-lg-5 g-4"
           >
             <div
-              class="col"
               v-for="item in productStore.products"
+              :key="item.id"
+              class="col"
               @click="editProduct(item)"
             >
               <div class="card product-card h-100">
@@ -72,21 +73,21 @@
   </div>
 </template>
 <script setup lang="ts">
-import Products from '@/store/products';
+import Products from '@/store/products'
 
-const productStore = Products();
-const categoryList = ['全部', ...productStore.categoryList];
-const currType = ref<string>(categoryList[0]);
+const productStore = Products()
+const categoryList = ['全部', ...productStore.categoryList]
+const currType = ref<string>(categoryList[0])
 
 onMounted(() => {
   nextTick(async () => {
-    await getDate(1);
-  });
-});
+    await getDate(1)
+  })
+})
 function changeType(item: string) {
-  currType.value = item;
+  currType.value = item
 
-  getDate(1);
+  getDate(1)
 }
 function getDate(page: string | number) {
   productStore.adminGet({
@@ -94,23 +95,23 @@ function getDate(page: string | number) {
       ? currType.value
       : '',
     page: page.toString(),
-  });
+  })
 }
 
 function editProduct(item: any) {
-  productStore.product = item;
+  productStore.product = item
 
-  useRouter().push(`/admin/products/${item.id}`);
+  useRouter().push(`/admin/products/${item.id}`)
 }
 async function delProduct(item: any) {
   const swal = await useSwal({
     title: `確定刪除<span class="text-danger mx-3">${item.title}</span>嗎?`,
     showCancelButton: true,
     allowOutsideClick: false,
-  });
+  })
   if (swal.isConfirmed) {
-    await productStore.adminDel(item.id);
-    getDate(productStore.pagination.current_page || '1');
+    await productStore.adminDel(item.id)
+    getDate(productStore.pagination.current_page || '1')
   }
 }
 </script>

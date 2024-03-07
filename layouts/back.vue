@@ -11,7 +11,7 @@
           class="py-2"
         /> -->
         <ul class="nav h5 gap-6 d-none d-md-flex">
-          <li class="nav-item" v-for="item in headerList" :key="item.route">
+          <li v-for="item in headerList" :key="item.route" class="nav-item">
             <NuxtLink
               class="pcNav nav-link fw-bold py-4 px-2 position-relative"
               :class="{ active: item.route === route.path }"
@@ -32,7 +32,11 @@
           <!-- <span class="fw-bold me-4 d-none d-md-inline-block"
             >你好, admin001</span
           > -->
-          <button type="button" class="btn btn-outline-secondary px-5" @click="userStore.logout">
+          <button
+            type="button"
+            class="btn btn-outline-secondary px-5"
+            @click="userStore.logout"
+          >
             登出
           </button>
         </div>
@@ -42,7 +46,7 @@
         class="nav flex-column d-md-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur"
         style="box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 6px"
       >
-        <li class="nav-item" v-for="item in headerList" :key="item.route">
+        <li v-for="item in headerList" :key="item.route" class="nav-item">
           <NuxtLink
             class="nav-link fw-bold mx-3"
             :class="{ 'bg-primary': item.route === route.path }"
@@ -54,14 +58,14 @@
     </header>
 
     <main class="mt-4 mt-md-8 flex-grow-1 container-fluid px-md-8 px-4">
-      <nav aria-label="breadcrumb" v-if="pageName">
+      <nav v-if="pageName" aria-label="breadcrumb">
         <ol class="breadcrumb fs-5 fw-bold mb-0">
           <li class="breadcrumb-item">{{ pageName }}</li>
           <li
-            class="breadcrumb-item active"
-            aria-current="page"
             v-for="path in props.breadPath"
             :key="path"
+            class="breadcrumb-item active"
+            aria-current="page"
           >
             {{ path }}
           </li>
@@ -72,26 +76,26 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { headerLink } from '../interface/header';
+import type { headerLink } from '../interface/header'
 import User from '@/store/user'
 
 const userStore = User()
-const route = useRoute();
-const menuOpen = ref<boolean>(false);
-const pageName = ref<string>('');
+const route = useRoute()
+const menuOpen = ref<boolean>(false)
+const pageName = ref<string>('')
 const props = withDefaults(defineProps<{ breadPath?: string[] }>(), {
   breadPath: () => [],
-});
+})
 
 onMounted(async () => {
   await nextTick(() => {
     userStore.checkLogin()
     const currRoute = headerList.value.find(
-      (list) => list.route === route.path
-    ) as headerLink;
-    pageName.value = currRoute ? currRoute.name : '';
+      (list) => list.route === route.path,
+    ) as headerLink
+    pageName.value = currRoute ? currRoute.name : ''
   })
-});
+})
 
 const headerList = ref<headerLink[]>([
   {
@@ -106,8 +110,7 @@ const headerList = ref<headerLink[]>([
     route: '/admin/orders',
     name: '預約管理',
   },
-]);
-
+])
 </script>
 <style lang="scss" scoped>
 .backLayout {

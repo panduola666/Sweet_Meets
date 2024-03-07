@@ -1,16 +1,14 @@
-import { defineRule, configure  } from 'vee-validate';
-import * as rules from '@vee-validate/rules';
-// import { required, email, min } from '@vee-validate/rules';
-import { localize, setLocale } from '@vee-validate/i18n';
-import zhTW from '../locales/zh_TW.json';
+import { defineRule, configure } from 'vee-validate'
+import { required, email, min, integer, min_value } from '@vee-validate/rules'
+import { localize, setLocale } from '@vee-validate/i18n'
+import zhTW from '../locales/zh_TW.json'
 
 // 加入規則
-// defineRule('required', required);
-// defineRule('email', email);
-// defineRule('min', min);
-Object.keys(rules).forEach(rule => {
-  defineRule(rule, rules[rule]);
-}); 
+defineRule('required', required)
+defineRule('email', email)
+defineRule('min', min)
+defineRule('min_value', min_value)
+defineRule('integer', integer)
 
 /** 配置訊息
 
@@ -22,10 +20,10 @@ Object.keys(rules).forEach(rule => {
  */
 configure({
   generateMessage: localize({ zh_TW: zhTW }),
-  validateOnInput: true
-});
+  validateOnInput: true,
+})
 
-setLocale('zh_TW');
+setLocale('zh_TW')
 
 // 必須定義，用來封裝 plugin
-export default defineNuxtPlugin(_nuxtApp => {});
+export default defineNuxtPlugin((_nuxtApp) => {})

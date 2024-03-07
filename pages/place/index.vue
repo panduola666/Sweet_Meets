@@ -3,21 +3,21 @@
     <NuxtLayout name="default">
       <div class="container">
         <div class="w-lg-75 mx-auto">
-          <step-nav :steps="steps" :currStep="currStep" />
+          <step-nav :steps="steps" :curr-step="currStep" />
           <div class="bg-white bg-opacity-50 order-shadow rounded-4">
             <OrderStep1
               v-if="currStep === 0"
-              :currStep="currStep"
+              :curr-step="currStep"
               @click="changStep"
             />
             <OrderStep2
               v-if="currStep === 1"
-              :currStep="currStep"
+              :curr-step="currStep"
               @click="changStep"
             />
             <OrderStep3
               v-if="currStep === 2"
-              :currStep="currStep"
+              :curr-step="currStep"
               @click="changStep"
             />
             <OrderFinal v-if="currStep === steps.length - 1" />
@@ -28,27 +28,27 @@
   </div>
 </template>
 <script setup lang="ts">
-import Carts from '@/store/cart';
-import Order from '@/store/order';
+import Carts from '@/store/cart'
+import Order from '@/store/order'
 
-const cartStore = Carts();
-const orderStore = Order();
+const cartStore = Carts()
+const orderStore = Order()
 
-const steps = ref<string[]>(['租借須知', '填寫資料', '費用繳付', '預約完成']);
-const currStep = ref<number>(0);
+const steps = ref<string[]>(['租借須知', '填寫資料', '費用繳付', '預約完成'])
+const currStep = ref<number>(0)
 
 function changStep(stepIndex: number) {
-  currStep.value = stepIndex;
-  window.scrollTo(0, 0);
+  currStep.value = stepIndex
+  window.scrollTo(0, 0)
 }
 
 onBeforeRouteLeave(async () => {
-  await cartStore.checkCart();
+  await cartStore.checkCart()
   if (cartStore.carts.length) {
-    cartStore.clearCart();
+    cartStore.clearCart()
   }
-  orderStore.resetPlaceOrder();
-});
+  orderStore.resetPlaceOrder()
+})
 </script>
 <style lang="scss" scoped>
 .order-shadow {

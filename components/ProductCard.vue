@@ -1,5 +1,5 @@
 <template>
-  <div class="card" v-if="product">
+  <div v-if="product" class="card">
     <div class="row g-0">
       <div class="col-5">
         <img
@@ -19,16 +19,18 @@
       </div>
       <div class="col-7">
         <div class="card-body">
-          <h5 class="card-title h3 fw-bold text-truncate">{{ product.id ? product.title : '到店選擇' }}</h5>
-          <p class="card-text fs-4 fw-bold">{{ product.id ?  moneyFormat(product.price) : '依品項價格' }}</p>
+          <h5 class="card-title h3 fw-bold text-truncate">
+            {{ product.id ? product.title : '到店選擇' }}
+          </h5>
+          <p class="card-text fs-4 fw-bold">
+            {{ product.id ? moneyFormat(product.price) : '依品項價格' }}
+          </p>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['product']);
+const props = defineProps(['product'])
 const { product } = toRefs(props)
-
-
 </script>

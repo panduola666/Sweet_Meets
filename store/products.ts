@@ -1,9 +1,9 @@
-import { defineStore } from 'pinia';
-import type { adminGet, paginationType, adminPost } from '../interface/product';
+import { defineStore } from 'pinia'
+import type { adminGet, paginationType, adminPost } from '../interface/product'
 
 const productStore = defineStore('productStore', () => {
-  const { apiPath } = useRuntimeConfig().public;
-  const products = ref<adminPost[]>([]);
+  const { apiPath } = useRuntimeConfig().public
+  const products = ref<adminPost[]>([])
   const product = ref<adminPost>({
     title: '',
     category: '',
@@ -17,14 +17,14 @@ const productStore = defineStore('productStore', () => {
     imageUrl: '',
     imagesUrl: [],
     is_enabled: 0,
-    saveMode: 0
+    saveMode: 0,
   })
   const pagination = ref<paginationType>({
     current_page: 0,
     has_next: false,
     has_pre: false,
     total_pages: 0,
-  });
+  })
   const categoryList = ['壽星優惠', '蛋糕', '餅乾', '塔派']
 
   const adminAPI = {
@@ -33,20 +33,20 @@ const productStore = defineStore('productStore', () => {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/products/all`,
         method: 'GET',
-      });
+      })
       if (res && res.success) {
-        products.value = res.products;
+        products.value = res.products
       }
     },
     // 後台取得產品列表
-    async adminGet (data: adminGet) {
+    async adminGet(data: adminGet) {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/products?category=${data.category}&page=${data.page}`,
         method: 'GET',
-      });
+      })
       if (res && res.success) {
-        products.value = res.products;
-        pagination.value = res.pagination;
+        products.value = res.products
+        pagination.value = res.pagination
       }
     },
     // 後台刪除產品
@@ -54,33 +54,33 @@ const productStore = defineStore('productStore', () => {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/product/${id}`,
         method: 'DELETE',
-      });
-  
-      useSwal({
-        title: res.message,
-        showConfirmButton: false,
-        timer: 3000,
-      });
-    },
-    // 後台新增產品
-    async adminAdd(data: adminPost) {
-      const res: any = await getFetchData({
-        url: `/api/${apiPath}/admin/product`,
-        method: 'POST',
-        params: { data }
-      });
+      })
+
       useSwal({
         title: res.message,
         showConfirmButton: false,
         timer: 3000,
       })
     },
-    // 後台取得單一產品資訊
-    async adminProductGet(id: string) {
+    // 後台新增產品
+    async adminAdd(data: adminPost) {
+      const res: any = await getFetchData({
+        url: `/api/${apiPath}/admin/product`,
+        method: 'POST',
+        params: { data },
+      })
+      useSwal({
+        title: res.message,
+        showConfirmButton: false,
+        timer: 3000,
+      })
+    },
+    // 後台取得全部產品資訊
+    async adminProductGet() {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/products/all`,
         method: 'GET',
-      });
+      })
       product.value = res.products.id
     },
     // 後台編輯產品
@@ -88,35 +88,35 @@ const productStore = defineStore('productStore', () => {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/admin/product/${id}`,
         method: 'PUT',
-        params: { data }
-      });
+        params: { data },
+      })
       useSwal({
         title: res.message,
         showConfirmButton: false,
         timer: 3000,
       })
-    }
+    },
   }
 
   const frontAPI = {
-    async productsGet () {
+    async productsGet() {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/products/all`,
         method: 'GET',
-      });
+      })
       if (res && res.success) {
-        products.value = res.products;
+        products.value = res.products
       }
     },
     async productDetail(id: string) {
       const res: any = await getFetchData({
         url: `/api/${apiPath}/product/${id}`,
         method: 'GET',
-      });
+      })
       if (res && res.success) {
-        product.value = res.product;
+        product.value = res.product
       }
-    }
+    },
   }
 
   return {
@@ -125,8 +125,8 @@ const productStore = defineStore('productStore', () => {
     product,
     categoryList,
     ...adminAPI,
-    ...frontAPI
-  };
-});
+    ...frontAPI,
+  }
+})
 
-export default productStore;
+export default productStore

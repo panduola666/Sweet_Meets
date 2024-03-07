@@ -1,6 +1,6 @@
 <template>
   <div class="p-7">
-    <VeeForm @submit="submit" :validation-schema="schema">
+    <VeeForm :validation-schema="schema" @submit="submit">
       <div class="row mb-3">
         <div class="col-12 col-lg">
           <div v-if="singleOrder" class="mb-3 d-lg-none">
@@ -10,12 +10,12 @@
           <div class="mb-3">
             <label for="name" class="form-label fw-bold">姓名</label>
             <VeeField
-              class="form-control"
               id="name"
+              v-model.trim="form.user.name"
+              class="form-control"
               name="姓名"
               type="text"
               placeholder="請輸入姓名"
-              v-model.trim="form.user.name"
             />
             <VeeErrorMessage name="姓名" class="text-danger" />
           </div>
@@ -26,25 +26,25 @@
               <div class="col">
                 <label for="phone" class="form-label fw-bold">手機</label>
                 <VeeField
+                  id="phone"
+                  v-model.trim="form.user.tel"
                   v-number
                   class="form-control"
-                  id="phone"
                   name="手機"
                   type="tel"
                   placeholder="請輸入手機號碼"
-                  v-model.trim="form.user.tel"
                 />
                 <VeeErrorMessage name="手機" class="text-danger" />
               </div>
               <div class="col">
                 <label for="email" class="form-label fw-bold">信箱</label>
                 <VeeField
-                  class="form-control"
                   id="email"
+                  v-model.trim="form.user.email"
+                  class="form-control"
                   name="信箱"
                   type="email"
                   placeholder="請輸入信箱"
-                  v-model.trim="form.user.email"
                 />
                 <VeeErrorMessage name="信箱" class="text-danger" />
               </div>
@@ -52,55 +52,73 @@
           </div>
 
           <!-- 甜點品項 -->
-          <div class="mb-3" v-if="singleOrder">
+          <div v-if="singleOrder" class="mb-3">
             <label for="product" class="form-label fw-bold">甜點品項</label>
             <VeeField
-              class="form-select"
               id="product"
+              v-model="form.user.productId"
+              class="form-select"
               name="品項"
               as="select"
               placeholder="請選擇品項"
-              v-model="form.user.productId"
             >
               <option value="">到店選擇</option>
-              <option :value="option.id" v-for="option in productList" :key="option.id">{{ option.title }} - {{ moneyFormat(option.price) }}</option>
+              <option
+                v-for="option in productList"
+                :key="option.id"
+                :value="option.id"
+              >
+                {{ option.title }} - {{ moneyFormat(option.price) }}
+              </option>
             </VeeField>
           </div>
 
           <!-- 人數 -->
-          <div class="mb-3" v-if="!singleOrder">
+          <div v-if="!singleOrder" class="mb-3">
             <label for="totalPerson" class="form-label fw-bold">人數</label>
             <VeeField
-              class="form-select"
               id="totalPerson"
+              v-model="form.user.totalPerson"
+              class="form-select"
               name="人數"
               as="select"
               placeholder="請選擇人數"
-              v-model="form.user.totalPerson"
             >
-              <option v-for="num in [5, 6, 7, 8, 9, 10]" :key="num" :value="num">{{num}} 人</option>
+              <option
+                v-for="num in [5, 6, 7, 8, 9, 10]"
+                :key="num"
+                :value="num"
+              >
+                {{ num }} 人
+              </option>
             </VeeField>
           </div>
 
           <!-- 預約時數 -->
-          <div class="mb-3" v-if="!singleOrder">
+          <div v-if="!singleOrder" class="mb-3">
             <label for="totalTime" class="form-label fw-bold">預約時數</label>
             <VeeField
-              class="form-select"
               id="totalTime"
+              v-model="form.user.totalTime"
+              class="form-select"
               name="預約時數"
               as="select"
               placeholder="請選擇預約時數"
-              v-model="form.user.totalTime"
             >
-              <option v-for="(hour, index) in [1, 1.5, 2, 2.5, 3]" :key="hour" :value="hour" >{{ hour }} 小時</option>
+              <option
+                v-for="hour in [1, 1.5, 2, 2.5, 3]"
+                :key="hour"
+                :value="hour"
+              >
+                {{ hour }} 小時
+              </option>
             </VeeField>
           </div>
           <!-- 預約日期 -->
           <div class="mb-3">
             <VDatePicker
-              trim-weeks
               v-model="date.orderDate"
+              trim-weeks
               :input-debounce="500"
               :disabled-dates="disabledDates"
               :max-date="maxDate"
@@ -108,46 +126,55 @@
               <template #default="{ togglePopover }">
                 <label for="date" class="form-label fw-bold">預約日期</label>
                 <VeeField
-                  v-model="form.user.orderDate"
-                  @click="togglePopover"
-                  class="form-control mb-1"
                   id="date"
+                  v-model="form.user.orderDate"
+                  class="form-control mb-1"
                   name="預約日期"
                   type="text"
                   inputmode="numeric"
                   placeholder="請選擇預約日期"
                   readonly
+                  @click="togglePopover"
                 />
               </template>
             </VDatePicker>
             <div class="d-flex align-items-center gap-3">
-              <select class="form-select" v-model="date.orderHour">
-                <option :value="i + 11" v-for="i in 10" :key="i">{{ i + 11 }}</option>
-            </select>
-            點
-            <select class="form-select" v-model="date.orderMin">
-              <option :value="i" v-for="i in ['00', '30']" :key="i">{{i}}</option>
-            </select>
-            分
+              <select v-model="date.orderHour" class="form-select">
+                <option v-for="i in 10" :key="i" :value="i + 11">
+                  {{ i + 11 }}
+                </option>
+              </select>
+              點
+              <select v-model="date.orderMin" class="form-select">
+                <option v-for="i in ['00', '30']" :key="i" :value="i">
+                  {{ i }}
+                </option>
+              </select>
+              分
             </div>
             <VeeErrorMessage name="預約日期" class="text-danger" />
           </div>
 
           <!-- 生日 -->
-          <div class="mb-3" v-if="singleOrder">
-            <VDatePicker trim-weeks v-model="date.birthDate" :input-debounce="500" :max-date="new Date()">
+          <div v-if="singleOrder" class="mb-3">
+            <VDatePicker
+              v-model="date.birthDate"
+              trim-weeks
+              :input-debounce="500"
+              :max-date="new Date()"
+            >
               <template #default="{ togglePopover }">
                 <label for="birth" class="form-label fw-bold">生日</label>
                 <VeeField
-                  v-model.trim="form.user.birth"
-                  @click="togglePopover"
-                  class="form-control"
                   id="birth"
+                  v-model.trim="form.user.birth"
+                  class="form-control"
                   name="生日"
                   type="text"
                   inputmode="numeric"
                   placeholder="請選擇生日"
                   readonly
+                  @click="togglePopover"
                 />
               </template>
             </VDatePicker>
@@ -162,26 +189,28 @@
           <div v-else class="mb-3">
             <label for="remark" class="form-label fw-bold">備註</label>
             <VeeField
-                class="form-control"
-                id="remark"
-                name="備註"
-                as="textarea"
-                placeholder="請輸入備註"
-                v-model.trim="form.message"
-                style="resize: none;height: 140px;"
-              />
+              id="remark"
+              v-model.trim="form.message"
+              class="form-control"
+              name="備註"
+              as="textarea"
+              placeholder="請輸入備註"
+              style="resize: none; height: 140px"
+            />
           </div>
 
           <VDatePicker
             expanded
             trim-weeks
-            :attributes="[{highlight: true,dates: date.orderDate}]"
+            :attributes="[{ highlight: true, dates: date.orderDate }]"
             :disabled-dates="disabledDates"
             :max-date="maxDate"
             style="pointer-events: none"
           >
             <template #footer>
-              <p class="text-center" :class="{hidden: !form.user.orderDate}">預約日期: {{ form.user.orderDate }}</p>
+              <p class="text-center" :class="{ hidden: !form.user.orderDate }">
+                預約日期: {{ form.user.orderDate }}
+              </p>
             </template>
           </VDatePicker>
         </div>
@@ -200,17 +229,17 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { cartsList } from '@/interface/cart';
-import type { adminPost } from '@/interface/product';
-import type { postOrder } from '@/interface/order';
+import type { cartsList } from '@/interface/cart'
+import type { adminPost } from '@/interface/product'
+import type { postOrder } from '@/interface/order'
 
 import Products from '@/store/products'
 import Carts from '@/store/cart'
 import Order from '@/store/order'
 
-const props = defineProps(['currStep']);
+const props = defineProps(['currStep'])
 const singleOrder: boolean = ['order'].includes(useRoute().name as string)
-const productStore = Products();
+const productStore = Products()
 const cartStore = Carts()
 const orderStore = Order()
 
@@ -219,7 +248,7 @@ const joinActivity = ref<boolean>(false) // 是否從參加活動
 
 const form = ref<postOrder>({
   user: {
-   name: '',
+    name: '',
     email: '',
     tel: '',
     address: '本店',
@@ -237,51 +266,55 @@ const form = ref<postOrder>({
       imageUrl: '',
       imagesUrl: [],
       is_enabled: 0,
-      saveMode: 0
+      saveMode: 0,
     },
     productId: '',
     orderDate: '',
     totalPerson: 1, // 人數
-    totalTime: 0 // 預約時數
+    totalTime: 0, // 預約時數
   },
   message: '',
 })
 
-
 const carts: ComputedRef<cartsList[]> = computed(() => cartStore.carts || [])
-const productList: ComputedRef<adminPost[]> = computed(() => productStore.products || [])
+const productList: ComputedRef<adminPost[]> = computed(
+  () => productStore.products || [],
+)
 
 onMounted(() => {
-  
   const timer = useRoute().query.timer
   nextTick(async () => {
     await productStore.productsGet()
 
-    if(timer) { // 判斷活動預約時間代入
+    if (timer) {
+      // 判斷活動預約時間代入
       date.orderDate = new Date(Number(timer))
     }
     joinActivity.value = !!timer
 
-    if(orderStore.placeOrder.user.name) { // 判斷場地租借修改資料
+    if (orderStore.placeOrder.user.name) {
+      // 判斷場地租借修改資料
       form.value = orderStore.placeOrder
     }
 
-    if (joinActivity.value || !singleOrder) { // 活動預約 or 場地租借 => 因 API 限制須至少購物車有東西
-        await cartStore.addCart({
-          product_id: productList.value[0].id as string,
-          qty: 1
-        })
-      }
+    if (joinActivity.value || !singleOrder) {
+      // 活動預約 or 場地租借 => 因 API 限制須至少購物車有東西
+      await cartStore.addCart({
+        product_id: productList.value[0].id as string,
+        qty: 1,
+      })
+    }
 
-    if (singleOrder) { // 單人預約
+    if (singleOrder) {
+      // 單人預約
       await cartStore.checkCart()
       if (!carts.value.length) {
-        const swal =  await useSwal({
+        const swal = await useSwal({
           title: '暫無商品',
           confirmButtonText: '來去選購',
           confirmButtonColor: '#603D3D',
-          allowOutsideClick: false
-        });
+          allowOutsideClick: false,
+        })
         if (swal.isConfirmed) {
           useRouter().push('/diy')
         }
@@ -295,40 +328,46 @@ onMounted(() => {
   })
 })
 
-watch(() => form.value.user.productId, (productId) => {
-  isEditCart.value = true
-  if (productId) {
-    const productData = productList.value.find(item => item.id === form.value.user.productId)
-    if (productData) {
-      form.value.user.totalTime = productData.finalTime
-      form.value.user.productData = productData
+watch(
+  () => form.value.user.productId,
+  (productId) => {
+    isEditCart.value = true
+    if (productId) {
+      const productData = productList.value.find(
+        (item) => item.id === form.value.user.productId,
+      )
+      if (productData) {
+        form.value.user.totalTime = productData.finalTime
+        form.value.user.productData = productData
+      }
+    } else {
+      form.value.user.productData = {
+        title: '',
+        category: '',
+        origin_price: 0,
+        price: 0,
+        unit: '',
+        description: '',
+        finalTime: 0,
+        content: [],
+        saveMethods: [],
+        imageUrl: '',
+        imagesUrl: [],
+        is_enabled: 0,
+        saveMode: 0,
+      }
+      form.value.user.totalTime = 0
     }
-  } else {
-    form.value.user.productData = {
-      title: '',
-      category: '',
-      origin_price: 0,
-      price: 0,
-      unit: '',
-      description: '',
-      finalTime: 0,
-      content: [],
-      saveMethods: [],
-      imageUrl: '',
-      imagesUrl: [],
-      is_enabled: 0,
-      saveMode: 0
-    }
-    form.value.user.totalTime = 0
-  }
-})
+  },
+)
 
-async function submit (value: any, { resetForm }: any) {
-  if (isEditCart.value && form.value.user.productId) { // 需更換購物車內容
+async function submit() {
+  if (isEditCart.value && form.value.user.productId) {
+    // 需更換購物車內容
     await cartStore.clearCart()
     await cartStore.addCart({
       product_id: form.value.user.productId,
-      qty: 1
+      qty: 1,
     })
   }
   if (singleOrder) {
@@ -336,27 +375,45 @@ async function submit (value: any, { resetForm }: any) {
   } else {
     orderStore.placeOrder = form.value
   }
-  
-  changeStep(1);
-  resetForm();
-};
+
+  changeStep(1)
+}
 
 // 日期設定
 const date = reactive({
   birthDate: '',
-  orderDate: '' as Date|string,
+  orderDate: '' as Date | string,
   orderHour: '12',
-  orderMin: '00'
+  orderMin: '00',
 })
 
-const disabledDates = ref([{ start: null, end: new Date() }]);
-const maxDate = ref(new Date().getTime() + (30 * 24 * 60 * 60 * 1000))
-watch(() => date.birthDate, (value) => form.value.user.birth = timeFormat(value))
-watch(() => date.orderDate, () => form.value.user.orderDate = `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}`)
-watch(() => date.orderHour, () => form.value.user.orderDate = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
-watch(() => date.orderMin, () => form.value.user.orderDate = date.orderDate ? `${timeFormat(date.orderDate)}  ${date.orderHour}:${date.orderMin}` : '')
+const disabledDates = ref([{ start: null, end: new Date() }])
+const maxDate = ref(new Date().getTime() + 30 * 24 * 60 * 60 * 1000)
+watch(
+  () => date.birthDate,
+  (value) => (form.value.user.birth = timeFormat(value)),
+)
+watch(
+  () => date.orderDate,
+  () =>
+    (form.value.user.orderDate = `${timeFormat(date.orderDate as string)}  ${date.orderHour}:${date.orderMin}`),
+)
+watch(
+  () => date.orderHour,
+  () =>
+    (form.value.user.orderDate = date.orderDate
+      ? `${timeFormat(date.orderDate as string)}  ${date.orderHour}:${date.orderMin}`
+      : ''),
+)
+watch(
+  () => date.orderMin,
+  () =>
+    (form.value.user.orderDate = date.orderDate
+      ? `${timeFormat(date.orderDate as string)}  ${date.orderHour}:${date.orderMin}`
+      : ''),
+)
 
-function timeFormat(date: string):string {
+function timeFormat(date: string): string {
   return new Date(new Date(date).getTime()).toLocaleDateString()
 }
 
@@ -367,16 +424,16 @@ const schema = {
   信箱: 'required|email',
   預約日期: 'required',
   生日: singleOrder ? 'required' : '',
-};
+}
 
 // 換頁
-const emit = defineEmits(['click']);
+const emit = defineEmits(['click'])
 function changeStep(page: number) {
-  emit('click', props.currStep + Number(page));
+  emit('click', props.currStep + Number(page))
 }
 </script>
 <style lang="scss" scoped>
-.hidden{
+.hidden {
   visibility: hidden;
 }
 </style>

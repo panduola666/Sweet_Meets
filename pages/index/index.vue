@@ -39,9 +39,9 @@
             class="d-flex flex-column flex-lg-row justify-content-between gap-6 gap-lg-0 flex-grow-1"
           >
             <div
-              class="home-nav d-flex fw-bold"
-              v-for="(link, index) in homeNav"
+              v-for="link in homeNav"
               :key="link.route"
+              class="home-nav d-flex fw-bold"
             >
               <NuxtLink
                 :to="link.route"
@@ -67,9 +67,10 @@
           @mouseover="pauseSlider"
           @mouseleave="resumeSlider"
         >
-          <Swiper ref="swiper" v-bind="swiperConfig" v-if="productList.length">
+          <Swiper v-if="productList.length" ref="swiper" v-bind="swiperConfig">
             <SwiperSlide
               v-for="product in productList"
+              :key="product.id"
               @click="productTemp = product"
             >
               <div class="text-center pointer">
@@ -103,9 +104,9 @@
             <h2 class="fs-1 fw-bold text-center mb-6 mb-lg-7">近期活動</h2>
             <ul class="d-flex flex-column gap-6 gap-lg-7">
               <li
-                class="text-white pb-6 border-bottom border-2 default"
                 v-for="activity in activitiesList.slice(0, 3)"
                 :key="activity.id"
+                class="text-white pb-6 border-bottom border-2 default"
               >
                 <h4 class="h2">{{ activity.title }}</h4>
                 <p
@@ -129,9 +130,9 @@
         <h2 class="h1 fw-bold text-center mb-6">操作步驟</h2>
         <div class="row justify-content-center gap-6 gap-lg-0">
           <div
-            class="col-12 col-lg-4 d-flex flex-column align-items-center default"
             v-for="step in steps"
             :key="step.name"
+            class="col-12 col-lg-4 d-flex flex-column align-items-center default"
           >
             <img :src="step.imgUrl" :alt="step.name" class="img-fluid" />
             <p class="fs-2 fw-bold m-0">{{ step.name }}</p>
@@ -142,35 +143,34 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { homeNav, stepsType } from '@/interface/home';
-import diyImg from '@/assets/img/home/diy.png';
-import activityImg from '@/assets/img/home/activity.png';
-import placeImg from '@/assets/img/home/place.png';
-import step1Img from '@/assets/img/home/step1.png';
-import step2Img from '@/assets/img/home/step2.png';
-import step3Img from '@/assets/img/home/step3.png';
-import step4Img from '@/assets/img/home/step4.png';
-import step5Img from '@/assets/img/home/step5.png';
-import Products from '@/store/products';
-import Article from '@/store/article';
+import type { homeNav as homeNavType, stepsType } from '@/interface/home'
+import diyImg from '@/assets/img/home/diy.png'
+import activityImg from '@/assets/img/home/activity.png'
+import placeImg from '@/assets/img/home/place.png'
+import step1Img from '@/assets/img/home/step1.png'
+import step2Img from '@/assets/img/home/step2.png'
+import step3Img from '@/assets/img/home/step3.png'
+import step4Img from '@/assets/img/home/step4.png'
+import step5Img from '@/assets/img/home/step5.png'
+import Products from '@/store/products'
+import Article from '@/store/article'
 
-const productStore = Products();
-const ArticleStore = Article();
-const route = useRoute();
-const swiper = ref<{ [key: string]: any } | null>(null);
+const productStore = Products()
+const ArticleStore = Article()
+const swiper = ref<{ [key: string]: any } | null>(null)
 
-const productTemp = ref({});
-const productList = computed(() => productStore.products || []);
-const activitiesList = computed(() => ArticleStore.articles || []);
+const productTemp = ref({})
+const productList = computed(() => productStore.products || [])
+const activitiesList = computed(() => ArticleStore.articles || [])
 onMounted(() => {
   nextTick(async () => {
-    await productStore.productsGet();
-    await ArticleStore.articlesGet(1);
-    resumeSlider();
-  });
-});
+    await productStore.productsGet()
+    await ArticleStore.articlesGet(1)
+    resumeSlider()
+  })
+})
 
-const homeNav = ref<homeNav[]>([
+const homeNav = ref<homeNavType[]>([
   {
     route: '/diy',
     name: 'DIY 課程',
@@ -186,7 +186,7 @@ const homeNav = ref<homeNav[]>([
     name: '場地租借',
     imgUrl: placeImg,
   },
-]);
+])
 
 const swiperConfig = ref({
   observer: true,
@@ -205,15 +205,15 @@ const swiperConfig = ref({
       spaceBetween: 32,
     },
   },
-});
+})
 
 function pauseSlider() {
   // 暫停輪播
-  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop());
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop())
 }
 function resumeSlider() {
   // 開始輪播
-  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.start());
+  nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.start())
 }
 
 const steps = ref<stepsType[]>([
@@ -237,7 +237,7 @@ const steps = ref<stepsType[]>([
     name: '5. 清洗用具並歸還',
     imgUrl: step5Img,
   },
-]);
+])
 </script>
 
 <style lang="scss" scoped>

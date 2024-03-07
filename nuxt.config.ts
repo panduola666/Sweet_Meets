@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import eslint from 'vite-plugin-eslint'
+
 export default defineNuxtConfig({
   runtimeConfig: { // 環境變數
     public: {
@@ -6,7 +8,7 @@ export default defineNuxtConfig({
       apiPath: ''
     }
   },
-  modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons', '@pinia/nuxt'],
+  modules: ['nuxt-swiper', '@nuxtjs/i18n', '@vee-validate/nuxt', '@samk-dev/nuxt-vcalendar', 'nuxt-icons', '@pinia/nuxt', '@nuxtjs/eslint-module'],
   i18n: {
     vueI18n: './i18n.config.ts' // if you are using custom path, default 
   },
@@ -52,8 +54,12 @@ export default defineNuxtConfig({
     payloadExtraction: false
   },
   ssr: false,
+  // typescript: {
+  //   typeCheck: true,
+  // },
   // css: ['~/assets/css/main.scss'], // 全局樣式導入
   vite:{
+    plugins: [eslint()],
     optimizeDeps: {
       exclude: ['vee-validate', '@vee-validate/rules', '@vee-validate/i18n']
     },

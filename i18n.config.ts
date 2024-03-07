@@ -5,6 +5,6 @@ export default defineI18nConfig(() => ({
   locale: 'zhTW',
   messages: {
     en,
-    zh
-  }
+    zh,
+  },
 }))

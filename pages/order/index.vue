@@ -3,16 +3,16 @@
     <NuxtLayout name="default">
       <div class="container">
         <div class="w-lg-75 mx-auto">
-          <step-nav :steps="steps" :currStep="currStep" />
+          <step-nav :steps="steps" :curr-step="currStep" />
           <div class="bg-white bg-opacity-50 order-shadow rounded-4">
             <OrderStep1
               v-if="currStep === 0"
-              :currStep="currStep"
+              :curr-step="currStep"
               @click="changStep"
             />
             <OrderStep2
               v-if="currStep === 1"
-              :currStep="currStep"
+              :curr-step="currStep"
               @click="changStep"
             />
             <OrderFinal v-if="currStep === steps.length - 1" />
@@ -23,23 +23,23 @@
   </div>
 </template>
 <script setup lang="ts">
-import Carts from '@/store/cart';
+import Carts from '@/store/cart'
 
-const cartStore = Carts();
-const steps = ref<string[]>(['預約須知', '填寫資料', '訂單完成']);
-const currStep = ref<number>(0);
+const cartStore = Carts()
+const steps = ref<string[]>(['預約須知', '填寫資料', '訂單完成'])
+const currStep = ref<number>(0)
 
 function changStep(stepIndex: number) {
-  currStep.value = stepIndex;
-  window.scrollTo(0, 0);
+  currStep.value = stepIndex
+  window.scrollTo(0, 0)
 }
 
 onBeforeRouteLeave(async () => {
-  await cartStore.checkCart();
+  await cartStore.checkCart()
   if (cartStore.carts.length) {
-    cartStore.clearCart();
+    cartStore.clearCart()
   }
-});
+})
 </script>
 <style lang="scss" scoped>
 .order-shadow {

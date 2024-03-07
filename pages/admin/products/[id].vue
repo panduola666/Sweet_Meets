@@ -4,7 +4,7 @@
       <h1 class="h4 fw-bold mb-5">
         {{ route.params.id === '0' ? '新增品項' : '修改品項' }}
       </h1>
-      <VeeForm @submit="submit" :validation-schema="schema">
+      <VeeForm :validation-schema="schema" @submit="submit">
         <div class="row mb-3">
           <div class="col-lg-4">
             <!-- 產品圖片 -->
@@ -13,12 +13,12 @@
                 >產品圖片</label
               >
               <VeeField
-                class="form-control"
                 id="productImg"
+                v-model.trim="form.imageUrl"
+                class="form-control"
                 name="產品圖片"
                 type="text"
                 placeholder="請輸入圖片網址"
-                v-model.trim="form.imageUrl"
               />
               <VeeErrorMessage name="產品圖片" class="text-danger" />
             </div>
@@ -30,9 +30,9 @@
                 >上傳圖片</label
               >
               <input
+                id="update"
                 class="form-control position-absolute opacity-0 top-0 start-0"
                 type="file"
-                id="update"
                 @change="uploadImage('imageUrl', $event)"
               />
             </div>
@@ -44,12 +44,12 @@
                 >產品名稱</label
               >
               <VeeField
-                class="form-control"
                 id="productTitle"
+                v-model.trim="form.title"
+                class="form-control"
                 name="產品名稱"
                 type="text"
                 placeholder="請輸入產品名稱"
-                v-model.trim="form.title"
               />
               <VeeErrorMessage name="產品名稱" class="text-danger" />
             </div>
@@ -59,8 +59,8 @@
                 <label for="description" class="form-label">產品分類</label>
                 <select
                   id="description"
-                  class="form-select"
                   v-model="form.category"
+                  class="form-select"
                 >
                   <option value="" selected disabled hidden>請選擇分類</option>
                   <option
@@ -77,8 +77,8 @@
                 <label for="description" class="form-label">預計耗時</label>
                 <select
                   id="description"
-                  class="form-select"
                   v-model="form.finalTime"
+                  class="form-select"
                 >
                   <option
                     v-for="hour in [1, 1.5, 2, 2.5, 3]"
@@ -93,13 +93,13 @@
               <div class="col">
                 <label for="price" class="form-label fw-bold">售價</label>
                 <VeeField
+                  id="price"
+                  v-model.number="form.origin_price"
                   v-number
                   class="form-control"
-                  id="price"
                   name="售價"
                   type="text"
                   placeholder="請輸入售價"
-                  v-model.number="form.origin_price"
                 />
                 <VeeErrorMessage name="售價" class="text-danger" />
               </div>
@@ -109,16 +109,16 @@
               <p class="form-label fw-bold">產品特色</p>
               <ul>
                 <li
-                  class="row align-items-center"
                   v-for="(item, index) in form.content"
                   :key="index"
+                  class="row align-items-center"
                 >
                   <div class="col-9 col-lg-10">
                     <VeeField
+                      v-model.trim="form.content[index]"
                       class="form-control mb-2"
                       :name="`產品特色${index}`"
                       type="text"
-                      v-model.trim="form.content[index]"
                     />
                   </div>
                   <div
@@ -146,18 +146,18 @@
               <p class="form-label fw-bold">保存方式</p>
               <div class="d-flex gap-5 mb-3">
                 <div
-                  class="form-check"
                   v-for="(item, index) in saveModeList"
                   :key="item"
+                  class="form-check"
                 >
                   <input
+                    :id="`mode${index}`"
+                    v-model="form.saveMode"
                     class="form-check-input"
                     type="radio"
                     name="saveMethods"
-                    :id="`mode${index}`"
                     :checked="form.saveMode === index"
                     :value="index"
-                    v-model="form.saveMode"
                   />
                   <label
                     class="form-check-label fw-bold pointer"
@@ -169,22 +169,22 @@
               </div>
               <ul>
                 <li
-                  class="row align-items-center"
                   v-for="(item, index) in form.saveMethods"
                   :key="index"
+                  class="row align-items-center"
                 >
                   <div class="col-9 col-lg-10">
                     <VeeField
+                      v-model.trim="form.saveMethods[index]"
                       class="form-control mb-2"
                       :name="`保存方式${index}`"
                       type="text"
-                      v-model.trim="form.saveMethods[index]"
                       :readonly="!form.saveMode"
                     />
                   </div>
                   <div
-                    class="col d-flex align-items-center gap-2 gap-lg-5 fs-4"
                     v-if="form.saveMode"
+                    class="col d-flex align-items-center gap-2 gap-lg-5 fs-4"
                   >
                     <NuxtIcon
                       v-if="index < 4 && index === form.saveMethods.length - 1"
@@ -215,19 +215,19 @@
               >上傳圖片</label
             >
             <input
+              id="updateMore"
               class="form-control position-absolute opacity-0 top-0 start-0"
               type="file"
               name=""
-              id="updateMore"
               @change="uploadImage('imagesUrl', $event)"
             />
           </div>
         </div>
         <div class="row row-cols-2 row-cols-lg-5 g-3">
           <div
-            class="col position-relative"
             v-for="(imgUrl, index) in form.imagesUrl"
             :key="index"
+            class="col position-relative"
           >
             <button
               type="button"
@@ -254,25 +254,25 @@
   </div>
 </template>
 <script setup lang="ts">
-import Products from '@/store/products';
-import type { adminPost } from '@/interface/product';
+import Products from '@/store/products'
+import type { adminPost } from '@/interface/product'
 
-const route = useRoute();
+const route = useRoute()
 // const saveMode = ref<number>(0);
-const saveModeList = ref<string[]>(['使用公版', '自定義']);
-const productStore = Products();
+const saveModeList = ref<string[]>(['使用公版', '自定義'])
+const productStore = Products()
 
 const schema = {
   產品名稱: 'required',
   產品圖片: 'required',
   售價: 'required|min_value:0|integer',
   產品特色0: (val: string) => {
-    return !!val || '產品特色 為必填';
+    return !!val || '產品特色 為必填'
   },
   保存方式0: (val: string) => {
-    return !!val || '保存方式 為必填';
+    return !!val || '保存方式 為必填'
   },
-};
+}
 const form = ref<adminPost>({
   title: '',
   category: '',
@@ -292,68 +292,68 @@ const form = ref<adminPost>({
   imagesUrl: [],
   is_enabled: 1,
   saveMode: 0,
-});
+})
 
 onMounted(() => {
   nextTick(() => {
     if (route.params.id !== '0') {
       // 修改
-      productStore.adminProductGet(route.params.id as string);
-      const { imagesUrl = [] } = productStore.product as adminPost;
+      productStore.adminProductGet()
+      const { imagesUrl = [] } = productStore.product as adminPost
       form.value = {
         ...productStore.product,
-        imagesUrl: imagesUrl,
-      } as adminPost;
+        imagesUrl,
+      } as adminPost
     }
-  });
-}),
-  watch(
-    () => form.value.saveMode,
-    (saveMode) => {
-      form.value.saveMethods = saveMode
-        ? ['']
-        : [
-            '製作完成:需2小時內冷藏。',
-            '回家後請冷藏至少2小時,待內餡凝固再食用。',
-            '冷藏保存。',
-            '請於3天內食用完,口感較佳。',
-          ];
-    }
-  );
+  })
+})
+watch(
+  () => form.value.saveMode,
+  (saveMode) => {
+    form.value.saveMethods = saveMode
+      ? ['']
+      : [
+          '製作完成:需2小時內冷藏。',
+          '回家後請冷藏至少2小時,待內餡凝固再食用。',
+          '冷藏保存。',
+          '請於3天內食用完,口感較佳。',
+        ]
+  },
+)
 
 function add(key: 'content' | 'saveMethods') {
   if (Object.keys(form.value).includes(key)) {
-    form.value[key].push('');
+    form.value[key].push('')
   }
 }
 function del(key: 'content' | 'saveMethods', index: number) {
   if (Object.keys(form.value).includes(key)) {
-    form.value[key].splice(index, 1);
+    form.value[key].splice(index, 1)
   }
 }
 
 // 上傳圖片
 async function uploadImage(formKey: 'imageUrl' | 'imagesUrl', e: Event) {
-  const files = (e.target as HTMLInputElement).files;
-  if (!files) return;
-  const imgUrl = await upload(files);
+  const files = (e.target as HTMLInputElement).files
+  if (!files) return
+  const imgUrl = await upload(files)
   if (typeof form.value[formKey] === 'string') {
-    form.value[formKey] = imgUrl;
+    form.value[formKey] = imgUrl
   } else if (Array.isArray(form.value[formKey])) {
-    (form.value[formKey] as string[]).push(imgUrl);
+    ;(form.value[formKey] as string[]).push(imgUrl)
   }
 }
 
 // 送出表單
 async function submit() {
-  form.value.price = form.value.origin_price;
-  form.value.description = `預計耗時: ${form.value.finalTime} h`;
+  form.value.price = form.value.origin_price
+  form.value.description = `預計耗時: ${form.value.finalTime} h`
   if (route.params.id !== '0' && form.value.id) {
-    await productStore.adminPUT(form.value.id, form.value);
+    await productStore.adminPUT(form.value.id, form.value)
   } else {
-    await productStore.adminAdd(form.value);
+    await productStore.adminAdd(form.value)
   }
-  useRouter().push('/admin/products');
+  useRouter().push('/admin/products')
 }
 </script>
 <style lang="scss" scoped>

@@ -42,21 +42,21 @@
                 group="list"
                 tag="tbody"
                 class="fs-lg-5"
+                handle=".mover"
                 @change="onChange"
                 @start="onStart"
                 @end="onEnd"
-                handle=".mover"
               >
                 <tr
                   v-for="(order, index) in orders"
                   :key="order.id"
-                  @click="currOrder = order"
                   :class="{
                     'table-active': currOrder.id === order.id,
                     mover:
                       new Date(order.user.orderDate).getTime() >=
                       new Date().getTime() + 10 * 60 * 1000,
                   }"
+                  @click="currOrder = order"
                 >
                   <th scope="row">{{ index + 1 }}</th>
                   <td class="text-nowrap position-relative">
@@ -84,15 +84,15 @@
                   <td class="text-nowrap">
                     <span v-if="getItem(order)">{{ getItem(order) }}</span>
                     <select
-                      class="form-select"
-                      v-model="order.user.productId"
                       v-else
+                      v-model="order.user.productId"
+                      class="form-select"
                     >
                       <option value="">請選擇品項</option>
                       <option
-                        :value="option.id"
                         v-for="option in productList"
                         :key="option.id"
+                        :value="option.id"
                       >
                         {{ option.title }} - {{ moneyFormat(option.price) }}
                       </option>
@@ -111,9 +111,9 @@
         <!-- 右側表格 -->
         <div class="col bg-primary bg-opacity-50 py-5 position-relative">
           <span
+            v-if="isDrag"
             class="position-absolute start-0 bg-white text-center fs-5 w-100 fw-bold"
             style="top: -20px; border: 5px double red"
-            v-if="isDrag"
             >拖曳至此處報到</span
           >
           <p class="d-flex justify-content-between fw-bold">
@@ -127,9 +127,9 @@
             class="mb-5 checkList px-3"
           >
             <li
-              class="d-flex align-items-center gap-3 mb-5"
               v-for="item in checkInList"
               :key="item.id"
+              class="d-flex align-items-center gap-3 mb-5"
             >
               <div class="bg-white rounded-3 flex-grow-1">
                 <div class="d-flex flex-column fs-5 p-3">
@@ -146,7 +146,7 @@
                         : item.title
                     }}
                   </p>
-                  <p class="fs-6 mb-0" v-if="item.totalPerson >= 5">
+                  <p v-if="item.totalPerson >= 5" class="fs-6 mb-0">
                     預計離場: {{ getTime(item.final_date) }}
                   </p>
                   <p
@@ -164,9 +164,9 @@
                   </p>
                 </div>
                 <button
+                  v-if="!item.is_paid"
                   type="button"
                   class="btn btn-secondary w-100 rounded-0"
-                  v-if="!item.is_paid"
                   @click="openPaidModal(item)"
                 >
                   付款
@@ -182,14 +182,14 @@
           </VueDraggableNext>
           <Pagination
             :pagination="couponStore.pagination"
-            :hideStr="true"
+            :hide-str="true"
             @click="getCheckIn"
           />
         </div>
       </div>
 
       <!-- 備註 Modal -->
-      <div class="modal fade" id="remark" tabindex="-1" aria-hidden="true">
+      <div id="remark" class="modal fade" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header py-2">
@@ -209,7 +209,7 @@
       </div>
 
       <!-- 付款 Modal -->
-      <div class="modal fade" tabindex="-1" ref="paidModal">
+      <div ref="paidModal" class="modal fade" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
@@ -231,14 +231,14 @@
                   >品項:</label
                 >
                 <select
-                  class="form-select"
                   id="finalProduct"
                   v-model="modalData.productId"
+                  class="form-select"
                 >
                   <option
-                    :value="option.id"
                     v-for="option in productList"
                     :key="option.id"
+                    :value="option.id"
                   >
                     {{ option.title }} - {{ moneyFormat(option.price) }}
                   </option>
@@ -272,20 +272,20 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { couponData } from '@/interface/coupon';
-import type { orderAdminData } from '@/interface/order';
-import Order from '@/store/order';
-import Products from '@/store/products';
-import Coupon from '@/store/coupon';
-import { VueDraggableNext } from 'vue-draggable-next';
+import { VueDraggableNext } from 'vue-draggable-next'
+import type { couponData } from '@/interface/coupon'
+import type { orderAdminData } from '@/interface/order'
+import Order from '@/store/order'
+import Products from '@/store/products'
+import Coupon from '@/store/coupon'
 
-const orderStore = Order();
-const productStore = Products();
-const couponStore = Coupon();
+const orderStore = Order()
+const productStore = Products()
+const couponStore = Coupon()
 
-const { $bootstrap } = useNuxtApp();
-const paidModal = ref(null);
-let modal: any;
+const { $bootstrap } = useNuxtApp()
+const paidModal = ref(null)
+let modal: any
 const modalData = ref<couponData>({
   code: '',
   due_date: 0,
@@ -301,18 +301,18 @@ const modalData = ref<couponData>({
   totalPerson: 0,
   update_date: 0,
   percent: 0,
-});
-const fakeOrders = ref<orderAdminData[]>([]); // 避免影響原畫面
-const isDrag = ref<boolean>(false);
+})
+const fakeOrders = ref<orderAdminData[]>([]) // 避免影響原畫面
+const isDrag = ref<boolean>(false)
 
-const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders);
-const remark = ref<string>('');
+const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders)
+const remark = ref<string>('')
 const productList: ComputedRef<{ [key: string]: any }> = computed(
-  () => productStore.products || {}
-);
+  () => productStore.products || {},
+)
 const checkInList: ComputedRef<couponData[]> = computed(
-  () => couponStore.coupons || []
-);
+  () => couponStore.coupons || [],
+)
 const currOrder = ref<orderAdminData>({
   id: '',
   total: 0,
@@ -342,55 +342,55 @@ const currOrder = ref<orderAdminData>({
     totalTime: 0,
     productId: '',
   },
-}); // 暫存的訂單資料
+}) // 暫存的訂單資料
 
 onMounted(() => {
   nextTick(async () => {
-    modal = $bootstrap.modal(paidModal.value);
+    modal = $bootstrap.modal(paidModal.value)
 
-    await productStore.adminGetAll();
-    getDate(1);
-    getCheckIn(1);
-  });
-});
+    await productStore.adminGetAll()
+    getDate(1)
+    getCheckIn(1)
+  })
+})
 
 async function getDate(page: string | number) {
-  await orderStore.adminGet(page);
-  fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders));
+  await orderStore.adminGet(page)
+  fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders))
 }
 async function getCheckIn(page: string | number) {
-  await couponStore.adminGet(page);
+  await couponStore.adminGet(page)
 }
 
 // 付款流程 start
 function openPaidModal(item: couponData) {
   if (!modal) {
-    modal = $bootstrap.modal(paidModal.value);
+    modal = $bootstrap.modal(paidModal.value)
   }
-  modalData.value = item;
-  modal.show();
+  modalData.value = item
+  modal.show()
 }
 function closePaidModal() {
-  modal.hide();
+  modal.hide()
 }
 function getFinalPaid(data: couponData) {
-  if (!data.productId) return moneyFormat(0);
-  const product = productList.value[data.productId];
+  if (!data.productId) return moneyFormat(0)
+  const product = productList.value[data.productId]
 
-  return moneyFormat(product.price);
+  return moneyFormat(product.price)
 }
 // 確認付款
 async function paidNow(data: couponData) {
-  const product = productList.value[data.productId];
+  const product = productList.value[data.productId]
 
-  data.is_paid = true;
-  data.title = product.title;
-  data.total = moneyFormat(product.price);
-  data.update_date = new Date().getTime();
+  data.is_paid = true
+  data.title = product.title
+  data.total = moneyFormat(product.price)
+  data.update_date = new Date().getTime()
 
-  await couponStore.adminPaid(data);
-  closePaidModal();
-  getCheckIn(couponStore.pagination.current_page);
+  await couponStore.adminPaid(data)
+  closePaidModal()
+  getCheckIn(couponStore.pagination.current_page)
 }
 // 付款流程 end
 
@@ -400,10 +400,10 @@ async function checkLeave(item: couponData) {
     title: `確定讓<span class="text-danger mx-3">${item.name}</span>離場嗎?`,
     showCancelButton: true,
     allowOutsideClick: false,
-  });
+  })
   if (swal.isConfirmed && item.id) {
-    await couponStore.adminLeave(item.id);
-    getCheckIn(couponStore.pagination.current_page);
+    await couponStore.adminLeave(item.id)
+    getCheckIn(couponStore.pagination.current_page)
   }
 }
 
@@ -413,17 +413,17 @@ async function deleteOrder() {
     title: `確定刪除此預約訂單嗎?`,
     showCancelButton: true,
     allowOutsideClick: false,
-  });
+  })
   if (swal.isConfirmed) {
-    await orderStore.adminDel(currOrder.value.id);
-    getDate(orderStore.pagination.current_page);
+    await orderStore.adminDel(currOrder.value.id)
+    getDate(orderStore.pagination.current_page)
   }
 }
 
 // 預約報到
 async function checkIn() {
-  const { is_paid, id } = currOrder.value;
-  const { name, totalPerson, totalTime, productId } = currOrder.value.user;
+  const { is_paid, id } = currOrder.value
+  const { name, totalPerson, totalTime, productId } = currOrder.value.user
 
   const data: couponData = {
     name,
@@ -441,20 +441,20 @@ async function checkIn() {
         ? new Date().getTime() + Number(totalTime) * 60 * 60 * 1000
         : 0, // 離場時間
     code: '---',
-  };
+  }
 
-  await couponStore.checkIn(data);
-  await orderStore.adminCheck(id);
-  getCheckIn(couponStore.pagination.current_page);
-  getDate(orderStore.pagination.current_page);
+  await couponStore.checkIn(data)
+  await orderStore.adminCheck(id)
+  getCheckIn(couponStore.pagination.current_page)
+  getDate(orderStore.pagination.current_page)
 }
 // 預約拖曳報到
 function onStart() {
-  isDrag.value = true;
+  isDrag.value = true
 }
 async function onChange(evt: any) {
-  currOrder.value = evt.removed.element;
-  const { id, user } = currOrder.value;
+  currOrder.value = evt.removed.element
+  const { id, user } = currOrder.value
   if (
     id &&
     new Date(user.orderDate).getTime() >= new Date().getTime() + 10 * 60 * 1000
@@ -463,42 +463,42 @@ async function onChange(evt: any) {
       title: `預約人:<span class="text-danger mx-3">${user.name}</span>, 是否確認報到?`,
       showCancelButton: true,
       allowOutsideClick: false,
-    });
+    })
     if (swal.isConfirmed) {
-      checkIn();
+      checkIn()
     }
   }
 }
 function onEnd() {
-  isDrag.value = false;
+  isDrag.value = false
 }
 
 // 取得訂單品項
 function getItem(data: orderAdminData) {
-  const { totalPerson, totalTime, productId, productData } = data.user;
+  const { totalPerson, totalTime, productId, productData } = data.user
   if (totalPerson >= 5) {
     // 場地預約
-    return `場地預約 - ${totalPerson}人(${totalTime} 小時)`;
+    return `場地預約 - ${totalPerson}人(${totalTime} 小時)`
   } else if (productId) {
     // 已選定品項
-    return productData.title;
+    return productData.title
   } else {
-    return ''; // 現場選擇
+    return '' // 現場選擇
   }
 }
 
 // 取得訂單金額
 function getMoney(data: orderAdminData) {
-  if (!productList.value || !data) return moneyFormat(0);
-  const { totalPerson, totalTime, productId } = data.user;
+  if (!productList.value || !data) return moneyFormat(0)
+  const { totalPerson, totalTime, productId } = data.user
   if (totalPerson >= 5) {
     // 場地預約
-    return moneyFormat(1500 * totalTime);
+    return moneyFormat(1500 * totalTime)
   } else if (productId && productList.value[productId]) {
     // 已選定品項
-    return moneyFormat(productList.value[productId].price);
+    return moneyFormat(productList.value[productId].price)
   } else {
-    return '---'; // 現場選擇
+    return '---' // 現場選擇
   }
 }
 
@@ -507,8 +507,8 @@ function getTime(date: number): string {
     hour: '2-digit',
     minute: '2-digit',
     hour12: false,
-  });
-  return timeStr;
+  })
+  return timeStr
 }
 </script>
 

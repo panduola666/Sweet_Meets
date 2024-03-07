@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 
-export default function useSwal(option:object){
+export default function useSwal(option: object) {
   const swal = Swal.fire({
     confirmButtonColor: '#198754',
     denyButtonColor: '#dc3545',
@@ -13,6 +13,6 @@ export default function useSwal(option:object){
     showCancelButton: false, // 取消按鈕
     allowOutsideClick: true, // 允許外部點擊關閉
     ...option,
-  });
-  return swal;
+  })
+  return swal
 }

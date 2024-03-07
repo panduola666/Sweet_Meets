@@ -7,7 +7,9 @@
       </li>
     </ol>
     <div class="text-center py-5">
-      <button type="button" class="btn btn-secondary btn-lg" @click="nextStep">我已知曉</button>
+      <button type="button" class="btn btn-secondary btn-lg" @click="nextStep">
+        我已知曉
+      </button>
     </div>
   </article>
 </template>
@@ -22,10 +24,10 @@ const orderContent = ref<string[]>([
   '甜點製作為:平板教學+自助取材料。(無老師教學、無販售成品、需自行清洗用具)',
   '費用依『甜點價格』收費。(無服務費)',
   '訂位時間僅開放到前一個月。',
-]);
+])
 
 onMounted(() => {
-  if(route.name && ['place'].includes(route.name as string)) {
+  if (route.name && ['place'].includes(route.name as string)) {
     orderContent.value = [
       '場地租借最低人數為 5 人(含)起，一次預約不可超過 15 人。',
       '租借費用為 1500元 / 時, 若超出時間半小時內加收 500 元, 超過半小時以一小時費用計算。',
@@ -35,10 +37,9 @@ onMounted(() => {
       '甜點製作環境,寵物無法入店。',
       '店內嚴禁:外食、菸、酒、檳榔。',
       '甜點製作為:平板教學+自助取材料。(無老師教學、無販售成品、需自行清洗用具)',
-      '訂位時間僅開放到前一個月。'
+      '訂位時間僅開放到前一個月。',
     ]
   }
-  
 })
 
 const props = defineProps(['currStep'])

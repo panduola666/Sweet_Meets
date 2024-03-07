@@ -5,17 +5,17 @@
         class="d-flex align-items-center justify-content-between px-lg-9 px-3 blur"
         :class="{ boxShadow: !menuOpen }"
       >
-      <NuxtLink to="/">
-        <img
-          src="../assets/img/Logo.png"
-          alt="相遇甜點"
-          height="64"
-          class="py-2"
-        />
-      </NuxtLink>
-      
+        <NuxtLink to="/">
+          <img
+            src="../assets/img/Logo.png"
+            alt="相遇甜點"
+            height="64"
+            class="py-2"
+          />
+        </NuxtLink>
+
         <ul class="nav h4 gap-6 d-none d-lg-flex">
-          <li class="nav-item" v-for="item in headerList" :key="item.route">
+          <li v-for="item in headerList" :key="item.route" class="nav-item">
             <NuxtLink
               class="pcNav nav-link fw-bold py-6 px-2 position-relative"
               :class="{ active: item.route === route.path }"
@@ -37,7 +37,7 @@
         class="nav flex-column d-lg-none h4 text-center py-6 position-absolute top-100 w-100 bg-white bg-opacity-50 blur"
         style="box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 6px"
       >
-        <li class="nav-item" v-for="item in headerList" :key="item.route">
+        <li v-for="item in headerList" :key="item.route" class="nav-item">
           <NuxtLink
             class="nav-link fw-bold mx-3"
             :class="{ 'bg-primary': item.route === route.path }"
@@ -51,10 +51,14 @@
     <main class="mt-4 mt-lg-8 flex-grow-1">
       <slot />
     </main>
-    
+
     <footer class="position-relative">
       <div class="footer">
-        <img src="../assets/img/cake.png" alt="cake" class="cake d-none d-lg-block">
+        <img
+          src="../assets/img/cake.png"
+          alt="cake"
+          class="cake d-none d-lg-block"
+        />
       </div>
       <div class="footer-nav">
         <div class="py-8 bg-white bg-opacity-50 blur boxShadow fw-bold">
@@ -80,10 +84,10 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { headerLink } from '../interface/header';
-import { ref } from 'vue';
-import { useRoute } from 'vue-router';
-const route = useRoute();
+import { ref } from 'vue'
+import { useRoute } from 'vue-router'
+import type { headerLink } from '../interface/header'
+const route = useRoute()
 
 const headerList = ref<headerLink[]>([
   {
@@ -102,9 +106,9 @@ const headerList = ref<headerLink[]>([
     route: '/place',
     name: '場地租借',
   },
-]);
+])
 
-const menuOpen = ref<boolean>(false);
+const menuOpen = ref<boolean>(false)
 </script>
 <style scoped lang="scss">
 .frontLayout {
@@ -156,7 +160,7 @@ const menuOpen = ref<boolean>(false);
     max-width: 650px;
   }
 }
-.cake{
+.cake {
   position: absolute;
   width: 15vw;
   right: 5vw;

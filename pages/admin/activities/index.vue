@@ -34,10 +34,14 @@
               </td>
               <td>
                 <p class="mb-0">{{ item.description }}</p>
-                <small class="fs-small text-danger" v-if="!checkDate(item.description)">- 已結束 -</small>
+                <small
+                  class="fs-small text-danger"
+                  v-if="!checkDate(item.description)"
+                  >- 已結束 -</small
+                >
               </td>
               <td class="py-7">
-                <table-operate :id="item.id" :title="item.title"/>
+                <table-operate :id="item.id" :title="item.title" />
               </td>
             </tr>
           </tbody>
@@ -54,14 +58,14 @@
 <script setup lang="ts">
 import Article from '@/store/article'
 
-const ArticleStore = Article();
+const ArticleStore = Article()
 
 onMounted(() => {
-  nextTick(async() => {
+  nextTick(async () => {
     await getDate(1)
   })
 })
-function getDate (page: string|number) {
+function getDate(page: string | number) {
   ArticleStore.adminGet(page)
 }
 </script>

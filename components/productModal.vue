@@ -1,8 +1,8 @@
 <template>
   <div
-    class="modal fade"
     id="productModal"
     ref="productModal"
+    class="modal fade"
     tabindex="-1"
     aria-labelledby="productName"
     aria-hidden="true"
@@ -19,7 +19,7 @@
             @click="closeModal"
           ></button>
         </div>
-        <div class="modal-body" v-if="product.id">
+        <div v-if="product.id" class="modal-body">
           <div class="container-fluid">
             <div class="row">
               <div class="col-12 col-lg-6 mb-4 mb-lg-0">
@@ -31,7 +31,11 @@
                       class="object-fit-cover productImg"
                     />
                   </SwiperSlide>
-                  <SwiperSlide v-for="item in product.imagesUrl" :key="item" class="pb-4">
+                  <SwiperSlide
+                    v-for="item in product.imagesUrl"
+                    :key="item"
+                    class="pb-4"
+                  >
                     <img
                       :src="item"
                       :alt="product.title"
@@ -88,40 +92,40 @@
   </div>
 </template>
 <script setup lang="ts">
-import type { Swiper, SwiperSlide } from '#build/components';
-import Carts from '@/store/cart';
+import type { Swiper, SwiperSlide } from '#build/components'
+import Carts from '@/store/cart'
 
-const props = defineProps(['product']);
-const emit = defineEmits(['close']);
-const { product } = toRefs(props);
-const cartStore = Carts();
-const { $bootstrap } = useNuxtApp();
-const productModal = ref(null);
-let modal: any;
+const props = defineProps(['product'])
+const emit = defineEmits(['close'])
+const { product } = toRefs(props)
+const cartStore = Carts()
+const { $bootstrap } = useNuxtApp()
+const productModal = ref(null)
+let modal: any
 
 watch(
   () => product?.value,
   async () => {
-    await nextTick();
+    await nextTick()
     if (product?.value.id) {
-      modal = $bootstrap.modal(productModal.value);
-      modal.show();
+      modal = $bootstrap.modal(productModal.value)
+      modal.show()
     }
-  }
-);
+  },
+)
 function closeModal() {
-  modal.hide();
-  emit('close', 0);
+  modal.hide()
+  emit('close', 0)
 }
 
-const router = useRouter();
+const router = useRouter()
 async function orderProduct() {
   await cartStore.addCart({
     product_id: product?.value.id,
     qty: 1,
-  });
-  closeModal();
-  router.push('/order');
+  })
+  closeModal()
+  router.push('/order')
 }
 
 const swiperConfig = ref({
@@ -135,7 +139,7 @@ const swiperConfig = ref({
     delay: 2500,
     disableOnInteraction: false,
   },
-});
+})
 </script>
 <style lang="scss" scoped>
 .productImg {

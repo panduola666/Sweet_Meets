@@ -32,8 +32,8 @@
               >
                 活動時間: {{ detail.description }}
                 <span
-                  class="badge text-bg-danger fs-6"
                   v-if="checkTime(detail.description)"
+                  class="badge text-bg-danger fs-6"
                   >已結束</span
                 >
               </h2>
@@ -54,8 +54,8 @@
 
       <!-- Modal -->
       <div
-        class="modal fade"
         ref="activityModal"
+        class="modal fade"
         tabindex="-1"
         aria-labelledby="activities"
         aria-hidden="true"
@@ -65,7 +65,7 @@
         >
           <div class="modal-content">
             <div class="modal-header bg-secondary">
-              <p class="modal-title fs-5 text-white" id="activities">
+              <p id="activities" class="modal-title fs-5 text-white">
                 活動列表
               </p>
               <button
@@ -75,24 +75,24 @@
               ></button>
             </div>
             <div class="modal-body">
-              <div class="text-center py-9" v-if="isLoading">
+              <div v-if="isLoading" class="text-center py-9">
                 <div class="spinner-border" role="status">
                   <span class="visually-hidden">Loading...</span>
                 </div>
               </div>
-              <ul class="mb-2 overflow-y-scroll modal-list w-100" v-else>
+              <ul v-else class="mb-2 overflow-y-scroll modal-list w-100">
                 <li
-                  class="py-2 px-4 border-bottom border-secondary pointer font-monospace activityItem"
                   v-for="activity in activityList"
                   :key="activity.id"
+                  class="py-2 px-4 border-bottom border-secondary pointer font-monospace activityItem"
                   @click="getDetail(activity.id)"
                 >
                   <h3 class="fs-5 fw-bold mb-1">{{ activity.title }}</h3>
                   <p class="mb-0">
                     活動時間: {{ activity.description }}
                     <span
-                      class="badge text-bg-danger fs-small"
                       v-if="checkTime(activity.description)"
+                      class="badge text-bg-danger fs-small"
                       >已結束</span
                     >
                   </p>
@@ -110,65 +110,65 @@
   </div>
 </template>
 <script setup lang="ts">
-import Article from '@/store/article';
+import Article from '@/store/article'
 
-const ArticleStore = Article();
-const isLoading = ref<boolean>(false); // 文章 loading 佔位
+const ArticleStore = Article()
+const isLoading = ref<boolean>(false) // 文章 loading 佔位
 
-const { $bootstrap } = useNuxtApp();
-const activityModal = ref(null);
-let modal: any;
-const activityId = ref<string>('');
+const { $bootstrap } = useNuxtApp()
+const activityModal = ref(null)
+let modal: any
+const activityId = ref<string>('')
 
-const detail = computed(() => ArticleStore.article);
-const activityList = computed(() => ArticleStore.articles);
+const detail = computed(() => ArticleStore.article)
+const activityList = computed(() => ArticleStore.articles)
 onMounted(() => {
-  activityId.value = useRoute().query.id as string;
-  nextTick(async () => {
-    modal = $bootstrap.modal(activityModal.value);
-    isLoading.value = true;
+  activityId.value = useRoute().query.id as string
+  nextTick(() => {
+    modal = $bootstrap.modal(activityModal.value)
+    isLoading.value = true
     if (activityId.value) {
-      getDetail(activityId.value);
+      getDetail(activityId.value)
     } else {
-      openModal();
+      openModal()
     }
-  });
-});
+  })
+})
 
 async function getDetail(id: string) {
-  isLoading.value = true;
-  activityId.value = id;
-  await ArticleStore.articleView(id);
-  closeModal();
-  isLoading.value = false;
+  isLoading.value = true
+  activityId.value = id
+  await ArticleStore.articleView(id)
+  closeModal()
+  isLoading.value = false
 }
 
 async function getDate(page: string | number) {
-  await ArticleStore.articlesGet(page);
-  isLoading.value = false;
+  await ArticleStore.articlesGet(page)
+  isLoading.value = false
 }
 
 function checkTime(description: string): boolean {
-  return new Date(description).getTime() <= new Date().getTime();
+  return new Date(description).getTime() <= new Date().getTime()
 }
 
 async function openModal() {
-  modal.show();
-  await getDate(1);
+  modal.show()
+  await getDate(1)
 }
 
 function closeModal() {
   if (!activityId.value && activityList.value.length) {
-    getDetail(activityList.value[0].id);
+    getDetail(activityList.value[0].id)
   } else {
     useSwal({
       title: '暫無活動',
       showConfirmButton: false,
       timer: 3000,
-    });
-    return;
+    })
+    return
   }
-  modal.hide();
+  modal.hide()
 }
 </script>
 <style lang="scss" scoped>

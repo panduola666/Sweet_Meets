@@ -33,19 +33,19 @@
 
   <!-- 詳情 Modal -->
   <div
-    class="modal fade"
     id="detail"
+    ref="detailModal"
+    class="modal fade"
     tabindex="-1"
     aria-labelledby="exampleModalLabel"
     aria-hidden="true"
-    ref="detailModal"
   >
     <div
       class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg"
     >
       <div class="modal-content">
         <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">活動詳情</h1>
+          <h1 id="exampleModalLabel" class="modal-title fs-5">活動詳情</h1>
           <button
             type="button"
             class="btn-close"
@@ -76,11 +76,11 @@ import Article from '@/store/article'
 import type { ArticleDetail } from '@/interface/article'
 
 const { $bootstrap } = useNuxtApp()
-const ArticleStore = Article();
-const props = defineProps(['id', 'title']);
-const { id, title } = toRefs(props);
+const ArticleStore = Article()
+const props = defineProps(['id', 'title'])
+const { id, title } = toRefs(props)
 
-let modal:any;
+let modal: any
 const detailModal = ref(null)
 const detail = ref<ArticleDetail>({
   id: '',
@@ -96,7 +96,7 @@ const detail = ref<ArticleDetail>({
 })
 
 onMounted(async () => {
-  await nextTick(() => modal = $bootstrap.modal(detailModal.value))
+  await nextTick(() => (modal = $bootstrap.modal(detailModal.value)))
 })
 
 async function getDetail(id: string) {
@@ -109,9 +109,9 @@ async function deleteArticle(id: string) {
   const swal = await useSwal({
     title: `確定刪除<span class="text-danger mx-3">${title?.value}</span>嗎?`,
     showCancelButton: true,
-    allowOutsideClick: false
+    allowOutsideClick: false,
   })
-  if(swal.isConfirmed) {
+  if (swal.isConfirmed) {
     await ArticleStore.adminDel(id)
     ArticleStore.adminGet(ArticleStore.pagination.current_page)
   }
