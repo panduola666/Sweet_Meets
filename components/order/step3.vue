@@ -128,7 +128,11 @@
 <script setup lang="ts">
 import Order from '@/store/order'
 
-const props = defineProps(['currStep'])
+interface propsType {
+  currStep: number
+}
+
+const props = defineProps<propsType>()
 const orderStore = Order()
 
 const cardInfo = ref({

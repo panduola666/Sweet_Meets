@@ -13,7 +13,11 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['steps', 'currStep'])
+interface propsType {
+  steps: string[]
+  currStep: number
+}
+const props = defineProps<propsType>()
 </script>
 <style lang="scss" scoped>
 .step-box {

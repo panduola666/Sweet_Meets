@@ -31,6 +31,11 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['product'])
+import type { adminPost } from '@/interface/product'
+
+interface propsType {
+  product: adminPost
+}
+const props = defineProps<propsType>()
 const { product } = toRefs(props)
 </script>

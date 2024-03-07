@@ -94,8 +94,12 @@
 <script setup lang="ts">
 import type { Swiper, SwiperSlide } from '#build/components'
 import Carts from '@/store/cart'
+import type { adminPost } from '@/interface/product'
 
-const props = defineProps(['product'])
+interface propsType {
+  product: adminPost
+}
+const props = defineProps<propsType>()
 const emit = defineEmits(['close'])
 const { product } = toRefs(props)
 const cartStore = Carts()
@@ -120,6 +124,7 @@ function closeModal() {
 
 const router = useRouter()
 async function orderProduct() {
+  if (!product?.value.id) return
   await cartStore.addCart({
     product_id: product?.value.id,
     qty: 1,

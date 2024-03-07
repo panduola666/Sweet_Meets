@@ -19,7 +19,7 @@
               <th scope="col">操作</th>
             </tr>
           </thead>
-          <tbody class="fs-lg-5 text-nowrap" v-if="ArticleStore.articles">
+          <tbody v-if="ArticleStore.articles" class="fs-lg-5 text-nowrap">
             <tr v-for="(item, index) in ArticleStore.articles" :key="item.id">
               <th scope="row">{{ index + 1 }}</th>
               <td>{{ item.title }}</td>
@@ -35,8 +35,8 @@
               <td>
                 <p class="mb-0">{{ item.description }}</p>
                 <small
-                  class="fs-small text-danger"
                   v-if="!checkDate(item.description)"
+                  class="fs-small text-danger"
                   >- 已結束 -</small
                 >
               </td>

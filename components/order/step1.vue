@@ -41,8 +41,10 @@ onMounted(() => {
     ]
   }
 })
-
-const props = defineProps(['currStep'])
+interface propsType {
+  currStep: number
+}
+const props = defineProps<propsType>()
 const emit = defineEmits(['click'])
 function nextStep() {
   emit('click', props.currStep + 1)

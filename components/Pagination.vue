@@ -29,7 +29,13 @@
   </div>
 </template>
 <script setup lang="ts">
-const props = defineProps(['pagination', 'hideStr'])
+import type { paginationType } from '@/interface/product'
+
+interface propsType {
+  hideStr: boolean
+  pagination: paginationType
+}
+const props = defineProps<propsType>()
 const { pagination, hideStr } = toRefs(props)
 
 const emit = defineEmits(['click'])

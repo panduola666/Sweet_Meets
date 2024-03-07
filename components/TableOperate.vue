@@ -77,7 +77,11 @@ import type { ArticleDetail } from '@/interface/article'
 
 const { $bootstrap } = useNuxtApp()
 const ArticleStore = Article()
-const props = defineProps(['id', 'title'])
+interface propsType {
+  id: string
+  title: string
+}
+const props = defineProps<propsType>()
 const { id, title } = toRefs(props)
 
 let modal: any

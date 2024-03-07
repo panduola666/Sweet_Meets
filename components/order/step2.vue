@@ -237,7 +237,10 @@ import Products from '@/store/products'
 import Carts from '@/store/cart'
 import Order from '@/store/order'
 
-const props = defineProps(['currStep'])
+interface propsType {
+  currStep: number
+}
+const props = defineProps<propsType>()
 const singleOrder: boolean = ['order'].includes(useRoute().name as string)
 const productStore = Products()
 const cartStore = Carts()
