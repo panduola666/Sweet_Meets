@@ -4,6 +4,9 @@ Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introdu
 
 ## [六角學院] 2023 Vue3 直播班 - 相遇甜點(SweetMeets) 
 
+### Demo: https://sweetmeets.onrender.com
+### 簡報: https://www.canva.com/design/DAF-1weIj3Y/KqWlEarn84qmsBpJtaOCJg/edit?utm_content=DAF-1weIj3Y&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 安裝:
 ```bash
 npm install
