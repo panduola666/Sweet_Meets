@@ -295,11 +295,6 @@ onMounted(() => {
     }
     joinActivity.value = !!timer
 
-    if (orderStore.placeOrder.user.name) {
-      // 判斷場地租借修改資料
-      form.value = orderStore.placeOrder
-    }
-
     if (joinActivity.value || !singleOrder) {
       // 活動預約 or 場地租借 => 因 API 限制須至少購物車有東西
       await cartStore.addCart({
@@ -324,7 +319,11 @@ onMounted(() => {
         return
       }
       form.value.user.productId = carts.value[0].product_id
+    } else if (orderStore.placeOrder.user.name) {
+      // 判斷場地租借修改資料
+      form.value = orderStore.placeOrder
     } else {
+      // 場地租借初始值
       form.value.user.totalPerson = 5
       form.value.user.totalTime = 1
     }

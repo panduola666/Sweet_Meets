@@ -16,7 +16,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              :class="{ disabled: !currOrder.id || !currOrder.user.productId }"
+              :class="{ disabled: disabledCheck }"
               @click="checkIn"
             >
               報到
@@ -73,9 +73,9 @@
                   <td
                     class="text-nowrap"
                     :class="{
-                      'text-danger text-decoration-line-through':
-                        new Date(order.user.orderDate).getTime() <
-                        new Date().getTime() + 10 * 60 * 1000,
+                      'text-danger text-decoration-line-through': isOverTime(
+                        order.user.orderDate,
+                      ),
                     }"
                   >
                     {{ order.user.orderDate }}
@@ -109,77 +109,90 @@
         </div>
 
         <!-- 右側表格 -->
-        <div class="col bg-primary bg-opacity-50 py-5 position-relative">
-          <span
-            v-if="isDrag"
-            class="position-absolute start-0 bg-white text-center fs-5 w-100 fw-bold"
-            style="top: -20px; border: 5px double red"
-            >拖曳至此處報到</span
-          >
+        <div class="col bg-primary bg-opacity-50 py-5">
           <p class="d-flex justify-content-between fw-bold">
             <span>報到名單</span>
             <span>離場</span>
           </p>
-          <VueDraggableNext
-            handle=".mover"
-            group="list"
-            tag="ul"
-            class="mb-5 checkList px-3"
-          >
-            <li
-              v-for="item in checkInList"
-              :key="item.id"
-              class="d-flex align-items-center gap-3 mb-5"
+          <div class="position-relative bg-primary-subtle">
+            <p
+              v-if="isDrag"
+              class="position-absolute start-0 bg-white text-center fs-5 w-100 fw-bold mb-0 z-3"
+              style="top: -20px; border: 5px double red"
             >
-              <div class="bg-white rounded-3 flex-grow-1">
-                <div class="d-flex flex-column fs-5 p-3">
-                  <p
-                    class="mb-0 d-flex align-items-center justify-content-between"
-                  >
-                    <span class="fw-bold">{{ item.name }}</span>
-                    <small class="fs-6">{{ getTime(item.due_date) }}</small>
-                  </p>
-                  <p class="fw-bold mb-0">
-                    {{
-                      item.totalPerson >= 5
-                        ? `場地預約 - ${item.totalPerson}人`
-                        : item.title
-                    }}
-                  </p>
-                  <p v-if="item.totalPerson >= 5" class="fs-6 mb-0">
-                    預計離場: {{ getTime(item.final_date) }}
-                  </p>
-                  <p
-                    class="mb-0 d-flex align-items-center justify-content-between"
-                  >
-                    <small
-                      class="fs-6"
-                      :class="{
-                        'text-danger': !item.is_paid,
-                        'text-success': item.is_paid,
-                      }"
-                      >{{ item.is_paid ? `(已付款)` : `(未付款)` }}</small
-                    >
-                    <span class="fw-bold">{{ item.total }}</span>
-                  </p>
-                </div>
-                <button
-                  v-if="!item.is_paid"
-                  type="button"
-                  class="btn btn-secondary w-100 rounded-0"
-                  @click="openPaidModal(item)"
+              拖曳至此處報到
+            </p>
+
+            <VueDraggableNext
+              handle=".mover"
+              group="list"
+              tag="ul"
+              class="mb-5 checkList p-3 position-relative"
+            >
+              <li class="position-absolute top-50 start-50 translate-middle">
+                <NuxtIcon v-if="isDrag" name="add" class="fs-1 opacity-75" />
+              </li>
+              <li
+                v-for="item in checkInList"
+                :key="item.id"
+                class="d-flex align-items-center gap-3 mb-5"
+                :class="{ hideDel: isDrag }"
+              >
+                <div
+                  class="bg-white rounded-3 flex-grow-1 border border-secondary"
                 >
-                  付款
-                </button>
-              </div>
-              <NuxtIcon
-                name="delete"
-                class="pointer"
-                :class="{ hideDel: !item.is_paid }"
-                @click="checkLeave(item)"
-              />
-            </li>
-          </VueDraggableNext>
+                  <div class="d-flex flex-column fs-5 p-3">
+                    <p
+                      class="mb-0 d-flex align-items-center justify-content-between"
+                    >
+                      <span class="fw-bold">{{ item.name }}</span>
+                      <small class="fs-6">{{ getTime(item.due_date) }}</small>
+                    </p>
+                    <p class="fw-bold mb-0">
+                      {{
+                        item.totalPerson >= 5
+                          ? `場地預約 - ${item.totalPerson}人`
+                          : item.title
+                      }}
+                    </p>
+                    <p v-if="item.totalPerson >= 5" class="fs-6 mb-0">
+                      預計離場: {{ getTime(item.final_date) }}
+                    </p>
+                    <p
+                      class="mb-0 d-flex align-items-center justify-content-between"
+                    >
+                      <small
+                        class="fs-6"
+                        :class="{
+                          'text-danger': !item.is_paid,
+                          'text-success': item.is_paid,
+                        }"
+                        >{{ item.is_paid ? `(已付款)` : `(未付款)` }}</small
+                      >
+                      <span class="fw-bold">{{ item.total }}</span>
+                    </p>
+                  </div>
+                  <button
+                    v-if="!item.is_paid"
+                    type="button"
+                    class="btn btn-secondary w-100 rounded-0"
+                    @click="openPaidModal(item)"
+                  >
+                    付款
+                  </button>
+                </div>
+                <NuxtIcon
+                  name="delete"
+                  class="pointer"
+                  :class="{ hideDel: !item.is_paid || isDrag }"
+                  @click="checkLeave(item)"
+                />
+              </li>
+              <li v-if="!checkInList.length && !isDrag" class="text-center">
+                暫無資料
+              </li>
+            </VueDraggableNext>
+          </div>
           <Pagination
             :pagination="couponStore.pagination"
             :hide-str="true"
@@ -304,6 +317,24 @@ const modalData = ref<couponData>({
 })
 const fakeOrders = ref<orderAdminData[]>([]) // 避免影響原畫面
 const isDrag = ref<boolean>(false)
+
+const disabledCheck = computed(() => {
+  const { totalPerson, orderDate } = currOrder.value.user
+  if (!currOrder.value.id) return true
+  if (isOverTime(orderDate)) {
+    // 預約超時
+    return true
+  }
+  if (totalPerson < 5 && !currOrder.value.user.productId) {
+    // 單人預約未選品項 or 超時
+    return true
+  }
+  return false
+})
+
+function isOverTime(date: number | string | Date) {
+  return new Date(date).getTime() < new Date().getTime() + 10 * 60 * 1000
+}
 
 const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders)
 const remark = ref<string>('')
@@ -455,6 +486,15 @@ function onStart() {
 async function onChange(evt: any) {
   currOrder.value = evt.removed.element
   const { id, user } = currOrder.value
+  if (user.totalPerson < 5 && disabledCheck.value) {
+    await useSwal({
+      icon: 'error',
+      title: '請選擇品項',
+      showConfirmButton: false,
+      timer: 3000,
+    })
+    return
+  }
   if (
     id &&
     new Date(user.orderDate).getTime() >= new Date().getTime() + 10 * 60 * 1000
@@ -466,6 +506,9 @@ async function onChange(evt: any) {
     })
     if (swal.isConfirmed) {
       checkIn()
+    } else {
+      // 取消需還原數據
+      fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders))
     }
   }
 }
@@ -518,6 +561,7 @@ function getTime(date: number): string {
 }
 .checkList {
   overflow-y: auto;
+  min-height: 400px;
   max-height: 530px;
   .sortable-ghost {
     display: none !important;

@@ -208,7 +208,7 @@
 
         <div class="d-flex align-items-center gap-3">
           <p class="fw-bold">更多圖片</p>
-          <div class="position-relative mb-3">
+          <div v-if="form.imagesUrl.length < 5" class="position-relative mb-3">
             <label
               for="updateMore"
               class="form-label position-relative z-1 btn btn-outline-secondary px-5"
@@ -265,7 +265,7 @@ const productStore = Products()
 const schema = {
   產品名稱: 'required',
   產品圖片: 'required',
-  售價: 'required|min_value:0|integer',
+  售價: 'required|min_value:100|integer',
   產品特色0: (val: string) => {
     return !!val || '產品特色 為必填'
   },
@@ -276,8 +276,8 @@ const schema = {
 const form = ref<adminPost>({
   title: '',
   category: '',
-  origin_price: 0,
-  price: 0,
+  origin_price: 100,
+  price: 100,
   unit: '人',
   description: '',
   finalTime: 1,
@@ -294,12 +294,19 @@ const form = ref<adminPost>({
   saveMode: 0,
 })
 
+const tempSaveMethods = ref<string[]>([])
+
 onMounted(() => {
   nextTick(() => {
     if (route.params.id !== '0') {
       // 修改
       productStore.adminProductGet()
-      const { imagesUrl = [] } = productStore.product as adminPost
+      const { imagesUrl = [], saveMode = 0 } = productStore.product as adminPost
+
+      if (saveMode) {
+        // 使用自定義保存方式(資料緩存)
+        tempSaveMethods.value = productStore.product.saveMethods
+      }
       form.value = {
         ...productStore.product,
         imagesUrl,
@@ -311,7 +318,9 @@ watch(
   () => form.value.saveMode,
   (saveMode) => {
     form.value.saveMethods = saveMode
-      ? ['']
+      ? tempSaveMethods.value.length
+        ? tempSaveMethods.value
+        : ['']
       : [
           '製作完成:需2小時內冷藏。',
           '回家後請冷藏至少2小時,待內餡凝固再食用。',
@@ -353,6 +362,7 @@ async function submit() {
   } else {
     await productStore.adminAdd(form.value)
   }
+  tempSaveMethods.value = []
   useRouter().push('/admin/products')
 }
 </script>
