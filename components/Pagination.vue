@@ -32,7 +32,7 @@
 import type { paginationType } from '@/interface/product'
 
 interface propsType {
-  hideStr: boolean
+  hideStr?: boolean
   pagination: paginationType
 }
 const props = defineProps<propsType>()

@@ -61,21 +61,39 @@
 </template>
 <script setup lang="ts">
 import Products from '@/store/products'
+import type { adminPost } from '@/interface/product'
 
 const { $scrollTo } = useNuxtApp()
 const productStore = Products()
 
-const productTemp = ref({})
+const productTemp = ref<adminPost>({
+  title: '',
+  category: '',
+  origin_price: 0,
+  price: 0,
+  unit: '',
+  description: '',
+  finalTime: 0,
+  content: [],
+  saveMethods: [],
+  imageUrl: '',
+  imagesUrl: [],
+  is_enabled: 0,
+  saveMode: 0,
+})
 const categoryList = computed(() => productStore.categoryList)
 const categoryId = ['birth', 'cake', 'cookie', 'pai']
 
 const productList = computed(() => {
-  return productStore.products.reduce((obj: Record<string, any>, item) => {
-    Array.isArray(obj[item.category])
-      ? obj[item.category].push(item)
-      : (obj[item.category] = [item])
-    return obj
-  }, {})
+  return productStore.products.reduce(
+    (obj: Record<string, any>, item: adminPost) => {
+      Array.isArray(obj[item.category])
+        ? obj[item.category].push(item)
+        : (obj[item.category] = [item])
+      return obj
+    },
+    {},
+  )
 })
 
 onMounted(() => {

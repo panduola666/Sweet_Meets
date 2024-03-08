@@ -158,14 +158,15 @@ async function openModal() {
 }
 
 function closeModal() {
-  if (activityId.value && activityList.value.length) {
+  if (!activityId.value && activityList.value.length) {
     getDetail(activityList.value[0].id)
-  } else {
+  } else if (!activityList.value.length) {
     useSwal({
       title: '暫無活動',
       showConfirmButton: false,
       timer: 3000,
     })
+    useRouter().push('/')
     return
   }
   modal.hide()
