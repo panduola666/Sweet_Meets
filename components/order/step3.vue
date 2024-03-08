@@ -144,10 +144,6 @@ const cardInfo = ref({
 
 const placeOrder = computed(() => orderStore.placeOrder)
 
-onMounted(() => {
-  console.log(placeOrder.value)
-})
-
 async function payCheck() {
   const { cardNumber, month, year, safeCode } = cardInfo.value
   if (!month || !year || !safeCode || !cardNumber.some(Boolean)) {
