@@ -158,7 +158,7 @@ async function openModal() {
 }
 
 function closeModal() {
-  if (!activityId.value && activityList.value.length) {
+  if (activityId.value && activityList.value.length) {
     getDetail(activityList.value[0].id)
   } else {
     useSwal({
