@@ -63,6 +63,7 @@
                     {{ order.user.name }}
                     <NuxtIcon
                       v-if="order.message"
+                      filled
                       name="info"
                       class="pointer fs-6 ms-2"
                       data-bs-toggle="modal"
@@ -133,7 +134,12 @@
               class="mb-5 checkList p-3 position-relative"
             >
               <li class="position-absolute top-50 start-50 translate-middle">
-                <NuxtIcon v-if="isDrag" name="add" class="fs-1 opacity-75" />
+                <NuxtIcon
+                  v-if="isDrag"
+                  filled
+                  name="add"
+                  class="fs-1 opacity-75"
+                />
               </li>
               <li
                 v-for="item in checkInList"
@@ -188,6 +194,7 @@
                   </button>
                 </div>
                 <NuxtIcon
+                  filled
                   name="delete"
                   class="pointer"
                   :class="{ hideDel: !item.is_paid || isDrag }"

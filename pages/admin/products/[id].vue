@@ -143,12 +143,14 @@
                   >
                     <NuxtIcon
                       v-if="index < 4 && index === form.content.length - 1"
+                      filled
                       name="add"
                       class="pointer"
                       @click="add('content')"
                     />
                     <NuxtIcon
                       v-if="index !== 0"
+                      filled
                       name="delete"
                       class="pointer"
                       @click="del('content', index)"
@@ -208,12 +210,14 @@
                   >
                     <NuxtIcon
                       v-if="index < 4 && index === form.saveMethods.length - 1"
+                      filled
                       name="add"
                       class="pointer"
                       @click="add('saveMethods')"
                     />
                     <NuxtIcon
                       v-if="index !== 0"
+                      filled
                       name="delete"
                       class="pointer"
                       @click="del('saveMethods', index)"

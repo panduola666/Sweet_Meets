@@ -102,6 +102,7 @@ export default {
     loginTitle: '廠家登入',
     login: '登入',
     password: '密碼',
+    capsLock: '已開啟大寫輸入',
   },
   order: {
     step1: '預約須知',

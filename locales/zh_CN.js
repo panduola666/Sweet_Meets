@@ -102,6 +102,7 @@ export default {
     loginTitle: '厂家登录',
     login: '登录',
     password: '密码',
+    capsLock: '已开启大写输入',
   },
   order: {
     step1: '预约须知',

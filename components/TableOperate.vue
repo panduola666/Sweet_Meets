@@ -21,6 +21,7 @@
         $t('common.edit')
       }}</span>
       <NuxtIcon
+        filled
         name="edit"
         class="pointer p-2 border operate-btn d-flex align-items-center bg-white"
       />
@@ -31,6 +32,7 @@
         $t('common.delete')
       }}</span>
       <NuxtIcon
+        filled
         name="delete"
         class="pointer p-2 border operate-btn d-flex align-items-center bg-white"
       />

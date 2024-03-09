@@ -10,6 +10,7 @@
             {{ $t('order.id') }}: <span class="ms-3">{{ userOrder.id }}</span>
           </p>
           <nuxt-icon
+            filled
             name="copy"
             class="pointer"
             @click="copyText(userOrder.id)"

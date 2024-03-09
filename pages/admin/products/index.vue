@@ -42,13 +42,16 @@
                   :alt="item.title"
                   height="150"
                 />
-                <div class="card-body p-2 p-lg-3">
+                <div
+                  class="card-body d-flex flex-column justify-content-between p-2 p-lg-3"
+                >
                   <p class="card-title h5 fw-bold">{{ item.title }}</p>
                   <p
                     class="card-text fs-5 d-flex align-items-center justify-content-between"
                   >
                     <span>${{ item.price }}</span>
                     <nuxt-icon
+                      filled
                       name="delete"
                       class="pointer"
                       @click.stop="delProduct(item)"

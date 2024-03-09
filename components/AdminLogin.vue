@@ -17,6 +17,7 @@
       tabindex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
+      data-bs-backdrop="static"
     >
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
@@ -32,7 +33,7 @@
             ></button>
           </div>
           <div class="modal-body">
-            <VeeForm :validation-schema="schema" @submit="submit">
+            <VeeForm ref="veeForm" :validation-schema="schema" @submit="submit">
               <div class="mb-3">
                 <label for="username" class="form-label fw-bold">{{
                   $t('order.mail')
@@ -51,15 +52,28 @@
                 <label for="password" class="form-label fw-bold">{{
                   $t('home.password')
                 }}</label>
-                <VeeField
-                  id="password"
-                  v-model.trim="form.password"
-                  class="form-control"
-                  autocomplete="on"
-                  :name="$t('home.password')"
-                  type="password"
-                  :placeholder="$t('placeholder.password')"
-                />
+                <small v-if="isCapsLock" class="ms-2 text-danger">{{
+                  $t('home.capsLock')
+                }}</small>
+                <div class="position-relative">
+                  <VeeField
+                    id="password"
+                    ref="passwordBox"
+                    v-model.trim="form.password"
+                    class="form-control pe-7"
+                    autocomplete="on"
+                    :name="$t('home.password')"
+                    :type="showPwd ? 'text' : 'password'"
+                    :placeholder="$t('placeholder.password')"
+                    @keydown="checkCapsLock"
+                  />
+                  <NuxtIcon
+                    :name="showPwd ? 'eye_close' : 'eye'"
+                    filled
+                    class="position-absolute end-0 top-50 translate-middle pointer"
+                    @click="showPwd = !showPwd"
+                  />
+                </div>
                 <VeeErrorMessage
                   :name="$t('home.password')"
                   class="text-danger"
@@ -81,6 +95,7 @@ import type { loginType } from '@/interface/user'
 
 const { $bootstrap } = useNuxtApp()
 const adminModal = ref(null)
+const showPwd = ref<boolean>(false)
 let modal: any
 
 const schema = computed(() => ({
@@ -109,7 +124,19 @@ async function openModal() {
   modal = $bootstrap.modal(adminModal.value)
   modal.show()
 }
+
+const veeForm = ref()
 function closeModal() {
+  if (veeForm.value) {
+    veeForm.value.resetForm()
+  }
+
   modal.hide()
+}
+
+// 大寫監聽
+const isCapsLock = ref<boolean>(false)
+function checkCapsLock(e: KeyboardEvent) {
+  isCapsLock.value = e.getModifierState('CapsLock')
 }
 </script>
