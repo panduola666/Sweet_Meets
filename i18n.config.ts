@@ -1,10 +1,11 @@
-import en from './locales/en'
-import zh from './locales/zh'
+import zh_CN from './locales/zh_CN'
+import zhTW from './locales/zh_TW'
 export default defineI18nConfig(() => ({
   legacy: false,
-  locale: 'zhTW',
+  locale: localStorage.getItem('lang') || 'zh_TW',
+  defaultLocale: 'zh_TW',
   messages: {
-    en,
-    zh,
+    zh_CN,
+    zh_TW: zhTW,
   },
 }))

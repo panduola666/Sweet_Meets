@@ -5,6 +5,8 @@ import type { postOrder, viewUserOrder } from '@/interface/order'
 const orderStore = defineStore('orderStore', () => {
   const { apiPath } = useRuntimeConfig().public
   const orderId = ref<string>('')
+  const { $i18n } = useNuxtApp()
+
   const userOrder = ref<viewUserOrder>({
     create_at: 0,
     id: '',
@@ -97,7 +99,7 @@ const orderStore = defineStore('orderStore', () => {
       })
 
       useSwal({
-        title: '已取消預約',
+        title: $i18n.t('success.cancelOrder'),
         showConfirmButton: false,
         timer: 3000,
       })
@@ -124,7 +126,7 @@ const orderStore = defineStore('orderStore', () => {
         resetPlaceOrder()
         localStorage.setItem('orderId', res.orderId)
         useSwal({
-          title: '預約成功',
+          title: $i18n.t('success.order'),
           showConfirmButton: false,
           timer: 3000,
         })
@@ -141,7 +143,7 @@ const orderStore = defineStore('orderStore', () => {
           userOrder.value = res.order
         } else {
           const swal = await useSwal({
-            title: '查無此訂單',
+            title: $i18n.t('error.findOrder'),
             showConfirmButton: false,
             timer: 3000,
           })
@@ -151,7 +153,7 @@ const orderStore = defineStore('orderStore', () => {
         }
       } else {
         const swal = await useSwal({
-          title: '查無此訂單',
+          title: $i18n.t('error.findOrder'),
           showConfirmButton: false,
           timer: 3000,
         })

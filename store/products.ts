@@ -3,6 +3,7 @@ import type { adminGet, paginationType, adminPost } from '../interface/product'
 
 const productStore = defineStore('productStore', () => {
   const { apiPath } = useRuntimeConfig().public
+
   const products = ref<adminPost[]>([])
   const product = ref<adminPost>({
     title: '',
@@ -25,7 +26,7 @@ const productStore = defineStore('productStore', () => {
     has_pre: false,
     total_pages: 0,
   })
-  const categoryList = ['壽星優惠', '蛋糕', '餅乾', '塔派']
+  const categoryList = computed(() => ['壽星優惠', '蛋糕', '餅乾', '塔派'])
 
   const adminAPI = {
     // 後台取得全部產品

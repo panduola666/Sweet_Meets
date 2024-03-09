@@ -14,10 +14,10 @@
         />
         <section class="banner-content blur boxShadow p-6 p-lg-7">
           <h1 class="fs-2 fw-bold mb-6 mb-lg-7">
-            相遇甜點，<br />開始甜蜜相約
+            {{ $t('home.title1') }}<br />{{ $t('home.title2') }}
           </h1>
           <NuxtLink to="/diy" class="btn btn-secondary fs-lg-3 w-100 py-3">
-            開始課程
+            {{ $t('home.start') }}
           </NuxtLink>
         </section>
       </div>
@@ -61,7 +61,7 @@
 
       <!-- 快速預約 -->
       <div class="order bg-primary py-6 py-lg-7">
-        <h2 class="h1 fw-bold text-center mb-6">快速預約</h2>
+        <h2 class="h1 fw-bold text-center mb-6">{{ $t('home.quickOrder') }}</h2>
         <div
           class="products"
           @mouseover="pauseSlider"
@@ -101,7 +101,9 @@
           <article
             class="border border-2 text-white px-2 px-lg-4 pt-4 pb-9 mx-3 mx-lg-8 my-8"
           >
-            <h2 class="fs-1 fw-bold text-center mb-6 mb-lg-7">近期活動</h2>
+            <h2 class="fs-1 fw-bold text-center mb-6 mb-lg-7">
+              {{ $t('home.recentActivity') }}
+            </h2>
             <ul class="d-flex flex-column gap-6 gap-lg-7">
               <li
                 v-for="activity in activitiesList.slice(0, 3)"
@@ -112,11 +114,11 @@
                 <p
                   class="text-white fs-4 m-0 d-flex justify-content-between align-items-end"
                 >
-                  活動時間: {{ activity.description }}
+                  {{ $t('activity.time') }}: {{ activity.description }}
                   <NuxtLink
                     :to="`/activity?id=${activity.id}`"
                     class="text-white fs-6 activity-link pointer"
-                    >詳情 >></NuxtLink
+                    >{{ $t('common.detail') }} >></NuxtLink
                   >
                 </p>
               </li>
@@ -127,7 +129,7 @@
 
       <!-- 操作步驟 -->
       <div class="container py-8 py-lg-9">
-        <h2 class="h1 fw-bold text-center mb-6">操作步驟</h2>
+        <h2 class="h1 fw-bold text-center mb-6">{{ $t('home.stepTitle') }}</h2>
         <div class="row justify-content-center gap-6 gap-lg-0">
           <div
             v-for="step in steps"
@@ -173,17 +175,17 @@ onMounted(() => {
 const homeNav = ref<homeNavType[]>([
   {
     route: '/diy',
-    name: 'DIY 課程',
+    name: computed(() => i18nT('route.diy')),
     imgUrl: diyImg,
   },
   {
     route: '/activity',
-    name: '活動預約',
+    name: computed(() => i18nT('route.activity')),
     imgUrl: activityImg,
   },
   {
     route: '/place',
-    name: '場地租借',
+    name: computed(() => i18nT('route.place')),
     imgUrl: placeImg,
   },
 ])
@@ -218,23 +220,23 @@ function resumeSlider() {
 
 const steps = ref<stepsType[]>([
   {
-    name: '1. 選擇甜點',
+    name: computed(() => i18nT('home.step1')),
     imgUrl: step1Img,
   },
   {
-    name: '2. 觀看製作流程',
+    name: computed(() => i18nT('home.step2')),
     imgUrl: step2Img,
   },
   {
-    name: '3. 選取用品',
+    name: computed(() => i18nT('home.step3')),
     imgUrl: step3Img,
   },
   {
-    name: '4. 進行製作',
+    name: computed(() => i18nT('home.step4')),
     imgUrl: step4Img,
   },
   {
-    name: '5. 清洗用具並歸還',
+    name: computed(() => i18nT('home.step5')),
     imgUrl: step5Img,
   },
 ])

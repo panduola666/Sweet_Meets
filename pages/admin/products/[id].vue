@@ -2,32 +2,35 @@
   <div>
     <NuxtLayout name="back">
       <h1 class="h4 fw-bold mb-5">
-        {{ route.params.id === '0' ? '新增品項' : '修改品項' }}
+        {{ route.params.id === '0' ? $t('product.add') : $t('product.edit') }}
       </h1>
       <VeeForm :validation-schema="schema" @submit="submit">
         <div class="row mb-3">
           <div class="col-lg-4">
             <!-- 產品圖片 -->
             <div class="mb-3">
-              <label for="productImg" class="form-label fw-bold"
-                >產品圖片</label
-              >
+              <label for="productImg" class="form-label fw-bold">{{
+                $t('product.image')
+              }}</label>
               <VeeField
                 id="productImg"
                 v-model.trim="form.imageUrl"
                 class="form-control"
-                name="產品圖片"
+                :name="$t('product.image')"
                 type="text"
-                placeholder="請輸入圖片網址"
+                :placeholder="$t('placeholder.imageURL')"
               />
-              <VeeErrorMessage name="產品圖片" class="text-danger" />
+              <VeeErrorMessage
+                :name="$t('product.image')"
+                class="text-danger"
+              />
             </div>
             <img :src="form.imageUrl" :alt="form.title" class="imageUrl mb-3" />
             <div class="position-relative mb-3">
               <label
                 for="update"
                 class="form-label position-relative z-1 btn btn-secondary w-100 fs-5"
-                >上傳圖片</label
+                >{{ $t('common.uploadImg') }}</label
               >
               <input
                 id="update"
@@ -40,29 +43,36 @@
 
           <div class="col">
             <div class="mb-3">
-              <label for="productTitle" class="form-label fw-bold"
-                >產品名稱</label
-              >
+              <label for="productTitle" class="form-label fw-bold">{{
+                $t('product.title')
+              }}</label>
               <VeeField
                 id="productTitle"
                 v-model.trim="form.title"
                 class="form-control"
-                name="產品名稱"
+                :name="$t('product.title')"
                 type="text"
-                placeholder="請輸入產品名稱"
+                :placeholder="$t('placeholder.productTitle')"
               />
-              <VeeErrorMessage name="產品名稱" class="text-danger" />
+              <VeeErrorMessage
+                :name="$t('product.title')"
+                class="text-danger"
+              />
             </div>
 
             <div class="row row-cols-3 mb-3">
               <div class="col">
-                <label for="description" class="form-label">產品分類</label>
+                <label for="description" class="form-label">{{
+                  $t('product.category')
+                }}</label>
                 <select
                   id="description"
                   v-model="form.category"
                   class="form-select"
                 >
-                  <option value="" selected disabled hidden>請選擇分類</option>
+                  <option value="" selected disabled hidden>
+                    {{ $t('placeholder.selectCategory') }}
+                  </option>
                   <option
                     v-for="item in productStore.categoryList"
                     :key="item"
@@ -74,7 +84,9 @@
               </div>
 
               <div class="col">
-                <label for="description" class="form-label">預計耗時</label>
+                <label for="description" class="form-label">{{
+                  $t('product.finalTime')
+                }}</label>
                 <select
                   id="description"
                   v-model="form.finalTime"
@@ -85,28 +97,33 @@
                     :key="hour"
                     :value="hour"
                   >
-                    {{ hour }} 小時
+                    {{ hour }} {{ $t('common.hour') }}
                   </option>
                 </select>
               </div>
 
               <div class="col">
-                <label for="price" class="form-label fw-bold">售價</label>
+                <label for="price" class="form-label fw-bold">{{
+                  $t('product.price')
+                }}</label>
                 <VeeField
                   id="price"
                   v-model.number="form.origin_price"
                   v-number
                   class="form-control"
-                  name="售價"
+                  :name="$t('product.price')"
                   type="text"
-                  placeholder="請輸入售價"
+                  :placeholder="$t('placeholder.productPrice')"
                 />
-                <VeeErrorMessage name="售價" class="text-danger" />
+                <VeeErrorMessage
+                  :name="$t('product.price')"
+                  class="text-danger"
+                />
               </div>
             </div>
 
             <div class="mb-3">
-              <p class="form-label fw-bold">產品特色</p>
+              <p class="form-label fw-bold">{{ $t('product.feature') }}</p>
               <ul>
                 <li
                   v-for="(item, index) in form.content"
@@ -117,7 +134,7 @@
                     <VeeField
                       v-model.trim="form.content[index]"
                       class="form-control mb-2"
-                      :name="`產品特色${index}`"
+                      :name="`${$t('product.feature')}${index}`"
                       type="text"
                     />
                   </div>
@@ -139,11 +156,14 @@
                   </div>
                 </li>
               </ul>
-              <VeeErrorMessage name="產品特色0" class="text-danger" />
+              <VeeErrorMessage
+                :name="$t('product.feature') + '0'"
+                class="text-danger"
+              />
             </div>
 
             <div class="mb-3">
-              <p class="form-label fw-bold">保存方式</p>
+              <p class="form-label fw-bold">{{ $t('product.saveMethod') }}</p>
               <div class="d-flex gap-5 mb-3">
                 <div
                   v-for="(item, index) in saveModeList"
@@ -177,7 +197,7 @@
                     <VeeField
                       v-model.trim="form.saveMethods[index]"
                       class="form-control mb-2"
-                      :name="`保存方式${index}`"
+                      :name="`${$t('product.saveMethod')}${index}`"
                       type="text"
                       :readonly="!form.saveMode"
                     />
@@ -201,18 +221,21 @@
                   </div>
                 </li>
               </ul>
-              <VeeErrorMessage name="保存方式0" class="text-danger" />
+              <VeeErrorMessage
+                :name="`${$t('product.saveMethod')}0`"
+                class="text-danger"
+              />
             </div>
           </div>
         </div>
 
         <div class="d-flex align-items-center gap-3">
-          <p class="fw-bold">更多圖片</p>
+          <p class="fw-bold">{{ $t('common.moreImg') }}</p>
           <div v-if="form.imagesUrl.length < 5" class="position-relative mb-3">
             <label
               for="updateMore"
               class="form-label position-relative z-1 btn btn-outline-secondary px-5"
-              >上傳圖片</label
+              >{{ $t('common.uploadImg') }}</label
             >
             <input
               id="updateMore"
@@ -245,9 +268,11 @@
 
         <div class="d-flex justify-content-end gap-3 my-6">
           <nuxt-link to="/admin/products" class="btn btn-lg btn-primary">
-            取消
+            {{ $t('common.cancel') }}
           </nuxt-link>
-          <button type="submit" class="btn btn-lg btn-secondary">確認</button>
+          <button type="submit" class="btn btn-lg btn-secondary">
+            {{ $t('common.confirm') }}
+          </button>
         </div>
       </VeeForm>
     </NuxtLayout>
@@ -259,20 +284,23 @@ import type { adminPost } from '@/interface/product'
 
 const route = useRoute()
 // const saveMode = ref<number>(0);
-const saveModeList = ref<string[]>(['使用公版', '自定義'])
+const saveModeList: ComputedRef<string[]> = computed(() => [
+  i18nT('product.commonMode'),
+  i18nT('product.selfMode'),
+])
 const productStore = Products()
 
-const schema = {
-  產品名稱: 'required',
-  產品圖片: 'required',
-  售價: 'required|min_value:100|integer',
-  產品特色0: (val: string) => {
-    return !!val || '產品特色 為必填'
+const schema = computed(() => ({
+  [i18nT('product.title')]: 'required',
+  [i18nT('product.image')]: 'required',
+  [i18nT('product.price')]: 'required|min_value:100|integer',
+  [`${i18nT('product.feature')}0`]: (val: string) => {
+    return !!val || i18nT('error.required', [i18nT('product.feature')])
   },
-  保存方式0: (val: string) => {
-    return !!val || '保存方式 為必填'
+  [`${i18nT('product.saveMethod')}0`]: (val: string) => {
+    return !!val || i18nT('error.required', [i18nT('product.saveMethod')])
   },
-}
+}))
 const form = ref<adminPost>({
   title: '',
   category: '',
@@ -282,12 +310,7 @@ const form = ref<adminPost>({
   description: '',
   finalTime: 1,
   content: [''],
-  saveMethods: [
-    '製作完成:需2小時內冷藏。',
-    '回家後請冷藏至少2小時,待內餡凝固再食用。',
-    '冷藏保存。',
-    '請於3天內食用完,口感較佳。',
-  ],
+  saveMethods: [],
   imageUrl: '',
   imagesUrl: [],
   is_enabled: 1,
@@ -322,10 +345,10 @@ watch(
         ? tempSaveMethods.value
         : ['']
       : [
-          '製作完成:需2小時內冷藏。',
-          '回家後請冷藏至少2小時,待內餡凝固再食用。',
-          '冷藏保存。',
-          '請於3天內食用完,口感較佳。',
+          i18nT('product.commonContent1'),
+          i18nT('product.commonContent2'),
+          i18nT('product.commonContent3'),
+          i18nT('product.commonContent4'),
         ]
   },
 )
@@ -356,7 +379,7 @@ async function uploadImage(formKey: 'imageUrl' | 'imagesUrl', e: Event) {
 // 送出表單
 async function submit() {
   form.value.price = form.value.origin_price
-  form.value.description = `預計耗時: ${form.value.finalTime} h`
+  form.value.description = `${i18nT('product.finalTime')}: ${form.value.finalTime} h`
   if (route.params.id !== '0' && form.value.id) {
     await productStore.adminPUT(form.value.id, form.value)
   } else {

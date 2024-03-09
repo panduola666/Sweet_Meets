@@ -4,6 +4,6 @@ export interface homeNav extends headerLink {
 }
 
 export interface stepsType {
-  name: string
+  name: ComputedRef<string>
   imgUrl: string
 }

@@ -2,8 +2,10 @@
   <div>
     <NuxtLayout name="back" :bread-path="[currType]">
       <div class="text-end mb-3">
-        <nuxt-link to="/admin/products/0" class="btn btn-lg btn-secondary px-6"
-          >新增甜點</nuxt-link
+        <nuxt-link
+          to="/admin/products/0"
+          class="btn btn-lg btn-secondary px-6"
+          >{{ $t('product.add') }}</nuxt-link
         >
       </div>
       <div class="row g-3 g-lg-7">
@@ -59,7 +61,7 @@
               v-show="!productStore.products.length"
               class="col-12 text-center fs-3"
             >
-              暫無資料
+              {{ $t('common.noData') }}
             </p>
           </div>
         </div>
@@ -76,7 +78,7 @@
 import Products from '@/store/products'
 
 const productStore = Products()
-const categoryList = ['全部', ...productStore.categoryList]
+const categoryList = [i18nT('common.all'), ...productStore.categoryList]
 const currType = ref<string>(categoryList[0])
 
 onMounted(() => {
@@ -105,7 +107,7 @@ function editProduct(item: any) {
 }
 async function delProduct(item: any) {
   const swal = await useSwal({
-    title: `確定刪除<span class="text-danger mx-3">${item.title}</span>嗎?`,
+    title: i18nT('placeholder.productDel', [item.title]),
     showCancelButton: true,
     allowOutsideClick: false,
   })

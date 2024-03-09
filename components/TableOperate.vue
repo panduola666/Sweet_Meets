@@ -4,7 +4,9 @@
       class="pointer p-2 border d-flex align-items-center bg-white position-relative h-100 search"
       @click="getDetail(id)"
     >
-      <span class="position-absolute tip search-tip">詳情</span>
+      <span class="position-absolute tip search-tip">{{
+        $t('common.detail')
+      }}</span>
       <img
         src="@/assets/icons/search.svg"
         alt="search"
@@ -15,7 +17,9 @@
     </div>
 
     <NuxtLink :to="`/admin/activities/${id}`" class="position-relative edit">
-      <span class="position-absolute tip edit-tip">編輯</span>
+      <span class="position-absolute tip edit-tip">{{
+        $t('common.edit')
+      }}</span>
       <NuxtIcon
         name="edit"
         class="pointer p-2 border operate-btn d-flex align-items-center bg-white"
@@ -23,7 +27,9 @@
     </NuxtLink>
 
     <div class="position-relative delete" @click="deleteArticle(id)">
-      <span class="position-absolute tip delete-tip">刪除</span>
+      <span class="position-absolute tip delete-tip">{{
+        $t('common.delete')
+      }}</span>
       <NuxtIcon
         name="delete"
         class="pointer p-2 border operate-btn d-flex align-items-center bg-white"
@@ -45,7 +51,9 @@
     >
       <div class="modal-content">
         <div class="modal-header">
-          <h1 id="exampleModalLabel" class="modal-title fs-5">活動詳情</h1>
+          <h1 id="exampleModalLabel" class="modal-title fs-5">
+            {{ $t('activity.detail') }}
+          </h1>
           <button
             type="button"
             class="btn-close"
@@ -111,7 +119,7 @@ async function getDetail(id: string) {
 
 async function deleteArticle(id: string) {
   const swal = await useSwal({
-    title: `確定刪除<span class="text-danger mx-3">${title?.value}</span>嗎?`,
+    title: i18nT('placeholder.productDel', [title?.value]),
     showCancelButton: true,
     allowOutsideClick: false,
   })

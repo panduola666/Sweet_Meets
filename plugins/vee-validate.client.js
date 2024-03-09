@@ -1,7 +1,8 @@
 import { defineRule, configure } from 'vee-validate'
 import { required, email, min, integer, min_value } from '@vee-validate/rules'
 import { localize, setLocale } from '@vee-validate/i18n'
-import zhTW from '../locales/zh_TW.json'
+import zhTW from '../locales/vee_zh_TW.json'
+import zhCN from '../locales/vee_zh_CN.json'
 
 // 加入規則
 defineRule('required', required)
@@ -19,11 +20,11 @@ defineRule('integer', integer)
   validateOnModelUpdate：update:modelValue (v-model) 事件觸發，預設 true
  */
 configure({
-  generateMessage: localize({ zh_TW: zhTW }),
+  generateMessage: localize({ zh_TW: zhTW, zh_CN: zhCN }),
   validateOnInput: true,
 })
 
-setLocale('zh_TW')
+setLocale(localStorage.getItem('lang'))
 
 // 必須定義，用來封裝 plugin
 export default defineNuxtPlugin((_nuxtApp) => {})

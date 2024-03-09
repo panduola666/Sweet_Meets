@@ -1,12 +1,14 @@
 import Swal from 'sweetalert2'
 
 export default function useSwal(option: object) {
+  const { $i18n } = useNuxtApp()
+
   const swal = Swal.fire({
     confirmButtonColor: '#198754',
     denyButtonColor: '#dc3545',
-    confirmButtonText: '確認',
-    denyButtonText: '拒絕',
-    cancelButtonText: '取消',
+    confirmButtonText: $i18n.t('common.confirm'),
+    denyButtonText: $i18n.t('common.reject'),
+    cancelButtonText: $i18n.t('common.cancel'),
     reverseButtons: true,
     showConfirmButton: true,
     showDenyButton: false, // 拒絕按鈕

@@ -71,6 +71,8 @@
           </li>
         </ol>
       </nav>
+
+      <ChangeLang />
       <slot />
     </main>
   </div>
@@ -87,28 +89,28 @@ const props = withDefaults(defineProps<{ breadPath?: string[] }>(), {
   breadPath: () => [],
 })
 
+const currRoute = computed(() =>
+  headerList.value.find((list) => list.route === route.path),
+)
 onMounted(async () => {
   await nextTick(() => {
     userStore.checkLogin()
-    const currRoute = headerList.value.find(
-      (list) => list.route === route.path,
-    ) as headerLink
-    pageName.value = currRoute ? currRoute.name : ''
+    pageName.value = currRoute.value ? currRoute.value.name : ''
   })
 })
 
 const headerList = ref<headerLink[]>([
   {
     route: '/admin/products',
-    name: 'DIY 課程',
+    name: computed(() => i18nT('route.diy')),
   },
   {
     route: '/admin/activities',
-    name: '活動管理',
+    name: computed(() => i18nT('route.adminActivity')),
   },
   {
     route: '/admin/orders',
-    name: '預約管理',
+    name: computed(() => i18nT('route.adminOrder')),
   },
 ])
 </script>

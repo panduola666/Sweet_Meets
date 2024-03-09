@@ -2,10 +2,12 @@
   <article class="py-7 w-75 w-xl-50 mx-auto position-relative">
     <div ref="download" class="p-3">
       <div class="border border-2 border-secondary p-5 mb-4 shadow-sm fs-4">
-        <h1 class="fs-3 fs-lg-2 fw-bold text-center default mb-5">預約完成</h1>
+        <h1 class="fs-3 fs-lg-2 fw-bold text-center default mb-5">
+          {{ $t('order.placeStep3') }}
+        </h1>
         <div class="d-flex align-items-center gap-3 mb-3">
           <p class="mb-0 fw-bold">
-            訂單編號: <span class="ms-3">{{ userOrder.id }}</span>
+            {{ $t('order.id') }}: <span class="ms-3">{{ userOrder.id }}</span>
           </p>
           <nuxt-icon
             name="copy"
@@ -14,34 +16,41 @@
           ></nuxt-icon>
         </div>
         <p class="mb-8 fw-bold">
-          預約日期: <span class="ms-3">{{ userOrder.user.orderDate }}</span>
+          {{ $t('order.date') }}:
+          <span class="ms-3">{{ userOrder.user.orderDate }}</span>
         </p>
         <p class="fw-bold">
-          姓名: <span class="ms-3">{{ userOrder.user.name }}</span>
+          {{ $t('order.userName') }}:
+          <span class="ms-3">{{ userOrder.user.name }}</span>
         </p>
         <p class="fw-bold">
-          聯繫方式: <span class="ms-3">{{ userOrder.user.tel }}</span>
+          {{ $t('order.contactInfo') }}:
+          <span class="ms-3">{{ userOrder.user.tel }}</span>
         </p>
         <template v-if="singleOrder">
           <p class="fw-bold">
-            甜點品項:
+            {{ $t('product.productItem') }}:
             <span class="ms-3">{{
               userOrder.user.productId
                 ? userOrder.user.productData.title
-                : '到店選擇'
+                : $t('product.inStore')
             }}</span>
           </p>
           <p class="mb-5 fw-bold">
-            生日: <span class="ms-3">{{ userOrder.user.birth }}</span>
+            {{ $t('order.userBirth') }}:
+            <span class="ms-3">{{ userOrder.user.birth }}</span>
           </p>
         </template>
         <template v-else>
           <p class="fw-bold">
-            人數: <span class="ms-3">{{ userOrder.user.totalPerson }} 人</span>
+            {{ $t('order.totalNum') }}:
+            <span class="ms-3">{{ userOrder.user.totalPerson }} 人</span>
           </p>
           <p class="mb-5 fw-bold">
-            預約時數:
-            <span class="ms-3">{{ userOrder.user.totalTime }} 小時</span>
+            {{ $t('order.totalTime') }}:
+            <span class="ms-3"
+              >{{ userOrder.user.totalTime }} {{ $t('common.hour') }}</span
+            >
           </p>
         </template>
         <p class="text-end fw-bold fs-4 text-danger">
@@ -51,7 +60,7 @@
           v-if="!singleOrder"
           class="remark p-3 fs-5 fw-bold border-top border-2 border-secondary"
         >
-          <p class="mb-1">備註</p>
+          <p class="mb-1">{{ $t('order.userRemark') }}</p>
           <p class="mb-0">{{ userOrder.message }}</p>
         </div>
       </div>
@@ -62,10 +71,10 @@
         class="btn btn-primary fs-5 py-3 flex-grow-1"
         @click="pdfDownload(download)"
       >
-        訂單匯出
+        {{ $t('order.remit') }}
       </button>
       <NuxtLink to="/" class="btn btn-secondary fs-5 py-3 flex-grow-1">
-        完成
+        {{ $t('common.finish') }}
       </NuxtLink>
     </div>
     <img
@@ -97,7 +106,7 @@ const totalPrice: ComputedRef<string> = computed(() => {
     // 場地租借
     return moneyFormat(1500 * userOrder.value.user.totalTime)
   }
-  return '依品項價格'
+  return i18nT('order.inStorePrice')
 })
 onMounted(() => {
   nextTick(() => {
@@ -146,7 +155,7 @@ function pdfDownload(dom: HTMLElement | null) {
 async function copyText(text: string) {
   await navigator.clipboard.writeText(text)
   useSwal({
-    title: '複製成功',
+    title: i18nT('success.copy'),
     showConfirmButton: false,
     timer: 3000,
   })

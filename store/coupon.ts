@@ -4,6 +4,7 @@ import type { couponData } from '@/interface/coupon'
 
 const couponStore = defineStore('couponStore', () => {
   const { apiPath } = useRuntimeConfig().public
+  const { $i18n } = useNuxtApp()
 
   const coupons = ref([])
   const pagination = ref<paginationType>({
@@ -23,7 +24,7 @@ const couponStore = defineStore('couponStore', () => {
       })
 
       useSwal({
-        title: '報到成功',
+        title: $i18n.t('success.checkIn'),
         showConfirmButton: false,
         timer: 3000,
       })
@@ -48,7 +49,7 @@ const couponStore = defineStore('couponStore', () => {
       })
 
       useSwal({
-        title: '付款成功',
+        title: $i18n.t('success.checkIn'),
         showConfirmButton: false,
         timer: 3000,
       })
@@ -59,7 +60,7 @@ const couponStore = defineStore('couponStore', () => {
         method: 'DELETE',
       })
       useSwal({
-        title: '確認離場',
+        title: $i18n.t('success.leave'),
         showConfirmButton: false,
         timer: 3000,
       })

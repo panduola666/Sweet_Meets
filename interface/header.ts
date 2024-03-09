@@ -1,4 +1,4 @@
 export interface headerLink {
   route: string
-  name: string
+  name: ComputedRef<string>
 }

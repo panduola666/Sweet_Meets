@@ -1,4 +1,6 @@
 export default function getDateStr(date: number | string | Date) {
+  const { $i18n } = useNuxtApp()
+
   const timer = new Date(date)
   const dateStr = timer.toLocaleString('zh-TW', {
     year: 'numeric',
@@ -8,7 +10,7 @@ export default function getDateStr(date: number | string | Date) {
     minute: '2-digit',
     hour12: false,
   })
-  const weekStr = ['日', '一', '二', '三', '四', '五', '六']
-
-  return dateStr.replace(/\s/, ` (${weekStr[timer.getDay()]})  `)
+  // const weekStr = ['日', '一', '二', '三', '四', '五', '六']
+  const week = $i18n.t(`common.date${timer.getDay()}`)
+  return dateStr.replace(/\s/, ` (${week})  `)
 }

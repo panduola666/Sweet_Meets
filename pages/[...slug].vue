@@ -7,8 +7,10 @@
       <div class="text-center">
         <h1 class="title fw-bold">404</h1>
         <div class="d-flex align-items-center gap-5">
-          <p class="h3 fw-bold">找不到此頁面</p>
-          <nuxt-link to="/" class="btn btn-lg btn-secondary">回首頁</nuxt-link>
+          <p class="h3 fw-bold">{{ $t('error.notFound') }}</p>
+          <nuxt-link to="/" class="btn btn-lg btn-secondary">{{
+            $t('route.backHome')
+          }}</nuxt-link>
         </div>
       </div>
     </div>

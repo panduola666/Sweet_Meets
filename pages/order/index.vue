@@ -26,7 +26,11 @@
 import Carts from '@/store/cart'
 
 const cartStore = Carts()
-const steps = ref<string[]>(['預約須知', '填寫資料', '訂單完成'])
+const steps: ComputedRef<string[]> = computed(() => [
+  i18nT('order.step1'),
+  i18nT('order.step2'),
+  i18nT('order.step3'),
+])
 const currStep = ref<number>(0)
 
 function changStep(stepIndex: number) {

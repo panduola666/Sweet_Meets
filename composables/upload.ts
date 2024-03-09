@@ -1,4 +1,6 @@
 export default async function upload(file: FileList) {
+  const { $i18n } = useNuxtApp()
+
   // 請注意，僅限使用 jpg、jpeg 與 png 格式，檔案大小限制為 3MB 以下。
   const formData = new FormData()
   formData.append('file-to-upload', file[0])
@@ -14,7 +16,7 @@ export default async function upload(file: FileList) {
   } else {
     useSwal({
       icon: 'error',
-      title: '檔案上傳失敗',
+      title: $i18n.t('error.upload'),
       showConfirmButton: false,
       timer: 3000,
     })

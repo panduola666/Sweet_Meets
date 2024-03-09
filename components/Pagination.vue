@@ -7,8 +7,12 @@
     }"
   >
     <p v-if="!hideStr" class="mb-0 fs-5">
-      當前為第 {{ pagination.current_page }} 頁, 共
-      {{ pagination.total_pages }} 頁
+      {{
+        $t('common.paginationStr', [
+          pagination.current_page,
+          pagination.total_pages,
+        ])
+      }}
     </p>
 
     <nav aria-label="Page navigation example">

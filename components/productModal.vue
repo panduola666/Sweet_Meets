@@ -52,8 +52,8 @@
                     {{ product.title }}
                     <small class="fs-6">{{ product.description }}</small>
                   </p>
-                  <p class="">可兩人一同製作, 第三人需獨立製作一份甜點</p>
-                  <p class="fs-5 fw-bold mb-0">[產品特色]</p>
+                  <p class="">{{ $t('order.rule14') }}</p>
+                  <p class="fs-5 fw-bold mb-0">[{{ $t('product.feature') }}]</p>
                   <ul class="mb-3 list-disc ps-5">
                     <li
                       v-for="(content, index) in product.content"
@@ -62,7 +62,9 @@
                       {{ content }}
                     </li>
                   </ul>
-                  <p class="fs-5 fw-bold mb-0">[保存方式]</p>
+                  <p class="fs-5 fw-bold mb-0">
+                    [{{ $t('product.saveMethod') }}]
+                  </p>
                   <ul class="list-disc ps-5">
                     <li
                       v-for="(saveContent, index) in product.saveMethods"
@@ -81,10 +83,10 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-primary" @click="closeModal">
-            關閉
+            {{ $t('common.close') }}
           </button>
           <button class="btn btn-secondary" @click="orderProduct">
-            立即預約
+            {{ $t('common.quickOrder') }}
           </button>
         </div>
       </div>

@@ -6,7 +6,7 @@
       class="btn btn-sm btn-outline-primary position-absolute end-0 bottom-0"
       @click="openModal"
     >
-      系統管理
+      {{ $t('home.systemBtn') }}
     </button>
 
     <!-- Modal -->
@@ -21,7 +21,9 @@
       <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 id="exampleModalLabel" class="modal-title fs-5">廠家登入</h1>
+            <h1 id="exampleModalLabel" class="modal-title fs-5">
+              {{ $t('home.loginTitle') }}
+            </h1>
             <button
               type="button"
               class="btn-close"
@@ -32,32 +34,39 @@
           <div class="modal-body">
             <VeeForm :validation-schema="schema" @submit="submit">
               <div class="mb-3">
-                <label for="username" class="form-label fw-bold">信箱</label>
+                <label for="username" class="form-label fw-bold">{{
+                  $t('order.mail')
+                }}</label>
                 <VeeField
                   id="username"
                   v-model.trim="form.username"
                   class="form-control"
-                  name="信箱"
+                  :name="$t('order.mail')"
                   type="email"
-                  placeholder="請輸入信箱"
+                  :placeholder="$t('placeholder.userMail')"
                 />
-                <VeeErrorMessage name="信箱" class="text-danger" />
+                <VeeErrorMessage :name="$t('order.mail')" class="text-danger" />
               </div>
               <div class="mb-3">
-                <label for="password" class="form-label fw-bold">密碼</label>
+                <label for="password" class="form-label fw-bold">{{
+                  $t('home.password')
+                }}</label>
                 <VeeField
                   id="password"
                   v-model.trim="form.password"
                   class="form-control"
                   autocomplete="on"
-                  name="密碼"
+                  :name="$t('home.password')"
                   type="password"
-                  placeholder="請輸入密碼"
+                  :placeholder="$t('placeholder.password')"
                 />
-                <VeeErrorMessage name="密碼" class="text-danger" />
+                <VeeErrorMessage
+                  :name="$t('home.password')"
+                  class="text-danger"
+                />
               </div>
               <button type="submit" class="btn btn-secondary w-100">
-                登入
+                {{ $t('home.login') }}
               </button>
             </VeeForm>
           </div>
@@ -74,10 +83,10 @@ const { $bootstrap } = useNuxtApp()
 const adminModal = ref(null)
 let modal: any
 
-const schema = {
-  信箱: 'required|email',
-  密碼: 'required',
-}
+const schema = computed(() => ({
+  [i18nT('order.mail')]: 'required|email',
+  [i18nT('home.password')]: 'required',
+}))
 
 const form = ref<loginType>({
   username: '',

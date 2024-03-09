@@ -1,0 +1,32 @@
+{
+  "code": "zh_CN",
+  "messages": {
+    "_default": "{field} 的值无效",
+    "alpha": "{field} 需以英文组成",
+    "alpha_dash": "{field} 需以英数字、破折号及底线组成",
+    "alpha_num": "{field} 需以英数字组成",
+    "alpha_spaces": "{field} 需以英文及空格组成",
+    "between": "{field} 需介于 0:{min} 至 1:{max}之间",
+    "confirmed": " {field} 不一致",
+    "digits": "{field} 需为 0:{length} 位数字",
+    "dimensions": "{field} 图片尺寸不正确。需为 0:{width} x 1:{height} 像素",
+    "email": "{field} 需为有效的电子邮箱",
+    "not_one_of": "{field} 的选项无效",
+    "ext": "{field} 需为有效的文件",
+    "image": "{field} 需为图片",
+    "one_of": "{field} 的选项无效",
+    "integer": "{field} 需为整数",
+    "length": "{field} 的长度需为 0:{length}",
+    "max": "{field} 不能大于 0:{length} 个字符",
+    "max_value": "{field} 不得大于 0:{max}",
+    "mimes": "{field} 需为有效的文件类型",
+    "min": "{field} 不能小于 0:{length} 个字符",
+    "min_value": "{field} 不得小于 0:{min}",
+    "numeric": "{field} 需为数字",
+    "regex": "{field} 的格式错误",
+    "required": "{field} 为必填",
+    "required_if": "{field} 为必填",
+    "size": "{field} 的文件需小于 0:{size}KB",
+    "url": "{field} 需为有效的URL"
+  }
+}

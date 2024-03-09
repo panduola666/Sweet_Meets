@@ -8,7 +8,7 @@
             class="btn btn-lg btn-outline-secondary fs-5"
             @click="openModal"
           >
-            活動列表
+            {{ $t('activity.list') }}
           </button>
         </div>
         <div class="row pb-5 mb-5 gy-3 gy-lg-0">
@@ -30,11 +30,11 @@
                 class="fs-5 fs-lg-4 fw-bold pb-3 mb-3 border-bottom border-secondary"
                 :class="{ placeholder: isLoading }"
               >
-                活動時間: {{ detail.description }}
+                {{ $t('activity.time') }}: {{ detail.description }}
                 <span
                   v-if="checkTime(detail.description)"
                   class="badge text-bg-danger fs-6"
-                  >已結束</span
+                  >{{ $t('activity.overTime') }}</span
                 >
               </h2>
               <div
@@ -89,11 +89,11 @@
                 >
                   <h3 class="fs-5 fw-bold mb-1">{{ activity.title }}</h3>
                   <p class="mb-0">
-                    活動時間: {{ activity.description }}
+                    {{ $t('activity.time') }}: {{ activity.description }}
                     <span
                       v-if="checkTime(activity.description)"
                       class="badge text-bg-danger fs-small"
-                      >已結束</span
+                      >{{ $t('activity.overTime') }}</span
                     >
                   </p>
                 </li>
@@ -162,7 +162,7 @@ function closeModal() {
     getDetail(activityList.value[0].id)
   } else if (!activityList.value.length) {
     useSwal({
-      title: '暫無活動',
+      title: i18nT('error.emptyActivity'),
       showConfirmButton: false,
       timer: 3000,
     })

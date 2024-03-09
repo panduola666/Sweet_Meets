@@ -11,7 +11,8 @@
             <h1
               class="h2 fw-bold pb-1 mb-3 border-bottom border-2 border-secondary default"
             >
-              {{ category }} <span v-if="index === 0">(限當日壽星)</span>
+              {{ category }}
+              <span v-if="index === 0">{{ $t('product.birthOnly') }}</span>
             </h1>
             <ul class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-3">
               <li

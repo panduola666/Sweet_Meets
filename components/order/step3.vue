@@ -4,33 +4,41 @@
       <article class="col-12 col-lg-5 mb-3 fw-bold">
         <h2 class="fs-4 fs-lg-3 fw-bold default mb-4 mb-lg-7">確認資料</h2>
         <p class="mb-1">
-          姓名: <span class="ms-3">{{ placeOrder.user.name }}</span>
+          {{ $t('order.userName') }}:
+          <span class="ms-3">{{ placeOrder.user.name }}</span>
         </p>
         <p class="fw-bold">
-          聯繫方式: <span class="ms-3">{{ placeOrder.user.tel }}</span>
+          {{ $t('order.contactInfo') }}:
+          <span class="ms-3">{{ placeOrder.user.tel }}</span>
         </p>
         <p class="mb-1 fw-bold">
-          預約日期: <span class="ms-3">{{ placeOrder.user.orderDate }}</span>
+          {{ $t('order.date') }}:
+          <span class="ms-3">{{ placeOrder.user.orderDate }}</span>
         </p>
         <p class="mb-1 fw-bold">
-          人數: <span class="ms-3">{{ placeOrder.user.totalPerson }} 人</span>
+          {{ $t('order.totalNum') }}:
+          <span class="ms-3">{{ placeOrder.user.totalPerson }} 人</span>
         </p>
         <p class="mb-3 fw-bold">
-          預約時數:
-          <span class="ms-3">{{ placeOrder.user.totalTime }} 小時</span>
+          {{ $t('order.totalTime') }}:
+          <span class="ms-3"
+            >{{ placeOrder.user.totalTime }} {{ $t('common.hour') }}</span
+          >
         </p>
         <div class="remark py-3 fw-bold border-top border-2 border-secondary">
-          <p class="mb-1">備註</p>
+          <p class="mb-1">{{ $t('order.userRemark') }}</p>
           <p class="mb-0">{{ placeOrder.message }}</p>
         </div>
       </article>
 
       <div class="col-12 col-lg">
         <h1 class="fs-4 fs-lg-3 fw-bold default mb-4 mb-lg-7">
-          信用卡付款資訊
+          {{ $t('order.cardInfo') }}
         </h1>
         <div class="mb-3">
-          <label for="cardNum1" class="form-label fw-bold">信用卡號</label>
+          <label for="cardNum1" class="form-label fw-bold">{{
+            $t('order.cardNumber')
+          }}</label>
           <div class="row">
             <div
               v-for="(item, index) in cardInfo.cardNumber"
@@ -50,7 +58,9 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="cardDate" class="form-label fw-bold">有效月年</label>
+          <label for="cardDate" class="form-label fw-bold">{{
+            $t('order.cardValid')
+          }}</label>
           <div class="row g-3">
             <div class="col-3 d-flex align-items-center gap-3">
               <input
@@ -74,14 +84,14 @@
                 class="form-control"
                 maxlength="2"
               />
-              年
+              {{ $t('common.yearStr') }}
             </div>
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="cardCode" class="form-label fw-bold col-12"
-            >背面末三碼</label
-          >
+          <label for="cardCode" class="form-label fw-bold col-12">{{
+            $t('order.cardSafe')
+          }}</label>
           <div class="col-3">
             <input
               id="cardCode"
@@ -96,7 +106,7 @@
       </div>
 
       <div class="col-12 d-flex justify-content-end gap-9 fs-4 fw-bold my-5">
-        <span>總費用</span>
+        <span>{{ $t('order.totalPrice') }}</span>
         <span class="text-danger">{{
           moneyFormat(1500 * placeOrder.user.totalTime)
         }}</span>
@@ -113,14 +123,14 @@
         class="btn btn-primary fs-5 px-6"
         @click="changeStep(-1)"
       >
-        修改資料
+        {{ $t('order.reEdit') }}
       </button>
       <button
         type="button"
         class="btn btn-secondary fs-5 px-6"
         @click="payCheck"
       >
-        確認繳費
+        {{ $t('order.payNow') }}
       </button>
     </div>
   </div>
@@ -148,7 +158,7 @@ async function payCheck() {
   const { cardNumber, month, year, safeCode } = cardInfo.value
   if (!month || !year || !safeCode || !cardNumber.some(Boolean)) {
     useSwal({
-      title: '請輸入完整信用卡資訊',
+      title: i18nT('error.cardInfo'),
       showConfirmButton: false,
       timer: 3000,
     })
@@ -156,7 +166,7 @@ async function payCheck() {
   }
   if (Number(month) > 12) {
     useSwal({
-      title: '有效月份格式錯誤',
+      title: i18nT('error.errorDate'),
       showConfirmButton: false,
       timer: 3000,
     })
@@ -172,7 +182,7 @@ async function payCheck() {
     changeStep(1)
   } else {
     useSwal({
-      title: res.message || '付款失敗',
+      title: res.message || i18nT('error.paid'),
       showConfirmButton: false,
       timer: 3000,
     })
@@ -180,9 +190,9 @@ async function payCheck() {
 }
 
 const tips = [
-  '租借費用為 1500元 / 時, 若超出時間半小時內加收 500 元, 超過半小時以一小時費用計算。',
-  '因安全考量,無論是否有大人陪同,12歲以下小朋友都無法入場。 (為避免爭議,請攜帶可證明年齡之相關證件,供必要時核對)',
-  '甜點製作環境,寵物無法入店, 嚴禁:外食、菸、酒、檳榔。',
+  i18nT('order.rule10'),
+  i18nT('order.rule2'),
+  i18nT('order.rule13'),
 ]
 
 // 換頁

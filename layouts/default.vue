@@ -49,6 +49,7 @@
     </header>
 
     <main class="mt-4 mt-lg-8 flex-grow-1">
+      <ChangeLang />
       <slot />
     </main>
 
@@ -74,7 +75,7 @@
             </li>
           </ul>
           <address class="fs-4 text-center mb-0 px-6">
-            地址:100 台北市中正區鄭州路8號
+            {{ $t('common.address') }}
           </address>
         </div>
       </div>
@@ -92,19 +93,19 @@ const route = useRoute()
 const headerList = ref<headerLink[]>([
   {
     route: '/',
-    name: '首頁',
+    name: computed(() => i18nT('route.home')),
   },
   {
     route: '/diy',
-    name: 'DIY 課程',
+    name: computed(() => i18nT('route.diy')),
   },
   {
     route: '/activity',
-    name: '活動預約',
+    name: computed(() => i18nT('route.activity')),
   },
   {
     route: '/place',
-    name: '場地租借',
+    name: computed(() => i18nT('route.place')),
   },
 ])
 

@@ -3,6 +3,7 @@ import type { loginType } from '@/interface/user'
 
 const userStore = defineStore('user', () => {
   const isLogin = ref<boolean>(false)
+  const { $i18n } = useNuxtApp()
 
   // 登入
   async function login(data: loginType) {
@@ -38,7 +39,7 @@ const userStore = defineStore('user', () => {
     const token = useCookie('token')
     token.value = null
     const swal = await useSwal({
-      title: '已登出',
+      title: $i18n.t('success.signOut'),
       showConfirmButton: false,
       timer: 3000,
     })

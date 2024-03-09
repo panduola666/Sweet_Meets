@@ -11,7 +11,7 @@
               :class="{ disabled: !currOrder.id }"
               @click="deleteOrder"
             >
-              取消預約
+              {{ $t('order.cancel') }}
             </button>
             <button
               type="button"
@@ -19,7 +19,7 @@
               :class="{ disabled: disabledCheck }"
               @click="checkIn"
             >
-              報到
+              {{ $t('order.checkIn') }}
             </button>
           </div>
           <div class="table-responsive" :class="{ 'opacity-25': isDrag }">
@@ -29,11 +29,11 @@
               <thead>
                 <tr>
                   <th scope="col">#</th>
-                  <th scope="col">姓名</th>
-                  <th scope="col">時間</th>
-                  <th scope="col">電話</th>
-                  <th scope="col">品項</th>
-                  <th scope="col">費用</th>
+                  <th scope="col">{{ $t('order.userName') }}</th>
+                  <th scope="col">{{ $t('order.orderTime') }}</th>
+                  <th scope="col">{{ $t('order.userTel') }}</th>
+                  <th scope="col">{{ $t('order.orderItem') }}</th>
+                  <th scope="col">{{ $t('order.price') }}</th>
                 </tr>
               </thead>
               <VueDraggableNext
@@ -87,8 +87,11 @@
                       v-else
                       v-model="order.user.productId"
                       class="form-select"
+                      @change="cloneFake"
                     >
-                      <option value="">請選擇品項</option>
+                      <option value="">
+                        {{ $t('placeholder.orderItem') }}
+                      </option>
                       <option
                         v-for="option in productList"
                         :key="option.id"
@@ -111,8 +114,8 @@
         <!-- 右側表格 -->
         <div class="col bg-primary bg-opacity-50 py-5">
           <p class="d-flex justify-content-between fw-bold">
-            <span>報到名單</span>
-            <span>離場</span>
+            <span>{{ $t('order.checkInList') }}</span>
+            <span>{{ $t('order.leave') }}</span>
           </p>
           <div class="position-relative bg-primary-subtle">
             <p
@@ -120,7 +123,7 @@
               class="position-absolute start-0 bg-white text-center fs-5 w-100 fw-bold mb-0 z-3"
               style="top: -20px; border: 5px double red"
             >
-              拖曳至此處報到
+              {{ $t('order.dragTip') }}
             </p>
 
             <VueDraggableNext
@@ -151,12 +154,13 @@
                     <p class="fw-bold mb-0">
                       {{
                         item.totalPerson >= 5
-                          ? `場地預約 - ${item.totalPerson}人`
+                          ? `${$t('route.place')} - ${item.totalPerson}人`
                           : item.title
                       }}
                     </p>
                     <p v-if="item.totalPerson >= 5" class="fs-6 mb-0">
-                      預計離場: {{ getTime(item.final_date) }}
+                      {{ $t('order.expectedLeave') }}:
+                      {{ getTime(item.final_date) }}
                     </p>
                     <p
                       class="mb-0 d-flex align-items-center justify-content-between"
@@ -167,7 +171,9 @@
                           'text-danger': !item.is_paid,
                           'text-success': item.is_paid,
                         }"
-                        >{{ item.is_paid ? `(已付款)` : `(未付款)` }}</small
+                        >{{
+                          item.is_paid ? $t('order.paid') : $t('order.notPaid')
+                        }}</small
                       >
                       <span class="fw-bold">{{ item.total }}</span>
                     </p>
@@ -178,7 +184,7 @@
                     class="btn btn-secondary w-100 rounded-0"
                     @click="openPaidModal(item)"
                   >
-                    付款
+                    {{ $t('order.payMoney') }}
                   </button>
                 </div>
                 <NuxtIcon
@@ -189,7 +195,7 @@
                 />
               </li>
               <li v-if="!checkInList.length && !isDrag" class="text-center">
-                暫無資料
+                {{ $t('common.noData') }}
               </li>
             </VueDraggableNext>
           </div>
@@ -206,7 +212,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header py-2">
-              <h1 class="modal-title fs-5">備註</h1>
+              <h1 class="modal-title fs-5">{{ $t('order.userRemark') }}</h1>
               <button
                 type="button"
                 class="btn-close"
@@ -226,7 +232,7 @@
         <div class="modal-dialog modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h1 class="modal-title fs-5">付款確認</h1>
+              <h1 class="modal-title fs-5">{{ $t('order.payCheck') }}</h1>
               <button
                 type="button"
                 class="btn-close"
@@ -235,13 +241,14 @@
             </div>
             <div class="modal-body">
               <p>
-                <span class="fw-bold me-3">姓名:</span> {{ modalData.name }}
+                <span class="fw-bold me-3">{{ $t('order.userName') }}:</span>
+                {{ modalData.name }}
               </p>
               <div class="mb-3 d-flex align-items-center">
                 <label
                   for="finalProduct"
                   class="form-label fw-bold flex-shrink-0 me-3"
-                  >品項:</label
+                  >{{ $t('order.orderItem') }}:</label
                 >
                 <select
                   id="finalProduct"
@@ -258,7 +265,7 @@
                 </select>
               </div>
               <p class="d-flex justify-content-between">
-                <span>費用:</span>
+                <span>{{ $t('order.price') }}:</span>
                 <span class="fs-3 fw-bold">{{ getFinalPaid(modalData) }}</span>
               </p>
             </div>
@@ -268,14 +275,14 @@
                 class="btn btn-primary"
                 @click="closePaidModal"
               >
-                再想想
+                {{ $t('order.cancelPay') }}
               </button>
               <button
                 type="button"
                 class="btn btn-secondary"
                 @click="paidNow(modalData)"
               >
-                確認並付款
+                {{ $t('order.checkPayNow') }}
               </button>
             </div>
           </div>
@@ -385,9 +392,12 @@ onMounted(() => {
   })
 })
 
+function cloneFake() {
+  fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders))
+}
 async function getDate(page: string | number) {
   await orderStore.adminGet(page)
-  fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders))
+  cloneFake()
 }
 async function getCheckIn(page: string | number) {
   await couponStore.adminGet(page)
@@ -428,7 +438,7 @@ async function paidNow(data: couponData) {
 // 離場
 async function checkLeave(item: couponData) {
   const swal = await useSwal({
-    title: `確定讓<span class="text-danger mx-3">${item.name}</span>離場嗎?`,
+    title: i18nT('placeholder.checkLeave', [item.name]),
     showCancelButton: true,
     allowOutsideClick: false,
   })
@@ -441,7 +451,7 @@ async function checkLeave(item: couponData) {
 // 取消預約
 async function deleteOrder() {
   const swal = await useSwal({
-    title: `確定刪除此預約訂單嗎?`,
+    title: i18nT('placeholder.orderDel'),
     showCancelButton: true,
     allowOutsideClick: false,
   })
@@ -459,7 +469,10 @@ async function checkIn() {
   const data: couponData = {
     name,
     productId,
-    title: totalPerson >= 5 ? '場地預約' : productList.value[productId].title,
+    title:
+      totalPerson >= 5
+        ? i18nT('route.place')
+        : productList.value[productId].title,
     is_enabled: 1,
     total: getMoney(currOrder.value),
     is_paid,
@@ -489,10 +502,11 @@ async function onChange(evt: any) {
   if (user.totalPerson < 5 && disabledCheck.value) {
     await useSwal({
       icon: 'error',
-      title: '請選擇品項',
+      title: i18nT('placeholder.orderItem'),
       showConfirmButton: false,
       timer: 3000,
     })
+    cloneFake()
     return
   }
   if (
@@ -500,7 +514,7 @@ async function onChange(evt: any) {
     new Date(user.orderDate).getTime() >= new Date().getTime() + 10 * 60 * 1000
   ) {
     const swal = await useSwal({
-      title: `預約人:<span class="text-danger mx-3">${user.name}</span>, 是否確認報到?`,
+      title: i18nT('placeholder.checkCheckIn', [user.name]),
       showCancelButton: true,
       allowOutsideClick: false,
     })
@@ -508,7 +522,7 @@ async function onChange(evt: any) {
       checkIn()
     } else {
       // 取消需還原數據
-      fakeOrders.value = JSON.parse(JSON.stringify(orderStore.orders))
+      cloneFake()
     }
   }
 }
@@ -521,7 +535,7 @@ function getItem(data: orderAdminData) {
   const { totalPerson, totalTime, productId, productData } = data.user
   if (totalPerson >= 5) {
     // 場地預約
-    return `場地預約 - ${totalPerson}人(${totalTime} 小時)`
+    return i18nT('order.placeItem', [totalPerson, totalTime])
   } else if (productId) {
     // 已選定品項
     return productData.title

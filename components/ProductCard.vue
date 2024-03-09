@@ -20,10 +20,12 @@
       <div class="col-7">
         <div class="card-body">
           <h5 class="card-title h3 fw-bold text-truncate">
-            {{ product.id ? product.title : '到店選擇' }}
+            {{ product.id ? product.title : $t('product.inStore') }}
           </h5>
           <p class="card-text fs-4 fw-bold">
-            {{ product.id ? moneyFormat(product.price) : '依品項價格' }}
+            {{
+              product.id ? moneyFormat(product.price) : $t('order.inStorePrice')
+            }}
           </p>
         </div>
       </div>

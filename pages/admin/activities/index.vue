@@ -5,7 +5,7 @@
         <nuxt-link
           to="/admin/activities/0"
           class="btn btn-lg btn-secondary px-6"
-          >新增活動</nuxt-link
+          >{{ $t('activity.add') }}</nuxt-link
         >
       </div>
       <div class="table-responsive">
@@ -13,10 +13,12 @@
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">標題</th>
-              <th scope="col" class="d-none d-lg-block">活動封面</th>
-              <th scope="col">活動時間</th>
-              <th scope="col">操作</th>
+              <th scope="col">{{ $t('common.title') }}</th>
+              <th scope="col" class="d-none d-lg-block">
+                {{ $t('activity.cover') }}
+              </th>
+              <th scope="col">{{ $t('activity.time') }}</th>
+              <th scope="col">{{ $t('common.operate') }}</th>
             </tr>
           </thead>
           <tbody v-if="ArticleStore.articles" class="fs-lg-5 text-nowrap">
@@ -37,7 +39,7 @@
                 <small
                   v-if="!checkDate(item.description)"
                   class="fs-small text-danger"
-                  >- 已結束 -</small
+                  >- {{ $t('activity.overTime') }} -</small
                 >
               </td>
               <td class="py-7">

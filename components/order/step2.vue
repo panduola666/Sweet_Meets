@@ -8,61 +8,72 @@
           </div>
           <!-- 姓名 -->
           <div class="mb-3">
-            <label for="name" class="form-label fw-bold">姓名</label>
+            <label for="name" class="form-label fw-bold">{{
+              $t('order.userName')
+            }}</label>
             <VeeField
               id="name"
               v-model.trim="form.user.name"
               class="form-control"
-              name="姓名"
+              :name="$t('order.userName')"
               type="text"
-              placeholder="請輸入姓名"
+              :placeholder="$t('placeholder.userName')"
             />
-            <VeeErrorMessage name="姓名" class="text-danger" />
+            <VeeErrorMessage :name="$t('order.userName')" class="text-danger" />
           </div>
 
           <!-- 聯繫方式 -->
           <div class="mb-3">
             <div class="row">
               <div class="col">
-                <label for="phone" class="form-label fw-bold">手機</label>
+                <label for="phone" class="form-label fw-bold">{{
+                  $t('order.phone')
+                }}</label>
                 <VeeField
                   id="phone"
                   v-model.trim="form.user.tel"
                   v-number
                   class="form-control"
-                  name="手機"
+                  :name="$t('order.phone')"
                   type="tel"
-                  placeholder="請輸入手機號碼"
+                  :placeholder="$t('placeholder.userTel')"
                 />
-                <VeeErrorMessage name="手機" class="text-danger" />
+                <VeeErrorMessage
+                  :name="$t('order.phone')"
+                  class="text-danger"
+                />
               </div>
               <div class="col">
-                <label for="email" class="form-label fw-bold">信箱</label>
+                <label for="email" class="form-label fw-bold">{{
+                  $t('order.mail')
+                }}</label>
                 <VeeField
                   id="email"
                   v-model.trim="form.user.email"
                   class="form-control"
-                  name="信箱"
+                  :name="$t('order.mail')"
                   type="email"
-                  placeholder="請輸入信箱"
+                  :placeholder="$t('placeholder.userMail')"
                 />
-                <VeeErrorMessage name="信箱" class="text-danger" />
+                <VeeErrorMessage :name="$t('order.mail')" class="text-danger" />
               </div>
             </div>
           </div>
 
           <!-- 甜點品項 -->
           <div v-if="singleOrder" class="mb-3">
-            <label for="product" class="form-label fw-bold">甜點品項</label>
+            <label for="product" class="form-label fw-bold">{{
+              $t('product.productItem')
+            }}</label>
             <VeeField
               id="product"
               v-model="form.user.productId"
               class="form-select"
-              name="品項"
+              :name="$t('order.orderItem')"
               as="select"
-              placeholder="請選擇品項"
+              :placeholder="$t('placeholder.orderItem')"
             >
-              <option value="">到店選擇</option>
+              <option value="">{{ $t('product.inStore') }}</option>
               <option
                 v-for="option in productList"
                 :key="option.id"
@@ -75,42 +86,46 @@
 
           <!-- 人數 -->
           <div v-if="!singleOrder" class="mb-3">
-            <label for="totalPerson" class="form-label fw-bold">人數</label>
+            <label for="totalPerson" class="form-label fw-bold">{{
+              $t('order.totalNum')
+            }}</label>
             <VeeField
               id="totalPerson"
               v-model="form.user.totalPerson"
               class="form-select"
-              name="人數"
+              :name="$t('order.totalNum')"
               as="select"
-              placeholder="請選擇人數"
+              :placeholder="$t('placeholder.totalNum')"
             >
               <option
                 v-for="num in [5, 6, 7, 8, 9, 10]"
                 :key="num"
                 :value="num"
               >
-                {{ num }} 人
+                {{ num }} {{ $t('common.person') }}
               </option>
             </VeeField>
           </div>
 
           <!-- 預約時數 -->
           <div v-if="!singleOrder" class="mb-3">
-            <label for="totalTime" class="form-label fw-bold">預約時數</label>
+            <label for="totalTime" class="form-label fw-bold">{{
+              $t('order.totalTime')
+            }}</label>
             <VeeField
               id="totalTime"
               v-model="form.user.totalTime"
               class="form-select"
-              name="預約時數"
+              :name="$t('order.totalTime')"
               as="select"
-              placeholder="請選擇預約時數"
+              :placeholder="$t('placeholder.totalTime')"
             >
               <option
                 v-for="hour in [1, 1.5, 2, 2.5, 3]"
                 :key="hour"
                 :value="hour"
               >
-                {{ hour }} 小時
+                {{ hour }} {{ $t('common.hour') }}
               </option>
             </VeeField>
           </div>
@@ -124,15 +139,17 @@
               :max-date="maxDate"
             >
               <template #default="{ togglePopover }">
-                <label for="date" class="form-label fw-bold">預約日期</label>
+                <label for="date" class="form-label fw-bold">{{
+                  $t('order.date')
+                }}</label>
                 <VeeField
                   id="date"
                   v-model="form.user.orderDate"
                   class="form-control mb-1"
-                  name="預約日期"
+                  :name="$t('order.date')"
                   type="text"
                   inputmode="numeric"
-                  placeholder="請選擇預約日期"
+                  :placeholder="$t('placeholder.orderDate')"
                   readonly
                   @click="togglePopover"
                 />
@@ -144,15 +161,15 @@
                   {{ i + 11 }}
                 </option>
               </select>
-              點
+              {{ $t('common.hourStr') }}
               <select v-model="date.orderMin" class="form-select">
                 <option v-for="i in ['00', '30']" :key="i" :value="i">
                   {{ i }}
                 </option>
               </select>
-              分
+              {{ $t('common.minStr') }}
             </div>
-            <VeeErrorMessage name="預約日期" class="text-danger" />
+            <VeeErrorMessage :name="$t('order.date')" class="text-danger" />
           </div>
 
           <!-- 生日 -->
@@ -164,21 +181,26 @@
               :max-date="new Date()"
             >
               <template #default="{ togglePopover }">
-                <label for="birth" class="form-label fw-bold">生日</label>
+                <label for="birth" class="form-label fw-bold">{{
+                  $t('order.userBirth')
+                }}</label>
                 <VeeField
                   id="birth"
                   v-model.trim="form.user.birth"
                   class="form-control"
-                  name="生日"
+                  :name="$t('order.userBirth')"
                   type="text"
                   inputmode="numeric"
-                  placeholder="請選擇生日"
+                  :placeholder="$t('placeholder.userBirth')"
                   readonly
                   @click="togglePopover"
                 />
               </template>
             </VDatePicker>
-            <VeeErrorMessage name="生日" class="text-danger" />
+            <VeeErrorMessage
+              :name="$t('order.userBirth')"
+              class="text-danger"
+            />
           </div>
         </div>
 
@@ -187,14 +209,16 @@
             <ProductCard :product="form.user.productData" />
           </div>
           <div v-else class="mb-3">
-            <label for="remark" class="form-label fw-bold">備註</label>
+            <label for="remark" class="form-label fw-bold">{{
+              $t('order.userRemark')
+            }}</label>
             <VeeField
               id="remark"
               v-model.trim="form.message"
               class="form-control"
-              name="備註"
+              :name="$t('order.userRemark')"
               as="textarea"
-              placeholder="請輸入備註"
+              :placeholder="$t('placeholder.userRemark')"
               style="resize: none; height: 140px"
             />
           </div>
@@ -209,7 +233,7 @@
           >
             <template #footer>
               <p class="text-center" :class="{ hidden: !form.user.orderDate }">
-                預約日期: {{ form.user.orderDate }}
+                {{ $t('order.date') }}: {{ form.user.orderDate }}
               </p>
             </template>
           </VDatePicker>
@@ -221,9 +245,11 @@
           class="btn btn-primary fs-5 px-6"
           @click="changeStep(-1)"
         >
-          取消
+          {{ $t('common.cancel') }}
         </button>
-        <button type="submit" class="btn btn-secondary fs-5 px-6">確認</button>
+        <button type="submit" class="btn btn-secondary fs-5 px-6">
+          {{ $t('common.confirm') }}
+        </button>
       </div>
     </VeeForm>
   </div>
@@ -254,7 +280,7 @@ const form = ref<postOrder>({
     name: '',
     email: '',
     tel: '',
-    address: '本店',
+    address: i18nT('order.local'),
     birth: '',
     productData: {
       title: '',
@@ -308,8 +334,8 @@ onMounted(() => {
       await cartStore.checkCart()
       if (!carts.value.length) {
         const swal = await useSwal({
-          title: '暫無商品',
-          confirmButtonText: '來去選購',
+          title: i18nT('error.emptyCart'),
+          confirmButtonText: i18nT('error.goSelect'),
           confirmButtonColor: '#603D3D',
           allowOutsideClick: false,
         })
@@ -420,13 +446,13 @@ function timeFormat(date: string): string {
 }
 
 // 表單處理
-const schema = {
-  姓名: 'required',
-  手機: 'required|min:8',
-  信箱: 'required|email',
-  預約日期: 'required',
-  生日: singleOrder ? 'required' : '',
-}
+const schema = computed(() => ({
+  [i18nT('order.userName')]: 'required',
+  [i18nT('order.phone')]: 'required|min:8',
+  [i18nT('order.mail')]: 'required|email',
+  [i18nT('order.date')]: 'required',
+  [i18nT('order.userBirth')]: singleOrder ? 'required' : '',
+}))
 
 // 換頁
 const emit = defineEmits(['click'])
