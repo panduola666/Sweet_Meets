@@ -24,7 +24,7 @@ configure({
   validateOnInput: true,
 })
 
-setLocale(localStorage.getItem('lang'))
+setLocale(localStorage.getItem('lang') || 'zh_TW')
 
 // 必須定義，用來封裝 plugin
 export default defineNuxtPlugin((_nuxtApp) => {})
