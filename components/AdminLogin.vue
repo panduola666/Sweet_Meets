@@ -137,6 +137,8 @@ function closeModal() {
 // 大寫監聽
 const isCapsLock = ref<boolean>(false)
 function checkCapsLock(e: KeyboardEvent) {
-  isCapsLock.value = e.getModifierState('CapsLock')
+  if (e && e.getModifierState) {
+    isCapsLock.value = e.getModifierState('CapsLock')
+  }
 }
 </script>
