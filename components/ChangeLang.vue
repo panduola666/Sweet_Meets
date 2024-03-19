@@ -41,6 +41,7 @@ const changeLanguage = (lang: string) => {
   localStorage.setItem('lang', lang)
 }
 </script>
+
 <style lang="scss" scoped>
 .changeLang {
   position: fixed;

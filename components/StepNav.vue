@@ -12,6 +12,7 @@
     </template>
   </div>
 </template>
+
 <script setup lang="ts">
 interface propsType {
   steps: string[]
@@ -19,6 +20,7 @@ interface propsType {
 }
 const props = defineProps<propsType>()
 </script>
+
 <style lang="scss" scoped>
 .step-box {
   align-items: center;

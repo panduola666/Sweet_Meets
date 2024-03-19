@@ -298,6 +298,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import { VueDraggableNext } from 'vue-draggable-next'
 import type { couponData } from '@/interface/coupon'

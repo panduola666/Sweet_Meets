@@ -109,6 +109,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Article from '@/store/article'
 
@@ -172,6 +173,7 @@ function closeModal() {
   modal.hide()
 }
 </script>
+
 <style lang="scss" scoped>
 .activityImg {
   width: 100%;

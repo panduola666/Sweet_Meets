@@ -89,6 +89,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import User from '@/store/user'
 import type { loginType } from '@/interface/user'

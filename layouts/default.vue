@@ -84,6 +84,7 @@
     </footer>
   </div>
 </template>
+
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -111,6 +112,7 @@ const headerList = ref<headerLink[]>([
 
 const menuOpen = ref<boolean>(false)
 </script>
+
 <style scoped lang="scss">
 .frontLayout {
   background-color: rgb(247, 214, 224, 0.3);

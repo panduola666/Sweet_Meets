@@ -16,7 +16,7 @@ export default {
     hour: '小時',
     all: '全部',
     finish: '完成',
-    iKnow: '我已知曉',
+    iKnow: '我知道了',
     person: '人',
     yearStr: '年',
     hourStr: '點',

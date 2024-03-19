@@ -22,6 +22,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Carts from '@/store/cart'
 
@@ -45,6 +46,7 @@ onBeforeRouteLeave(async () => {
   }
 })
 </script>
+
 <style lang="scss" scoped>
 .order-shadow {
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25);

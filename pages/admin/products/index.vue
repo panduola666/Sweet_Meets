@@ -77,6 +77,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Products from '@/store/products'
 
@@ -85,8 +86,8 @@ const categoryList = [i18nT('common.all'), ...productStore.categoryList]
 const currType = ref<string>(categoryList[0])
 
 onMounted(() => {
-  nextTick(async () => {
-    await getDate(1)
+  nextTick(() => {
+    getDate(1)
   })
 })
 function changeType(item: string) {
@@ -120,6 +121,7 @@ async function delProduct(item: any) {
   }
 }
 </script>
+
 <style lang="scss" scoped>
 .product-nav {
   &.active {

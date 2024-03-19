@@ -93,6 +93,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { Swiper, SwiperSlide } from '#build/components'
 import Carts from '@/store/cart'
@@ -148,6 +149,7 @@ const swiperConfig = ref({
   },
 })
 </script>
+
 <style lang="scss" scoped>
 .productImg {
   width: 100%;

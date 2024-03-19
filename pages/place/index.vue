@@ -27,6 +27,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Carts from '@/store/cart'
 import Order from '@/store/order'
@@ -55,6 +56,7 @@ onBeforeRouteLeave(async () => {
   orderStore.resetPlaceOrder()
 })
 </script>
+
 <style lang="scss" scoped>
 .order-shadow {
   box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.25);

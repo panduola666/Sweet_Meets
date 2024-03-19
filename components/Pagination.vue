@@ -32,6 +32,7 @@
     </nav>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { paginationType } from '@/interface/product'
 

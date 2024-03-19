@@ -32,6 +32,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { adminPost } from '@/interface/product'
 

@@ -135,6 +135,7 @@
     </div>
   </div>
 </template>
+
 <script setup lang="ts">
 import Order from '@/store/order'
 
@@ -222,6 +223,7 @@ watch(
   },
 )
 </script>
+
 <style lang="scss" scoped>
 .cardNum {
   position: relative;

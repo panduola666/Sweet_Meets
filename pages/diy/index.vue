@@ -60,6 +60,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Products from '@/store/products'
 import type { adminPost } from '@/interface/product'
@@ -107,6 +108,7 @@ function scrollHash(id: string) {
   $scrollTo(id, { offset: -16 * 6 })
 }
 </script>
+
 <style lang="scss" scoped>
 .card {
   img {

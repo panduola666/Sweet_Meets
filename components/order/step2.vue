@@ -254,6 +254,7 @@
     </VeeForm>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { cartsList } from '@/interface/cart'
 import type { adminPost } from '@/interface/product'
@@ -460,6 +461,7 @@ function changeStep(page: number) {
   emit('click', props.currStep + Number(page))
 }
 </script>
+
 <style lang="scss" scoped>
 .hidden {
   visibility: hidden;

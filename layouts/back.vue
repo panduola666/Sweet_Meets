@@ -77,6 +77,7 @@
     </main>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { headerLink } from '../interface/header'
 import User from '@/store/user'
@@ -114,6 +115,7 @@ const headerList = ref<headerLink[]>([
   },
 ])
 </script>
+
 <style lang="scss" scoped>
 .backLayout {
   background-color: rgb(247, 214, 224, 0.3);

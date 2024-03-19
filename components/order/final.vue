@@ -86,6 +86,7 @@
     />
   </article>
 </template>
+
 <script setup lang="ts">
 import html2Canvas from 'html2canvas'
 import Jspdf from 'jspdf'
@@ -162,4 +163,3 @@ async function copyText(text: string) {
   })
 }
 </script>
-<style lang="scss" scoped></style>

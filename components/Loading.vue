@@ -11,6 +11,7 @@
     <!-- Loading..... -->
   </div>
 </template>
+
 <script setup lang="ts">
 import Loading from '@/store/loading'
 
@@ -28,6 +29,7 @@ nuxtApp.hook('page:finish', () => {
   loadingStore.changeLoading(false)
 })
 </script>
+
 <style lang="scss" scoped>
 .loading {
   position: fixed;

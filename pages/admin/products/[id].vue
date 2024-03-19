@@ -282,6 +282,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import Products from '@/store/products'
 import type { adminPost } from '@/interface/product'
@@ -393,6 +394,7 @@ async function submit() {
   useRouter().push('/admin/products')
 }
 </script>
+
 <style lang="scss" scoped>
 .imageUrl {
   max-height: 300px;

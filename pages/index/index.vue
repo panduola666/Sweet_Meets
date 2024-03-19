@@ -144,6 +144,7 @@
     </NuxtLayout>
   </div>
 </template>
+
 <script setup lang="ts">
 import type { homeNav as homeNavType, stepsType } from '@/interface/home'
 import diyImg from '@/assets/img/home/diy.png'
