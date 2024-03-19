@@ -24,6 +24,13 @@ img{
 .default{
   cursor: default;
 }
+.required::before{
+  content: '*';
+  color: $danger;
+  vertical-align: middle;
+  position: relative;
+  left: -5px;
+}
 
 @mixin md { // 響應式斷點
   @media (min-width: 768px) {

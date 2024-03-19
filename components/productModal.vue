@@ -79,6 +79,11 @@
                 </p>
               </div>
             </div>
+            <ol class="alert alert-primary lh-lg mb-3" role="alert">
+              <li v-for="(item, index) in tips" :key="item">
+                {{ index + 1 }}. {{ item }}
+              </li>
+            </ol>
           </div>
         </div>
         <div class="modal-footer">
@@ -148,6 +153,11 @@ const swiperConfig = ref({
     disableOnInteraction: false,
   },
 })
+const tips = ref([
+  i18nT('order.rule2'),
+  i18nT('order.rule3'),
+  i18nT('order.rule13'),
+])
 </script>
 
 <style lang="scss" scoped>

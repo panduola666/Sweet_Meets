@@ -50,7 +50,7 @@
                     class="card-text fs-5 d-flex align-items-center justify-content-between"
                   >
                     <span>${{ item.price }}</span>
-                    <nuxt-icon
+                    <NuxtIcon
                       filled
                       name="delete"
                       class="pointer"

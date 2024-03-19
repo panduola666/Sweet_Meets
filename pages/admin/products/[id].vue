@@ -127,7 +127,7 @@
               <ul>
                 <li
                   v-for="(item, index) in form.content"
-                  :key="index"
+                  :key="`特色${index}`"
                   class="row align-items-center"
                 >
                   <div class="col-9 col-lg-10">
@@ -192,7 +192,7 @@
               <ul>
                 <li
                   v-for="(item, index) in form.saveMethods"
-                  :key="index"
+                  :key="`保存${index}`"
                   class="row align-items-center"
                 >
                   <div class="col-9 col-lg-10">
@@ -253,7 +253,7 @@
         <div class="row row-cols-2 row-cols-lg-5 g-3">
           <div
             v-for="(imgUrl, index) in form.imagesUrl"
-            :key="index"
+            :key="`更多圖片${index}`"
             class="col position-relative"
           >
             <button

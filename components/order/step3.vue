@@ -36,13 +36,13 @@
           {{ $t('order.cardInfo') }}
         </h1>
         <div class="mb-3">
-          <label for="cardNum1" class="form-label fw-bold">{{
+          <label for="cardNum1" class="form-label fw-bold required">{{
             $t('order.cardNumber')
           }}</label>
           <div class="row">
             <div
               v-for="(item, index) in cardInfo.cardNumber"
-              :key="index"
+              :key="`卡號欄位${index}`"
               class="col-3 cardNum"
             >
               <input
@@ -58,7 +58,7 @@
           </div>
         </div>
         <div class="mb-3">
-          <label for="cardDate" class="form-label fw-bold">{{
+          <label for="cardDate" class="form-label fw-bold required">{{
             $t('order.cardValid')
           }}</label>
           <div class="row g-3">
@@ -89,7 +89,7 @@
           </div>
         </div>
         <div class="mb-3 row">
-          <label for="cardCode" class="form-label fw-bold col-12">{{
+          <label for="cardCode" class="form-label fw-bold col-12 required">{{
             $t('order.cardSafe')
           }}</label>
           <div class="col-3">
@@ -113,7 +113,7 @@
       </div>
     </div>
     <ol class="alert alert-primary lh-lg mb-3" role="alert">
-      <li v-for="(item, index) in tips" :key="index">
+      <li v-for="(item, index) in tips" :key="item">
         {{ index + 1 }}. {{ item }}
       </li>
     </ol>

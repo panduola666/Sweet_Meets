@@ -3,7 +3,7 @@
     <NuxtLayout name="default">
       <div class="container">
         <div class="w-lg-75 mx-auto">
-          <step-nav :steps="steps" :curr-step="currStep" />
+          <stepNav :steps="steps" :curr-step="currStep" />
           <div class="bg-white bg-opacity-50 order-shadow rounded-4">
             <OrderStep1
               v-if="currStep === 0"

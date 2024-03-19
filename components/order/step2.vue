@@ -8,7 +8,7 @@
           </div>
           <!-- 姓名 -->
           <div class="mb-3">
-            <label for="name" class="form-label fw-bold">{{
+            <label for="name" class="form-label fw-bold required">{{
               $t('order.userName')
             }}</label>
             <VeeField
@@ -26,7 +26,7 @@
           <div class="mb-3">
             <div class="row">
               <div class="col">
-                <label for="phone" class="form-label fw-bold">{{
+                <label for="phone" class="form-label fw-bold required">{{
                   $t('order.phone')
                 }}</label>
                 <VeeField
@@ -44,7 +44,7 @@
                 />
               </div>
               <div class="col">
-                <label for="email" class="form-label fw-bold">{{
+                <label for="email" class="form-label fw-bold required">{{
                   $t('order.mail')
                 }}</label>
                 <VeeField
@@ -139,7 +139,7 @@
               :max-date="maxDate"
             >
               <template #default="{ togglePopover }">
-                <label for="date" class="form-label fw-bold">{{
+                <label for="date" class="form-label fw-bold required">{{
                   $t('order.date')
                 }}</label>
                 <VeeField
@@ -181,7 +181,7 @@
               :max-date="new Date()"
             >
               <template #default="{ togglePopover }">
-                <label for="birth" class="form-label fw-bold">{{
+                <label for="birth" class="form-label fw-bold required">{{
                   $t('order.userBirth')
                 }}</label>
                 <VeeField

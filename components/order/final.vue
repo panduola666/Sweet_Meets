@@ -5,56 +5,59 @@
         <h1 class="fs-3 fs-lg-2 fw-bold text-center default mb-5">
           {{ $t('order.placeStep3') }}
         </h1>
-        <div class="d-flex align-items-center gap-3 mb-3">
-          <p class="mb-0 fw-bold">
-            {{ $t('order.id') }}: <span class="ms-3">{{ userOrder.id }}</span>
-          </p>
-          <nuxt-icon
-            filled
-            name="copy"
-            class="pointer"
-            @click="copyText(userOrder.id)"
-          ></nuxt-icon>
-        </div>
-        <p class="mb-8 fw-bold">
+        <p class="fw-bold break-all mb-1">
+          <span class="d-flex align-items-center justify-content-between"
+            >{{ $t('order.id') }}:
+            <NuxtIcon
+              filled
+              name="copy"
+              class="pointer"
+              @click="copyText(userOrder.id)"
+            />
+          </span>
+          <span class="fs-5 fw-normal">{{ userOrder.id }}</span>
+        </p>
+        <p class="mb-4 fw-bold break-all">
           {{ $t('order.date') }}:
-          <span class="ms-3">{{ userOrder.user.orderDate }}</span>
+          <span class="fs-5 fw-normal">{{ userOrder.user.orderDate }}</span>
         </p>
-        <p class="fw-bold">
+        <p class="fw-bold break-all mb-1">
           {{ $t('order.userName') }}:
-          <span class="ms-3">{{ userOrder.user.name }}</span>
+          <span class="fs-5 fw-normal">{{ userOrder.user.name }}</span>
         </p>
-        <p class="fw-bold">
+        <p class="fw-bold break-all mb-1">
           {{ $t('order.contactInfo') }}:
-          <span class="ms-3">{{ userOrder.user.tel }}</span>
+          <span class="fs-5 fw-normal">{{ userOrder.user.tel }}</span>
         </p>
         <template v-if="singleOrder">
-          <p class="fw-bold">
+          <p class="fw-bold break-all mb-1">
             {{ $t('product.productItem') }}:
-            <span class="ms-3">{{
+            <span class="fs-5 fw-normal">{{
               userOrder.user.productId
                 ? userOrder.user.productData.title
                 : $t('product.inStore')
             }}</span>
           </p>
-          <p class="mb-5 fw-bold">
+          <p class="mb-5 fw-bold break-all">
             {{ $t('order.userBirth') }}:
-            <span class="ms-3">{{ userOrder.user.birth }}</span>
+            <span class="fs-5 fw-normal">{{ userOrder.user.birth }}</span>
           </p>
         </template>
         <template v-else>
-          <p class="fw-bold">
+          <p class="fw-bold break-all mb-1">
             {{ $t('order.totalNum') }}:
-            <span class="ms-3">{{ userOrder.user.totalPerson }} 人</span>
+            <span class="fs-5 fw-normal"
+              >{{ userOrder.user.totalPerson }} 人</span
+            >
           </p>
-          <p class="mb-5 fw-bold">
+          <p class="mb-5 fw-bold break-all mb-1">
             {{ $t('order.totalTime') }}:
-            <span class="ms-3"
+            <span class="fs-5 fw-normal"
               >{{ userOrder.user.totalTime }} {{ $t('common.hour') }}</span
             >
           </p>
         </template>
-        <p class="text-end fw-bold fs-4 text-danger">
+        <p class="text-end fw-bold fs-4 text-danger break-all">
           {{ totalPrice }}
         </p>
         <div
@@ -163,3 +166,11 @@ async function copyText(text: string) {
   })
 }
 </script>
+
+<style lang="scss" scoped>
+.break-all {
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+}
+</style>

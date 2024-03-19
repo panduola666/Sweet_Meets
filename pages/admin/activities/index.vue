@@ -43,7 +43,7 @@
                 >
               </td>
               <td class="py-7">
-                <table-operate :id="item.id" :title="item.title" />
+                <TableOperate :id="item.id" :title="item.title" />
               </td>
             </tr>
           </tbody>

@@ -303,6 +303,7 @@
 import { VueDraggableNext } from 'vue-draggable-next'
 import type { couponData } from '@/interface/coupon'
 import type { orderAdminData } from '@/interface/order'
+import type { adminPost } from '@/interface/product'
 import Order from '@/store/order'
 import Products from '@/store/products'
 import Coupon from '@/store/coupon'
@@ -353,8 +354,8 @@ function isOverTime(date: number | string | Date) {
 
 const orders: ComputedRef<orderAdminData[]> = computed(() => orderStore.orders)
 const remark = ref<string>('')
-const productList: ComputedRef<{ [key: string]: any }> = computed(
-  () => productStore.products || {},
+const productList: ComputedRef<adminPost[]> = computed(
+  () => productStore.products,
 )
 const checkInList: ComputedRef<couponData[]> = computed(
   () => couponStore.coupons || [],
@@ -424,13 +425,13 @@ function closePaidModal() {
 }
 function getFinalPaid(data: couponData) {
   if (!data.productId) return moneyFormat(0)
-  const product = productList.value[data.productId]
+  const product = productList.value[Number(data.productId)]
 
   return moneyFormat(product.price)
 }
 // 確認付款
 async function paidNow(data: couponData) {
-  const product = productList.value[data.productId]
+  const product = productList.value[Number(data.productId)]
 
   data.is_paid = true
   data.title = product.title
@@ -480,7 +481,7 @@ async function checkIn() {
     title:
       totalPerson >= 5
         ? i18nT('route.place')
-        : productList.value[productId].title,
+        : productList.value[Number(productId)].title,
     is_enabled: 1,
     total: getMoney(currOrder.value),
     is_paid,
@@ -559,9 +560,9 @@ function getMoney(data: orderAdminData) {
   if (totalPerson >= 5) {
     // 場地預約
     return moneyFormat(1500 * totalTime)
-  } else if (productId && productList.value[productId]) {
+  } else if (productId && productList.value[Number(productId)]) {
     // 已選定品項
-    return moneyFormat(productList.value[productId].price)
+    return moneyFormat(productList.value[Number(productId)].price)
   } else {
     return '---' // 現場選擇
   }

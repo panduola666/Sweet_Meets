@@ -4,7 +4,7 @@
       {{ $t('order.step1') }}
     </h1>
     <ol class="fs-5 fs-lg-4 lh-lg mb-3">
-      <li v-for="(item, index) in orderContent" :key="index">
+      <li v-for="(item, index) in orderContent" :key="item">
         {{ index + 1 }}. {{ item }}
       </li>
     </ol>

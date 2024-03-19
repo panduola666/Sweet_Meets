@@ -92,10 +92,10 @@ import type { headerLink } from '../interface/header'
 const route = useRoute()
 
 const headerList = ref<headerLink[]>([
-  {
-    route: '/',
-    name: computed(() => i18nT('route.home')),
-  },
+  // {
+  //   route: '/',
+  //   name: computed(() => i18nT('route.home')),
+  // },
   {
     route: '/diy',
     name: computed(() => i18nT('route.diy')),

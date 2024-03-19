@@ -60,7 +60,7 @@
       </nav>
 
       <!-- 快速預約 -->
-      <div class="order bg-primary py-6 py-lg-7">
+      <div class="order bg-secondary bg-opacity-10 py-6 py-lg-7">
         <h2 class="h1 fw-bold text-center mb-6">{{ $t('home.quickOrder') }}</h2>
         <div
           class="products"
@@ -86,7 +86,7 @@
           </Swiper>
         </div>
       </div>
-      <product-modal :product="productTemp" @close="productTemp = {}" />
+      <ProductModal :product="productTemp" @close="resetTemp" />
 
       <!-- 近期活動 -->
       <div class="d-flex bg-secondary">
@@ -147,6 +147,7 @@
 
 <script setup lang="ts">
 import type { homeNav as homeNavType, stepsType } from '@/interface/home'
+import type { adminPost } from '@/interface/product'
 import diyImg from '@/assets/img/home/diy.png'
 import activityImg from '@/assets/img/home/activity.png'
 import placeImg from '@/assets/img/home/place.png'
@@ -160,9 +161,23 @@ import Article from '@/store/article'
 
 const productStore = Products()
 const ArticleStore = Article()
-const swiper = ref<{ [key: string]: any } | null>(null)
+const swiper = ref()
 
-const productTemp = ref({})
+const productTemp = ref<adminPost>({
+  title: '',
+  category: '',
+  origin_price: 0,
+  price: 0,
+  unit: '',
+  description: '',
+  finalTime: 0,
+  content: [],
+  saveMethods: [],
+  imageUrl: '',
+  imagesUrl: [],
+  is_enabled: 0,
+  saveMode: 0,
+})
 const productList = computed(() => productStore.products || [])
 const activitiesList = computed(() => ArticleStore.articles || [])
 onMounted(() => {
@@ -210,6 +225,24 @@ const swiperConfig = ref({
   },
 })
 
+function resetTemp() {
+  productTemp.value = {
+    title: '',
+    category: '',
+    origin_price: 0,
+    price: 0,
+    unit: '',
+    description: '',
+    finalTime: 0,
+    content: [],
+    saveMethods: [],
+    imageUrl: '',
+    imagesUrl: [],
+    is_enabled: 0,
+    saveMode: 0,
+  }
+}
+
 function pauseSlider() {
   // 暫停輪播
   nextTick(() => swiper.value && swiper.value!.$el.swiper.autoplay.stop())
@@ -254,10 +287,10 @@ const steps = ref<stepsType[]>([
   left: 24px;
   right: 24px;
   @include lg {
-    top: 15%;
-    left: 10%;
+    top: 50%;
+    left: 30%;
     width: 40%;
-    right: auto;
+    transform: translate(-50%, -50%);
   }
 }
 .home-nav {

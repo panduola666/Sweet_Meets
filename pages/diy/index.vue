@@ -6,7 +6,7 @@
           <li
             v-for="(category, index) in categoryList"
             :id="categoryId[index]"
-            :key="index"
+            :key="category"
           >
             <h1
               class="h2 fw-bold pb-1 mb-3 border-bottom border-2 border-secondary default"
@@ -48,7 +48,7 @@
         <ul class="bg-white bg-opacity-50 blur shadow rounded-4 fs-5">
           <li
             v-for="(item, index) in categoryList"
-            :key="index"
+            :key="item + index"
             class="py-2 py-lg-3 px-3 px-lg-5 pointer"
             @click="scrollHash(`#${categoryId[index]}`)"
           >
@@ -56,7 +56,7 @@
           </li>
         </ul>
       </aside>
-      <product-modal :product="productTemp" />
+      <ProductModal :product="productTemp" />
     </NuxtLayout>
   </div>
 </template>

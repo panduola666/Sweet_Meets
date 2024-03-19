@@ -99,6 +99,7 @@
                 </li>
               </ul>
               <Pagination
+                :hide-str="true"
                 :pagination="ArticleStore.pagination"
                 @click="getDate"
               />
