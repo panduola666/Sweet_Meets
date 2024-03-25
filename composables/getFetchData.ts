@@ -27,7 +27,7 @@ export default function getFetchData({ url, method = 'GET', params }: Params) {
         // 处理响应错误
         const swal = await useSwal({
           icon: 'error',
-          title: response?._data.message,
+          title: response?._data.message || 'Opps..',
           showConfirmButton: false,
           timer: 3000,
         })
@@ -41,14 +41,15 @@ export default function getFetchData({ url, method = 'GET', params }: Params) {
 
         reject(response?._data)
       },
+      onResponse({ response }) {
+        resolve(response._data)
+      },
     })
       .then((res) => {
-        const { data, pending } = res
-        changeLoading(pending.value)
-        resolve(data.value)
+        changeLoading(res.pending.value)
       })
       .catch((error) => {
-        // console.log('catch', error)
+        changeLoading(false)
         reject(error)
       })
   })

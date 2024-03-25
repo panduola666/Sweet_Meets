@@ -56,7 +56,7 @@
           </li>
         </ul>
       </aside>
-      <ProductModal :product="productTemp" />
+      <ProductModal :product="productTemp" @close="resetTemp" />
     </NuxtLayout>
   </div>
 </template>
@@ -106,6 +106,24 @@ onMounted(() => {
 
 function scrollHash(id: string) {
   $scrollTo(id, { offset: -16 * 6 })
+}
+
+function resetTemp() {
+  productTemp.value = {
+    title: '',
+    category: '',
+    origin_price: 0,
+    price: 0,
+    unit: '',
+    description: '',
+    finalTime: 0,
+    content: [],
+    saveMethods: [],
+    imageUrl: '',
+    imagesUrl: [],
+    is_enabled: 0,
+    saveMode: 0,
+  }
 }
 </script>
 
