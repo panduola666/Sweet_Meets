@@ -52,7 +52,7 @@
                     {{ product.title }}
                     <small class="fs-6">{{ product.description }}</small>
                   </p>
-                  <p class="">{{ $t('order.rule14') }}</p>
+                  <p>{{ $t('order.rule14') }}</p>
                   <p class="fs-5 fw-bold mb-0">[{{ $t('product.feature') }}]</p>
                   <ul class="mb-3 list-disc ps-5">
                     <li

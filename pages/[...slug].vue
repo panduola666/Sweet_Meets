@@ -3,7 +3,7 @@
     class="bg-circle min-vh-100 d-flex align-items-center justify-content-center"
   >
     <div class="d-flex align-items-center gap-3">
-      <img src="../assets/img/common/LogoIcon.png" alt="" />
+      <img src="../assets/img/common/LogoIcon.png" alt="Logo" />
       <div class="text-center">
         <h1 class="title fw-bold">404</h1>
         <div class="d-flex align-items-center gap-5">
