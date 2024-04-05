@@ -24,40 +24,33 @@
 
           <!-- 聯繫方式 -->
           <div class="mb-3">
-            <div class="row">
-              <div class="col">
-                <label for="phone" class="form-label fw-bold required">{{
-                  $t('order.phone')
-                }}</label>
-                <VeeField
-                  id="phone"
-                  v-model.trim="form.user.tel"
-                  v-number
-                  class="form-control"
-                  :name="$t('order.phone')"
-                  type="tel"
-                  :placeholder="$t('placeholder.userTel')"
-                />
-                <VeeErrorMessage
-                  :name="$t('order.phone')"
-                  class="text-danger"
-                />
-              </div>
-              <div class="col">
-                <label for="email" class="form-label fw-bold required">{{
-                  $t('order.mail')
-                }}</label>
-                <VeeField
-                  id="email"
-                  v-model.trim="form.user.email"
-                  class="form-control"
-                  :name="$t('order.mail')"
-                  type="email"
-                  :placeholder="$t('placeholder.userMail')"
-                />
-                <VeeErrorMessage :name="$t('order.mail')" class="text-danger" />
-              </div>
-            </div>
+            <label for="phone" class="form-label fw-bold required">{{
+              $t('order.phone')
+            }}</label>
+            <VeeField
+              id="phone"
+              v-model.trim="form.user.tel"
+              v-number
+              class="form-control"
+              :name="$t('order.phone')"
+              type="tel"
+              :placeholder="$t('placeholder.userTel')"
+            />
+            <VeeErrorMessage :name="$t('order.phone')" class="text-danger" />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label fw-bold required">{{
+              $t('order.mail')
+            }}</label>
+            <VeeField
+              id="email"
+              v-model.trim="form.user.email"
+              class="form-control"
+              :name="$t('order.mail')"
+              type="email"
+              :placeholder="$t('placeholder.userMail')"
+            />
+            <VeeErrorMessage :name="$t('order.mail')" class="text-danger" />
           </div>
 
           <!-- 甜點品項 -->

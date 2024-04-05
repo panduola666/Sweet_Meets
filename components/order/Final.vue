@@ -1,11 +1,11 @@
 <template>
-  <article class="py-7 w-75 w-xl-50 mx-auto position-relative">
+  <article class="py-7 w-xl-50 mx-auto position-relative">
     <div ref="download" class="p-3">
       <div class="border border-2 border-secondary p-5 mb-4 shadow-sm fs-4">
         <h1 class="fs-3 fs-lg-2 fw-bold text-center default mb-5">
           {{ $t('order.placeStep3') }}
         </h1>
-        <p class="fw-bold break-all mb-1">
+        <p class="fw-bold break-all">
           <span class="d-flex align-items-center justify-content-between"
             >{{ $t('order.id') }}:
             <NuxtIcon
@@ -21,16 +21,16 @@
           {{ $t('order.date') }}:
           <span class="fs-5 fw-normal">{{ userOrder.user.orderDate }}</span>
         </p>
-        <p class="fw-bold break-all mb-1">
+        <p class="fw-bold break-all">
           {{ $t('order.userName') }}:
           <span class="fs-5 fw-normal">{{ userOrder.user.name }}</span>
         </p>
-        <p class="fw-bold break-all mb-1">
+        <p class="fw-bold break-all">
           {{ $t('order.contactInfo') }}:
           <span class="fs-5 fw-normal">{{ userOrder.user.tel }}</span>
         </p>
         <template v-if="singleOrder">
-          <p class="fw-bold break-all mb-1">
+          <p class="fw-bold break-all">
             {{ $t('product.productItem') }}:
             <span class="fs-5 fw-normal">{{
               userOrder.user.productId
@@ -44,13 +44,13 @@
           </p>
         </template>
         <template v-else>
-          <p class="fw-bold break-all mb-1">
+          <p class="fw-bold break-all">
             {{ $t('order.totalNum') }}:
             <span class="fs-5 fw-normal"
               >{{ userOrder.user.totalPerson }} 人</span
             >
           </p>
-          <p class="mb-5 fw-bold break-all mb-1">
+          <p class="mb-5 fw-bold break-all">
             {{ $t('order.totalTime') }}:
             <span class="fs-5 fw-normal"
               >{{ userOrder.user.totalTime }} {{ $t('common.hour') }}</span
@@ -64,8 +64,8 @@
           v-if="!singleOrder"
           class="remark p-3 fs-5 fw-bold border-top border-2 border-secondary"
         >
-          <p class="mb-1">{{ $t('order.userRemark') }}</p>
-          <p class="mb-0">{{ userOrder.message }}</p>
+          <p class="mb-0">{{ $t('order.userRemark') }}</p>
+          <p>{{ userOrder.message }}</p>
         </div>
       </div>
     </div>

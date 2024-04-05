@@ -36,33 +36,24 @@
           {{ $t('order.cardInfo') }}
         </h1>
         <div class="mb-3">
-          <label for="cardNum1" class="form-label fw-bold required">{{
+          <label for="cardNum" class="form-label fw-bold required">{{
             $t('order.cardNumber')
           }}</label>
-          <div class="row">
-            <div
-              v-for="(item, index) in cardInfo.cardNumber"
-              :key="`卡號欄位${index}`"
-              class="col-3 cardNum"
-            >
-              <input
-                :id="`cardNum${index}`"
-                ref="cardNumRef"
-                v-model="cardInfo.cardNumber[index]"
-                v-number
-                type="text"
-                class="form-control"
-                maxlength="4"
-              />
-            </div>
-          </div>
+          <input
+            id="cardNum"
+            v-model="cardInfo.cardNumber"
+            v-number
+            type="text"
+            class="form-control"
+            maxlength="16"
+          />
         </div>
         <div class="mb-3">
           <label for="cardDate" class="form-label fw-bold required">{{
             $t('order.cardValid')
           }}</label>
           <div class="row g-3">
-            <div class="col-3 d-flex align-items-center gap-3">
+            <div class="col-4 d-flex align-items-center gap-3">
               <input
                 id="cardDate"
                 ref="month"
@@ -74,7 +65,7 @@
               />
               /
             </div>
-            <div class="col-3 d-flex align-items-center gap-3">
+            <div class="col-4 d-flex align-items-center gap-3">
               <input
                 id="cardDate"
                 ref="year"
@@ -92,7 +83,7 @@
           <label for="cardCode" class="form-label fw-bold col-12 required">{{
             $t('order.cardSafe')
           }}</label>
-          <div class="col-3">
+          <div class="col-4">
             <input
               id="cardCode"
               v-model="cardInfo.safeCode"
@@ -147,7 +138,7 @@ const props = defineProps<propsType>()
 const orderStore = Order()
 
 const cardInfo = ref({
-  cardNumber: ['', '', '', ''],
+  cardNumber: '',
   month: '',
   year: '',
   safeCode: '',
@@ -157,7 +148,7 @@ const placeOrder = computed(() => orderStore.placeOrder)
 
 async function payCheck() {
   const { cardNumber, month, year, safeCode } = cardInfo.value
-  if (!month || !year || !safeCode || !cardNumber.some(Boolean)) {
+  if (!month || !year || !safeCode || !cardNumber) {
     useSwal({
       title: i18nT('error.cardInfo'),
       showConfirmButton: false,
@@ -201,27 +192,6 @@ const emit = defineEmits(['click'])
 function changeStep(page: number) {
   emit('click', props.currStep + Number(page))
 }
-
-// 信用卡號自動 focus
-const cardNumRef = ref()
-watch(
-  () => cardInfo.value.cardNumber[0],
-  (val) => {
-    if (val.length === 4) cardNumRef.value[1].focus()
-  },
-)
-watch(
-  () => cardInfo.value.cardNumber[1],
-  (val) => {
-    if (val.length === 4) cardNumRef.value[2].focus()
-  },
-)
-watch(
-  () => cardInfo.value.cardNumber[2],
-  (val) => {
-    if (val.length === 4) cardNumRef.value[3].focus()
-  },
-)
 </script>
 
 <style lang="scss" scoped>

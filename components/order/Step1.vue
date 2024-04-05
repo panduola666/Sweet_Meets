@@ -3,7 +3,7 @@
     <h1 class="fs-3 fs-lg-2 fw-bold text-center default mb-3">
       {{ $t('order.step1') }}
     </h1>
-    <ol class="fs-5 fs-lg-4 lh-lg mb-3">
+    <ol class="fs-6 fs-sm-5 fs-lg-4 lh-lg mb-3">
       <li v-for="(item, index) in orderContent" :key="item">
         {{ index + 1 }}. {{ item }}
       </li>
